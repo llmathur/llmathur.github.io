@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>设计模式-解释器</title>
+    <url>/2023/04/01/InterpreterDesignPattern/</url>
+    <content><![CDATA[<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><blockquote>
+<p>解释器模式(Interpreter)会针对某种语言并基于其语法特征创建一系列的表达式类（包括终极表达式与非终极表达式），利用树结构模式将表达式对象组装起来，最终将其翻译成计算机能够识别并执行的语义树。</p>
+<p>例如结构型数据库对查询语言SQL的解析，浏览器对HTML语言的解析，以及操作系统Shell对命令的解析。不同的语言有着不同的语法和翻译方式，这都依靠解释器完成.</p>
+</blockquote>
+<span id="more"></span>
+
+<h3 id="解释器模式中的角色划分"><a href="#解释器模式中的角色划分" class="headerlink" title="解释器模式中的角色划分"></a>解释器模式中的角色划分</h3><hr>
+<p><img src="2023-04-01-20-07-17.png"></p>
+<hr>
+<p><code>AbstractExpression</code>（抽象表达式）</p>
+<blockquote>
+<p>定义解释器的标准接口interpret()，所有终极表达式类与非终极表达式类均需实现此接口。对应本章例程中的表达式接口Expression。</p>
+</blockquote>
+<p><code>AbstractExpression</code>（抽象表达式</p>
+<blockquote>
+<p>抽象表达式接口的实现类，具有原子性、不可拆分性的表达式。对应本章例程中的鼠标移动表达式Move、鼠标左键按下表达式LeftKeyDown、鼠标左键松开表达式LeftKeyUp、延迟表达式Delay。</p>
+</blockquote>
+<p><code>TerminalExpression</code>（终极表达式）</p>
+<blockquote>
+<p>抽象表达式接口的实现类，具有原子性、不可拆分性的表达式。对应本章例程中的鼠标移动表达式Move、鼠标左键按下表达式LeftKeyDown、鼠标左键松开表达式LeftKeyUp、延迟表达式Delay。</p>
+</blockquote>
+<p><code>NonTerminalExpression</code>（非终极表达式）</p>
+<blockquote>
+<p>抽象表达式接口的实现类，包含一个或多个表达式接口引用，所以它所包含的子表达式可以是非终极表达式，也可以是终极表达式。对应本章例程中的左键单击表达式LeftKeyClick、循环表达式Repetition、表达式序列Sequence。</p>
+</blockquote>
+<p><code>Context</code>（上下文）</p>
+<blockquote>
+<p>需要被解释的语言类，它包含符合解释器语法规则的具体语言。对应本例程中的滑鼠精灵脚本MouseScript。</p>
+</blockquote>
+<p><code>Client</code>（客户端）</p>
+<blockquote>
+<p>根据语言的语法结构生成对应的表达式语法树，然后调用根表达式的解释方法得到结果</p>
+</blockquote>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p> 一段驱动鼠标的脚本，根据该脚本建模。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">BEGIN                   // 脚本开始</span><br><span class="line">MOVE 500,600;           // 鼠标指针移动到坐标（500，600）</span><br><span class="line">    BEGIN LOOP 5        // 开始循环5次</span><br><span class="line">        LEFT_CLICK;     // 循环体内单机左键</span><br><span class="line">        DELAY 1;        // 每次延迟1秒</span><br><span class="line">    END;                // 循环体结束</span><br><span class="line">RIGHT DOWN;             // 按下右键</span><br><span class="line">DELAY 7200;             // 延迟2小时</span><br><span class="line">END;                    // 脚本结束</span><br></pre></td></tr></table></figure>
+<h3 id="表达式接口"><a href="#表达式接口" class="headerlink" title="表达式接口"></a>表达式接口</h3><p>对所有表达式进行行为抽象</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Expression</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">interpre</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="终极表达式"><a href="#终极表达式" class="headerlink" title="终极表达式"></a>终极表达式</h3><p>鼠标移动表达式 <code>Expression</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Move</span> <span class="keyword">implements</span> <span class="title class_">Expression</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> x,y;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Move</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y )</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.x = x;</span><br><span class="line">        <span class="built_in">this</span>.y = y;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">interpret</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;移动鼠标：【&quot;</span> + x + <span class="string">&quot;,&quot;</span> + y +<span class="string">&quot;】&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>鼠标左键按下表达式 <code>LeftKeyDown</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LeftKeyDown</span> <span class="keyword">implements</span> <span class="title class_">Expression</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">interpret</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;按下鼠标: 左键&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>鼠标左键松开表达式 <code>LeftKeyUp</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LeftKeyUp</span> <span class="keyword">implements</span> <span class="title class_">Expression</span>&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">interpret</span><span class="params">()</span> &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;松开鼠标：左键&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>鼠标右键松开表达式 <code>RightKeyUp</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RightKeyUp</span> <span class="keyword">implements</span> <span class="title class_">Expression</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">interpret</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;松开鼠标：右键&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>鼠标右键按下表达式 <code>RightKeyDown</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RightKeyDown</span> <span class="keyword">implements</span> <span class="title class_">Expression</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">interpret</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;按下鼠标: 右键&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>延迟表达式 <code>Delay</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Delay</span> <span class="keyword">implements</span> <span class="title class_">Expression</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> seconds;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Delay</span><span class="params">(<span class="type">int</span> seconds)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.seconds = seconds;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getSeconds</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> seconds;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">interpret</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;系统延迟: &quot;</span>+ seconds + <span class="string">&quot;秒&quot;</span>);</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            Thread.sleep(seconds * <span class="number">100</span>);</span><br><span class="line"></span><br><span class="line">        &#125;<span class="keyword">catch</span> (InterruptedException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="非终极表达式"><a href="#非终极表达式" class="headerlink" title="非终极表达式"></a>非终极表达式</h3><p>左键单击表达式 <code>LeftKeyClick</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LeftKeyClick</span> <span class="keyword">implements</span> <span class="title class_">Expression</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> Expression leftKeyDown;</span><br><span class="line">    <span class="keyword">private</span> Expression leftKeyUp;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">LeftKeyClick</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.leftKeyDown = <span class="keyword">new</span> <span class="title class_">LeftKeyDown</span>();</span><br><span class="line">        <span class="built_in">this</span>.leftKeyUp = <span class="keyword">new</span> <span class="title class_">LeftKeyUp</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">interpret</span><span class="params">()</span> &#123;</span><br><span class="line">        leftKeyDown.interpret();</span><br><span class="line">        leftKeyUp.interpret();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>循环表达式 <code>Repetition</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Repetition</span> <span class="keyword">implements</span> <span class="title class_">Expression</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> loopCount;</span><br><span class="line">    <span class="keyword">private</span> Expression loopBodySequence;    <span class="comment">// 循环体内子表达式序列</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Repetition</span><span class="params">( Expression loopBodySequence,<span class="type">int</span> loopCount)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.loopCount = loopCount;</span><br><span class="line">        <span class="built_in">this</span>.loopBodySequence = loopBodySequence;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">interpret</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">while</span> (loopCount &gt; <span class="number">0</span>)&#123;</span><br><span class="line">            loopBodySequence.interpret();</span><br><span class="line">            loopCount-- ;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+<p>表达式序列 <code>Sequence</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Sequence</span> <span class="keyword">implements</span> <span class="title class_">Expression</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> List&lt;Expression&gt; expressions;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Sequence</span><span class="params">(List&lt;Expression&gt; expressions)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.expressions = expressions;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">interpret</span><span class="params">()</span> &#123;</span><br><span class="line">        expressions.forEach(expression -&gt; expression.interpret());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h3><p>根据语言的语法结构生成对应的表达式语法树，然后调用根表达式的解释方法得到结果。</p>
+<p>客户端 <code>Client</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Client</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">Expression</span> <span class="variable">sequence</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Sequence</span>(Arrays.asList(</span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">Move</span>(<span class="number">500</span>,<span class="number">600</span>),</span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">Repetition</span>(<span class="keyword">new</span> <span class="title class_">Sequence</span>(Arrays.asList(<span class="keyword">new</span> <span class="title class_">LeftKeyClick</span>(),<span class="keyword">new</span> <span class="title class_">Delay</span>(<span class="number">1</span>))), <span class="number">5</span>),</span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">RightKeyClick</span>(),</span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">Delay</span>(<span class="number">7200</span>)));</span><br><span class="line"></span><br><span class="line">        sequence.interpret();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li>刘韬《秒懂设计模式》</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Design Pattern</category>
+      </categories>
+      <tags>
+        <tag>解释器</tag>
+        <tag>设计模式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>OAuth 2.0</title>
+    <url>/2023/05/09/OAuth-2-0/</url>
+    <content><![CDATA[<p>OAuth 的核心就是向第三方应用颁发令牌<br>四种授权方式</p>
+<ol>
+<li>（授权码）authorization-code</li>
+<li>（隐藏式）implicit</li>
+<li>（密码式）password</li>
+<li>（客户端凭证）client credentials</li>
+</ol>
+<p>注：任何一种方式，第三方应用都必须到系统备案，以获取客户端ID（client ID）和客户端密钥（client secret）</p>
+<span id="more"></span>
+
+
+<h2 id="第一种授权方式：授权码"><a href="#第一种授权方式：授权码" class="headerlink" title="第一种授权方式：授权码"></a>第一种授权方式：授权码</h2><hr>
+<p>最常用、最安全，适用于有后端的应用。<br>授权码通过前端发送，令牌存储在后端，而且所有与资源服务器的通信都在后端完成。</p>
+<p>授权过程：</p>
+<p><img src="process.png" alt="流程图" title="流程图"></p>
+<p>（1）请求授权码<br>A网站提供一个链接，用户点击后会跳转到B网站，授权用户数据给A网站使用<br>链接示意：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://b.com/oauth/authorize?</span><br><span class="line">    response_type=code&amp;     // 表示要求返回授权码</span><br><span class="line">    client_id=CLIENT_ID&amp;    // 让B知道谁在请求</span><br><span class="line">    redirect_uri=CALLLBACK_URL&amp; // B接受或者拒绝请求后的跳转网址</span><br><span class="line">    scope=read      // 要求的授权范围</span><br></pre></td></tr></table></figure>
+<p>（2）返回授权码<br>用户跳转后，B网站要求用户登录， 然后询问是否给A网站授权。用户同意后，B网站返回<code>redirect_uri</code>参数指定的网址，同时携带一个授权码</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://a.com/callback?code=AUTHORIZATION_CODE  // code为授权码</span><br></pre></td></tr></table></figure>
+<p>（3）请求令牌<br>A网站拿到授权码后，可以在后端向B网站请求令牌</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://b.com/oauth/token?</span><br><span class="line"> client_id=CLIENT_ID&amp;   </span><br><span class="line"> client_secret=CLIENT_SECRET&amp;       // client_id 和client_secret参数确定A的身份</span><br><span class="line"> grant_type=authorization_code&amp;     // 参数值为authorization_code，表示采用的授权方式为授权码</span><br><span class="line"> code=AUTHORIZATION_CODE&amp;           // 上一步拿到的授权码</span><br><span class="line"> redirect_uri=CALLBACK_URL          // 令牌颁发后的回调网址</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>（4）返回令牌<br>B 网站收到请求以后，就会颁发令牌。具体做法是向redirect_uri指定的网址，发送一段 JSON 数据。</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="punctuation">&#123;</span>    </span><br><span class="line">  <span class="attr">&quot;access_token&quot;</span><span class="punctuation">:</span><span class="string">&quot;ACCESS_TOKEN&quot;</span><span class="punctuation">,</span>    <span class="comment">//令牌</span></span><br><span class="line">  <span class="attr">&quot;token_type&quot;</span><span class="punctuation">:</span><span class="string">&quot;bearer&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;expires_in&quot;</span><span class="punctuation">:</span><span class="number">2592000</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;refresh_token&quot;</span><span class="punctuation">:</span><span class="string">&quot;REFRESH_TOKEN&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;scope&quot;</span><span class="punctuation">:</span><span class="string">&quot;read&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;uid&quot;</span><span class="punctuation">:</span><span class="number">100101</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;info&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span>...<span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="第二种授权方式：隐藏式"><a href="#第二种授权方式：隐藏式" class="headerlink" title="第二种授权方式：隐藏式"></a>第二种授权方式：隐藏式</h2><hr>
+]]></content>
+      <tags>
+        <tag>authorization</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>设计模式-原型</title>
+    <url>/2023/04/07/ProtoTypeDesignPattern/</url>
+    <content><![CDATA[<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><blockquote>
+<p>原型模式达到以原型实例创建副本实例的目的即可，并不需要知道其他原始类，也就是说，原型模式可以用对象创建对象，而不是用类创建对象，以此达到效率的提升。</p>
+</blockquote>
+<span id="more"></span>
+<p>对那些非常复杂的初始化过程的对象或者是需要耗费大量资源的情况，原型模式是更好的选择。</p>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p>我们正准备设计一个空战游戏</p>
+<p>设定：<br>设置游戏为单打即主角飞机只有一架，而敌机有很多架，而且可以在屏幕上垂直下移来撞击主角飞机。</p>
+<p><code>EnemyPlane:敌机类</code></p>
+<ul>
+<li>敌机默认从屏幕顶部飞出，故设定y坐标为0</li>
+<li>只给出属性的setter方法表示我们一旦设定好敌机的x轴坐标就不再可能手动修改</li>
+<li>通过连续调用fly方法，敌机就可以一直向下飞行<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EnemyPlane</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> x;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="variable">y</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">EnemyPlane</span><span class="params">(<span class="type">int</span> x)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.x = x;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getX</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> x;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getY</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> y;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">fly</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.y++;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<code>Client:客户端类</code><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Client</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        List&lt;EnemyPlane&gt; enemyPlanes = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">500</span>; i++) &#123;</span><br><span class="line">            <span class="type">EnemyPlane</span> <span class="variable">ep</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">EnemyPlane</span>(<span class="keyword">new</span> <span class="title class_">Random</span>().nextInt(<span class="number">200</span>));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="存在的问题"><a href="#存在的问题" class="headerlink" title="存在的问题"></a>存在的问题</h3><ol>
+<li>在游戏的初始化阶段直接示例500架飞机无疑会占用大量内存，使得加载速度变慢<br>解决办法：懒加载，屏幕滚动到一定值的时候才实例对象。单问题依然存在，游戏运行大量实例进行初始化及其浪费CPU性能。</li>
+</ol>
+<h3 id="使用ProtoType模式"><a href="#使用ProtoType模式" class="headerlink" title="使用ProtoType模式"></a>使用ProtoType模式</h3><p><code>EnemyPlane:敌机类</code></p>
+<ul>
+<li>重写Object的clone方法，以便外部能够实现对本类实例的克隆，省略构造过程。</li>
+<li>编写了x属性的setter方法，以便能够对克隆出来的敌机实例横坐标进行修改。<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> test01;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EnemyPlane</span> <span class="keyword">implements</span> <span class="title class_">Cloneable</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> x;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="variable">y</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">EnemyPlane</span><span class="params">(<span class="type">int</span> x)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.x = x;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setX</span><span class="params">(<span class="type">int</span> x)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.x = x;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getX</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> x;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getY</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> y;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">fly</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.y++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> EnemyPlane <span class="title function_">clone</span><span class="params">()</span> <span class="keyword">throws</span> CloneNotSupportedException &#123;</span><br><span class="line">        <span class="keyword">return</span> (EnemyPlane)<span class="built_in">super</span>.clone();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<code>EnemyplaneFactory</code>:敌机工厂类</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EnemyPlaneFactory</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">EnemyPlane</span> <span class="variable">protoType</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">EnemyPlane</span>(<span class="number">200</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> EnemyPlane <span class="title function_">getInstance</span><span class="params">(<span class="type">int</span> x)</span> <span class="keyword">throws</span> CloneNotSupportedException &#123;</span><br><span class="line">        <span class="type">EnemyPlane</span> <span class="variable">clone</span> <span class="operator">=</span> protoType.clone();</span><br><span class="line">        clone.setX(x);</span><br><span class="line">        <span class="keyword">return</span> clone;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>Client</code>：客户端类</p>
+<ul>
+<li>每隔10高度，克隆一个敌机<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Client</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> CloneNotSupportedException &#123;</span><br><span class="line"></span><br><span class="line">        List&lt;EnemyPlane&gt; planes = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">        <span class="type">int</span> <span class="variable">screen</span> <span class="operator">=</span> <span class="number">0</span>; <span class="comment">// 屏幕滚动的高度</span></span><br><span class="line">      <span class="keyword">while</span>(screen &lt; <span class="number">100</span>)&#123;</span><br><span class="line"></span><br><span class="line">          <span class="keyword">if</span>(screen % <span class="number">10</span> == <span class="number">0</span>) &#123;</span><br><span class="line">              <span class="type">EnemyPlane</span> <span class="variable">instance</span> <span class="operator">=</span> EnemyPlaneFactory.getInstance(<span class="keyword">new</span> <span class="title class_">Random</span>().nextInt(<span class="number">200</span>));</span><br><span class="line">              planes.add(instance);</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="keyword">for</span> (EnemyPlane plane : planes) &#123;</span><br><span class="line">              plane.fly();</span><br><span class="line">              System.out.println(<span class="string">&quot;敌机：&quot;</span>+plane.toString()+<span class="string">&quot;,&quot;</span>+plane.getX()+<span class="string">&quot;,&quot;</span>+plane.getY());</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          screen ++;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="深浅拷贝"><a href="#深浅拷贝" class="headerlink" title="深浅拷贝"></a>深浅拷贝</h2><ul>
+<li>浅拷贝<blockquote>
+<p>所谓浅拷贝是指只复制原始类型的值，比如横坐标x与纵坐标y这种以原始类型int定义的值，它们会被复制到新克隆出的对象中。而引用类型bullet同样会被拷贝，但是请注意这个操作只是拷贝了地址引用（指针），也就是说副本敌机与原型敌机中的子弹是同一颗，因为两个同样的地址实际指向的内存对象是同一个bullet对象。</p>
+</blockquote>
+</li>
+<li>深拷贝<br>即手动实例化对象并将地址引用赋值给对应属性</li>
+</ul>
+<h2 id="克隆的本质"><a href="#克隆的本质" class="headerlink" title="克隆的本质"></a>克隆的本质</h2><blockquote>
+<p>克隆操作时Java虚拟机会进行内存操作，直接拷贝原型对象数据流生成新的副本对象，绝不会拖泥带水地触发一些多余的复杂操作（如类加载、实例化、初始化等），所以其效率远远高于“new”关键字所触发的实例化操作</p>
+</blockquote>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
+<li>刘韬《秒懂设计模式》</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Design Pattern</category>
+      </categories>
+      <tags>
+        <tag>设计模式</tag>
+        <tag>单例</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>设计模式-单例</title>
+    <url>/2023/04/01/SingletonDesignPattern/</url>
+    <content><![CDATA[<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>单例即单实例，指在系统(程序)中，<b>某个类只存在一个实例</b>，同时提供集中、统一的访问接口。</p>
+<blockquote>
+<p>如果一个对象有可能贯穿整个应用程序，而且起到了全局统一管理控制的作用，那么单例模式也许是一个值得考虑的选择。</p>
+</blockquote>
+<p>例如：<br><code>Spring</code>中<code>bean</code>的定义可以被定义为两种：<code>prototype(原型)</code>,<code>singleton(单例)</code><br><code>线程池（threadpool）</code>, <code>缓存（cache）</code>等比较适合设计为单例模式。</p>
+<span id="more"></span>
+<h2 id="单例模式的实现"><a href="#单例模式的实现" class="headerlink" title="单例模式的实现"></a>单例模式的实现</h2><ol>
+<li>饿汉模式</li>
+<li>懒汉模式</li>
+<li>双重校验锁</li>
+<li>静态内部类</li>
+<li>枚举</li>
+</ol>
+<h3 id="饿汉模式"><a href="#饿汉模式" class="headerlink" title="饿汉模式"></a>饿汉模式</h3><p>类加载时，创建实例。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Sun</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Sun</span> <span class="variable">sun</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Sun</span>();</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Sun</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Sun <span class="title function_">getInstance</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> sun;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>私有化的构造方法保证了该类的实例化工作完全属于内部事务，任何外部内无法干预。</li>
+<li><code>private</code>该实例的私有性，不可见性，不可访问性。</li>
+<li><code>static</code> 确保了实例的<code>静态性</code>，当类加载时候进行初始化。</li>
+<li><code>final</code> 确保该实例是个常量，一旦被赋值就不能再修改</li>
+<li><code>getInstance()</code>提供对外获取该实例的接口。</li>
+</ol>
+<p>缺点：该实例如果没用到也会被创建，浪费了内存。<br>因此该模式适合单例占用内存比较小，创建成功后立即被使用的情况。如果单例占用内存较大，使用<b>懒汉模式</b>进行延迟加载就更合适。</p>
+<h3 id="懒汉模式"><a href="#懒汉模式" class="headerlink" title="懒汉模式"></a>懒汉模式</h3><p>第一次使用时，创建实例</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Sun</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Sun sun;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Sun</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Sun1 <span class="title function_">getInstance</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (sun == <span class="literal">null</span>)&#123;</span><br><span class="line">            sun = <span class="keyword">new</span> <span class="title class_">Sun</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sun;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>只有当某线程第一次调用<code>getInstance()</code>方法时，该实例才创建实例。</p>
+<h4 id="存在的问题"><a href="#存在的问题" class="headerlink" title="存在的问题"></a>存在的问题</h4><p>在多线程的情况下，很多线程并发的进行 <code>if (sun == null)</code>判断，程序就会多次实例化太阳，对sun进行多次赋值。<br>解决办法：<code>getInstance</code> 添加 <code>synchronized</code>关键字。</p>
+<p>改造：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Sun</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Sun sun;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Sun</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span>  <span class="keyword">static</span> <span class="keyword">synchronized</span> Sun <span class="title function_">getInstance</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (sun == <span class="literal">null</span>)&#123;</span><br><span class="line">            sun = <span class="keyword">new</span> <span class="title class_">Sun</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sun;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是这种方法依然存在问题:<br><code>synchronized</code>修饰的同步方法比一般方法要慢很多，如果多次调用<code>getInstance()</code>，累积的性能损耗就比较大了。</p>
+<h3 id="双重校验锁"><a href="#双重校验锁" class="headerlink" title="双重校验锁"></a>双重校验锁</h3><p>这种模式是懒汉模式的变种，利用<b>双验锁</b>解决<code>synchronized</code>修饰同步方法开销过大的问题。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Sun</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">static</span> Sun sun;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Sun</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Sun <span class="title function_">getInstance</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (sun == <span class="literal">null</span>)&#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (Sun.class)&#123;</span><br><span class="line">                <span class="keyword">if</span> (sun == <span class="literal">null</span>)&#123;</span><br><span class="line">                    sun = <span class="keyword">new</span> <span class="title class_">Sun</span>();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sun;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li><code>volatile</code> 禁止指令重排</li>
+<li>第一次校验，即第一个 <code>if (sun == null)</code>判断，程序执行的过程中，大部分线程并不需要进入到同步代码块，保证了线程并发的高效性</li>
+<li>第二次校验，防止二次创建实例。在某情况下，线程A和线程B都通过了第一次校验，实例会被重新赋值。</li>
+</ol>
+<h3 id="静态内部类"><a href="#静态内部类" class="headerlink" title="静态内部类"></a>静态内部类</h3><p>利用了类加载机制来保证只创建一个instance实例</p>
+<blockquote>
+<p>它是在内部类里面去创建对象实例。这样的话，只要应用中不使用内部类，JVM就不会去加载这个单例类，也就不会创建单例对象，从而实现懒汉式的延迟加载。也就是说这种方式可以同时保证延迟加载和线程安全。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Sun</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">SingletonHolder</span> &#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Sun</span> <span class="variable">sun</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Sun</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Sun</span> <span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Sun <span class="title function_">getInstance</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> SingletonHolder.sun;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="枚举"><a href="#枚举" class="headerlink" title="枚举"></a>枚举</h3><p>既可以避免多线程同步问题；还可以防止通过反射和反序列化来重新创建新的对象</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> <span class="title class_">Singleton</span>&#123;</span><br><span class="line">    INSTANCE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li>刘韬《秒懂设计模式》</li>
+<li><a href="https://www.runoob.com/design-pattern/singleton-pattern.html">https://www.runoob.com/design-pattern/singleton-pattern.html</a></li>
+<li><a href="https://blog.csdn.net/goodlixueyong/article/details/51935526">https://blog.csdn.net/goodlixueyong/article/details/51935526</a></li>
+<li><a href="https://cloud.tencent.com/developer/article/1497592">https://cloud.tencent.com/developer/article/1497592</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Design Pattern</category>
+      </categories>
+      <tags>
+        <tag>设计模式</tag>
+        <tag>单例</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>TCP/IP-study</title>
+    <url>/2023/04/05/TCP-IP-study/</url>
+    <content><![CDATA[<p>目前绝大多数网络都采用TCP&#x2F;IP协议，TCP&#x2F;IP是目前最完整的、被普遍接受的通信协议标准</p>
+<h2 id="第一章-TCP-x2F-IP协议基础"><a href="#第一章-TCP-x2F-IP协议基础" class="headerlink" title="第一章 TCP&#x2F;IP协议基础"></a>第一章 TCP&#x2F;IP协议基础</h2><h3 id="网络通信协议"><a href="#网络通信协议" class="headerlink" title="网络通信协议"></a>网络通信协议</h3><p>指计算机在网络中实现通信必须遵守的规则和约定，主要是对信息传输的<b>速率、传输代码、代码结构、传输控制步骤、差错控制</b>等做出规定并制定出标准。</p>
+<span id="more"></span>
+<h4 id="协议的组成成分"><a href="#协议的组成成分" class="headerlink" title="协议的组成成分:"></a>协议的组成成分:</h4><p>语义:规定双方完成通信需要的控制信息及执行的动作<br>语法:规定通信双方交换的数据或控制信息的格式和结构<br>时序:规定通信双方彼此的应答关系，包括速度的匹配和顺序</p>
+<h4 id="OSI参考模型"><a href="#OSI参考模型" class="headerlink" title="OSI参考模型"></a>OSI参考模型</h4><p>顺口溜： “物联网淑慧适用”</p>
+<ol>
+<li>物理层：原始比特流传输，电子信号传输和硬件接口</li>
+<li>链路层：物理寻址，将数据分帧并处理流控制</li>
+<li>网络层：通过逻辑寻址建立结点之间的连接，包括路由和中继数据</li>
+<li>传输层：常规数据传送</li>
+<li>会话层：在节点间建立端连接</li>
+<li>表示层：格式化数据，为应用程序提供通用接口</li>
+<li>应用层：直接对用户应用程序提供服务</li>
+</ol>
+<p>其中<br>通信子网：第1层—-第3层<br>网络高层：第5层—-第7层 </p>
+<h4 id="TCP-x2F-IP"><a href="#TCP-x2F-IP" class="headerlink" title="TCP&#x2F;IP"></a>TCP&#x2F;IP</h4><ol>
+<li>网络接口层：又称网络访问层（Network Access Layer），包括OSI的物理层和链路层，负责向网络物理介质发送数据包，从网络物理介质接收数据包。TCP&#x2F;IP并没有对物理层和链路层进行定义，它只是支持现有的各种底层网络技术和标准</li>
+<li>网络层：网络层又称为互联网层或IP层，负责处理IP数据包的传输、路由选择、流量控制和拥塞控制。<br><code>协议：ARP，RARP; IP; ICMP,IGMP;</code></li>
+<li>传输层为两台主机上的应用程序提供端到端的通信。<br><code>协议：TCP ,UDP</code></li>
+<li>应用层：这个层次包括OSI的会话层、表示层和应用层，直接为特定的应用提供服务。应用层为用户提供一些常用的应用程序。<br><code>协议：FTP,SMTP,HTTP</code></li>
+</ol>
+<h2 id="aplication-layer"><a href="#aplication-layer" class="headerlink" title="aplication layer"></a>aplication layer</h2><blockquote>
+<p>The application layer provides a servcices to <b>the users</b>;<br>kerwords: logical connection</p>
+</blockquote>
+<h3 id="Application-Layer-Paradigms"><a href="#Application-Layer-Paradigms" class="headerlink" title="Application-Layer Paradigms"></a>Application-Layer Paradigms</h3><ol>
+<li>client-server patadigm</li>
+<li>peer-to-peer paradigm</li>
+<li>Mixed Paradigm</li>
+</ol>
+<h4 id="Traditional-Parafigm-Client-Server"><a href="#Traditional-Parafigm-Client-Server" class="headerlink" title="Traditional Parafigm:Client-Server"></a>Traditional Parafigm:Client-Server</h4><blockquote>
+<p>In this paradigm,the servivce provider is an application program,called the server process;it run continuously,waiting for another application program,called the client process,to make a connection through the Internet and ask for service. </p>
+</blockquote>
+<ul>
+<li>Existing Problems:</li>
+</ul>
+<ol>
+<li>The concentration of the communication load is on the shoulder of the server.</li>
+</ol>
+<h4 id="New-Paradigm-Peer-to-Peer"><a href="#New-Paradigm-Peer-to-Peer" class="headerlink" title="New Paradigm : Peer-to-Peer"></a>New Paradigm : Peer-to-Peer</h4><blockquote>
+<p>A computer connected to the Internet can provide service at one time and recieve service at another time. A computer can even provide and revice services at the same time</p>
+</blockquote>
+<p>传统的模式中，需要一个时刻都在运行的服务器以接受随时可能由客户端发送的请求。而p2p模式下，一个电脑可以同时提供和接受服务。</p>
+<ul>
+<li>when：</li>
+</ul>
+<ol>
+<li>when some computers connected to the Internet have something to share with each other.</li>
+</ol>
+<ul>
+<li>Existing Problems:</li>
+</ul>
+<ol>
+<li>security.</li>
+<li>applicability.</li>
+</ol>
+<ul>
+<li>Example:</li>
+</ul>
+<ol>
+<li>BitTorrent</li>
+<li>Skype</li>
+<li>IPTV</li>
+<li>Internet telephony.</li>
+</ol>
+<h4 id="Mixed-Paradigm"><a href="#Mixed-Paradigm" class="headerlink" title="Mixed Paradigm :"></a>Mixed Paradigm :</h4><blockquote>
+<p>a light-load client-server communication can be used to find the address of the peer that can offer a service.</p>
+</blockquote>
+<h3 id="Application-Programming-Interface"><a href="#Application-Programming-Interface" class="headerlink" title="Application Programming Interface"></a>Application Programming Interface</h3><blockquote>
+<p>An interface in programming is a set of instructions between two entities. In this case one of the entities is the process at the aplication layer and the other is sthe operating system that encapsulates the first four layers of the TCP&#x2F;IP protocol suite.</p>
+</blockquote>
+<p>常见API:</p>
+<ol>
+<li>socket interface</li>
+<li>Transport Layer Interface </li>
+<li>STREAM</li>
+</ol>
+<h4 id="Sockets"><a href="#Sockets" class="headerlink" title="Sockets"></a>Sockets</h4><blockquote>
+<p>it is not a physical entity like them.it is an abstraction.It is a data structure that is created and used by the aplication program.</p>
+</blockquote>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
+<li>林成浴 《TCP-IP协议及其应用》</li>
+<li>《computer networking a top-down approach》</li>
+</ol>
+]]></content>
+      <categories>
+        <category>tcp/ip</category>
+      </categories>
+      <tags>
+        <tag>tcp/ip</tag>
+      </tags>
+  </entry>
+</search>

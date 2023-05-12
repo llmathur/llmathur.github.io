@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>唯见青山</title>
+  <icon>http://llmathur.github.io/icon.png</icon>
+  <subtitle>熟能生巧，勤能补拙。</subtitle>
+  <link href="http://llmathur.github.io/atom.xml" rel="self"/>
+  
+  <link href="http://llmathur.github.io/"/>
+  <updated>2023-05-12T08:30:24.620Z</updated>
+  <id>http://llmathur.github.io/</id>
+  
+  <author>
+    <name>llmathur</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>OAuth 2.0</title>
+    <link href="http://llmathur.github.io/2023/05/09/OAuth-2-0/"/>
+    <id>http://llmathur.github.io/2023/05/09/OAuth-2-0/</id>
+    <published>2023-05-09T11:01:43.000Z</published>
+    <updated>2023-05-12T08:30:24.620Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;OAuth 的核心就是向第三方应用颁发令牌&lt;br&gt;四种授权方式&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;（授权码）authorization-code&lt;/li&gt;
+&lt;li&gt;（隐藏式）implicit&lt;/li&gt;
+&lt;li&gt;（密码式）password&lt;/li&gt;
+&lt;li&gt;（客户端凭证）client credentials&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;注：任何一种方式，第三方应用都必须到系统备案，以获取客户端ID（client ID）和客户端密钥（client secret）&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="authorization" scheme="http://llmathur.github.io/tags/authorization/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>设计模式-原型</title>
+    <link href="http://llmathur.github.io/2023/04/07/ProtoTypeDesignPattern/"/>
+    <id>http://llmathur.github.io/2023/04/07/ProtoTypeDesignPattern/</id>
+    <published>2023-04-07T06:00:02.000Z</published>
+    <updated>2023-04-07T07:50:25.827Z</updated>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;原型模式达到以原型实例创建副本实例的目的即可，并不需要知道其他原始类，也就是说，原型模式可以用对象创建对象，而不是用类创建对象，以此达到效率的提升。&lt;/p&gt;
+&lt;/blockquote&gt;</summary>
+    
+    
+    
+    <category term="Design Pattern" scheme="http://llmathur.github.io/categories/Design-Pattern/"/>
+    
+    
+    <category term="设计模式" scheme="http://llmathur.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+    <category term="单例" scheme="http://llmathur.github.io/tags/%E5%8D%95%E4%BE%8B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>TCP/IP-study</title>
+    <link href="http://llmathur.github.io/2023/04/05/TCP-IP-study/"/>
+    <id>http://llmathur.github.io/2023/04/05/TCP-IP-study/</id>
+    <published>2023-04-05T05:32:11.000Z</published>
+    <updated>2023-04-07T08:03:41.435Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;目前绝大多数网络都采用TCP&amp;#x2F;IP协议，TCP&amp;#x2F;IP是目前最完整的、被普遍接受的通信协议标准&lt;/p&gt;
+&lt;h2 id=&quot;第一章-TCP-x2F-IP协议基础&quot;&gt;&lt;a href=&quot;#第一章-TCP-x2F-IP协议基础&quot; class=&quot;headerlink&quot; title=&quot;第一章 TCP&amp;#x2F;IP协议基础&quot;&gt;&lt;/a&gt;第一章 TCP&amp;#x2F;IP协议基础&lt;/h2&gt;&lt;h3 id=&quot;网络通信协议&quot;&gt;&lt;a href=&quot;#网络通信协议&quot; class=&quot;headerlink&quot; title=&quot;网络通信协议&quot;&gt;&lt;/a&gt;网络通信协议&lt;/h3&gt;&lt;p&gt;指计算机在网络中实现通信必须遵守的规则和约定，主要是对信息传输的&lt;b&gt;速率、传输代码、代码结构、传输控制步骤、差错控制&lt;/b&gt;等做出规定并制定出标准。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="tcp/ip" scheme="http://llmathur.github.io/categories/tcp-ip/"/>
+    
+    
+    <category term="tcp/ip" scheme="http://llmathur.github.io/tags/tcp-ip/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>设计模式-单例</title>
+    <link href="http://llmathur.github.io/2023/04/01/SingletonDesignPattern/"/>
+    <id>http://llmathur.github.io/2023/04/01/SingletonDesignPattern/</id>
+    <published>2023-04-01T12:56:49.000Z</published>
+    <updated>2023-04-07T08:53:01.517Z</updated>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h2&gt;&lt;p&gt;单例即单实例，指在系统(程序)中，&lt;b&gt;某个类只存在一个实例&lt;/b&gt;，同时提供集中、统一的访问接口。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;如果一个对象有可能贯穿整个应用程序，而且起到了全局统一管理控制的作用，那么单例模式也许是一个值得考虑的选择。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;例如：&lt;br&gt;&lt;code&gt;Spring&lt;/code&gt;中&lt;code&gt;bean&lt;/code&gt;的定义可以被定义为两种：&lt;code&gt;prototype(原型)&lt;/code&gt;,&lt;code&gt;singleton(单例)&lt;/code&gt;&lt;br&gt;&lt;code&gt;线程池（threadpool）&lt;/code&gt;, &lt;code&gt;缓存（cache）&lt;/code&gt;等比较适合设计为单例模式。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="Design Pattern" scheme="http://llmathur.github.io/categories/Design-Pattern/"/>
+    
+    
+    <category term="设计模式" scheme="http://llmathur.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+    <category term="单例" scheme="http://llmathur.github.io/tags/%E5%8D%95%E4%BE%8B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>设计模式-解释器</title>
+    <link href="http://llmathur.github.io/2023/04/01/InterpreterDesignPattern/"/>
+    <id>http://llmathur.github.io/2023/04/01/InterpreterDesignPattern/</id>
+    <published>2023-04-01T06:56:02.000Z</published>
+    <updated>2023-04-07T05:57:03.420Z</updated>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;解释器模式(Interpreter)会针对某种语言并基于其语法特征创建一系列的表达式类（包括终极表达式与非终极表达式），利用树结构模式将表达式对象组装起来，最终将其翻译成计算机能够识别并执行的语义树。&lt;/p&gt;
+&lt;p&gt;例如结构型数据库对查询语言SQL的解析，浏览器对HTML语言的解析，以及操作系统Shell对命令的解析。不同的语言有着不同的语法和翻译方式，这都依靠解释器完成.&lt;/p&gt;
+&lt;/blockquote&gt;</summary>
+    
+    
+    
+    <category term="Design Pattern" scheme="http://llmathur.github.io/categories/Design-Pattern/"/>
+    
+    
+    <category term="解释器" scheme="http://llmathur.github.io/tags/%E8%A7%A3%E9%87%8A%E5%99%A8/"/>
+    
+    <category term="设计模式" scheme="http://llmathur.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
+  
+</feed>
