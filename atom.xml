@@ -6,7 +6,7 @@
   <link href="http://llmathur.github.io/atom.xml" rel="self"/>
   
   <link href="http://llmathur.github.io/"/>
-  <updated>2023-05-16T13:23:16.205Z</updated>
+  <updated>2023-05-17T12:25:09.661Z</updated>
   <id>http://llmathur.github.io/</id>
   
   <author>
@@ -17,21 +17,28 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title></title>
+    <link href="http://llmathur.github.io/2023/05/17/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/jvm%E9%9D%A2%E8%AF%95%E9%A2%98%E6%80%BB%E7%BB%93/"/>
+    <id>http://llmathur.github.io/2023/05/17/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/jvm%E9%9D%A2%E8%AF%95%E9%A2%98%E6%80%BB%E7%BB%93/</id>
+    <published>2023-05-17T12:25:01.241Z</published>
+    <updated>2023-05-17T12:25:09.661Z</updated>
+    
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
     <title>JVM学习</title>
     <link href="http://llmathur.github.io/2023/05/16/jvm-learning01/"/>
     <id>http://llmathur.github.io/2023/05/16/jvm-learning01/</id>
     <published>2023-05-16T11:33:58.000Z</published>
-    <updated>2023-05-16T13:23:16.205Z</updated>
+    <updated>2023-05-17T12:24:54.105Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;编译器可以分为：前端编译器、JIT 编译器和AOT编译器。&lt;br&gt;&lt;img src=&quot;compiler-category.png&quot; alt=&quot;编译器分类&quot;&gt;&lt;/p&gt;
-&lt;h1 id=&quot;源代码到机器码&quot;&gt;&lt;a href=&quot;#源代码到机器码&quot;</summary>
-        
-      
+    <summary type="html">&lt;p&gt;编译器可以分为：前端编译器、JIT 编译器和AOT编译器。&lt;/p&gt;
+&lt;h1 id=&quot;源代码到机器码&quot;&gt;&lt;a href=&quot;#源代码到机器码&quot; class=&quot;headerlink&quot; title=&quot;源代码到机器码&quot;&gt;&lt;/a&gt;源代码到机器码&lt;/h1&gt;&lt;h2 id=&quot;前端编译器：源代码到字节码&quot;&gt;&lt;a href=&quot;#前端编译器：源代码到字节码&quot; class=&quot;headerlink&quot; title=&quot;前端编译器：源代码到字节码&quot;&gt;&lt;/a&gt;前端编译器：源代码到字节码&lt;/h2&gt;&lt;h2 id=&quot;JIT-编译器：从字节码到机器码&quot;&gt;&lt;a href=&quot;#JIT-编译器：从字节码到机器码&quot; class=&quot;headerlink&quot; title=&quot;JIT 编译器：从字节码到机器码&quot;&gt;&lt;/a&gt;JIT 编译器：从字节码到机器码&lt;/h2&gt;&lt;h2 id=&quot;AOT-编译器：源代码到机器码&quot;&gt;&lt;a href=&quot;#AOT-编译器：源代码到机器码&quot; class=&quot;headerlink&quot; title=&quot;AOT 编译器：源代码到机器码&quot;&gt;&lt;/a&gt;AOT 编译器：源代码到机器码&lt;/h2&gt;</summary>
     
     
     
