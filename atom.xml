@@ -6,7 +6,7 @@
   <link href="http://llmathur.github.io/atom.xml" rel="self"/>
   
   <link href="http://llmathur.github.io/"/>
-  <updated>2023-05-17T12:25:09.661Z</updated>
+  <updated>2023-05-17T12:26:25.487Z</updated>
   <id>http://llmathur.github.io/</id>
   
   <author>
@@ -21,8 +21,19 @@
     <link href="http://llmathur.github.io/2023/05/17/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/jvm%E9%9D%A2%E8%AF%95%E9%A2%98%E6%80%BB%E7%BB%93/"/>
     <id>http://llmathur.github.io/2023/05/17/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/jvm%E9%9D%A2%E8%AF%95%E9%A2%98%E6%80%BB%E7%BB%93/</id>
     <published>2023-05-17T12:25:01.241Z</published>
-    <updated>2023-05-17T12:25:09.661Z</updated>
+    <updated>2023-05-17T12:26:25.487Z</updated>
     
+    
+      
+      
+        
+        
+    <summary type="html">&lt;ol&gt;
+&lt;li&gt;JVM包含哪几部分？&lt;/li&gt;
+&lt;/ol&gt;
+</summary>
+        
+      
     
     
     
@@ -34,7 +45,7 @@
     <link href="http://llmathur.github.io/2023/05/16/jvm-learning01/"/>
     <id>http://llmathur.github.io/2023/05/16/jvm-learning01/</id>
     <published>2023-05-16T11:33:58.000Z</published>
-    <updated>2023-05-17T12:24:54.105Z</updated>
+    <updated>2023-05-17T12:26:51.367Z</updated>
     
     
     <summary type="html">&lt;p&gt;编译器可以分为：前端编译器、JIT 编译器和AOT编译器。&lt;/p&gt;
@@ -75,7 +86,7 @@
     <link href="http://llmathur.github.io/2023/05/09/OAuth-2-0/"/>
     <id>http://llmathur.github.io/2023/05/09/OAuth-2-0/</id>
     <published>2023-05-09T11:01:43.000Z</published>
-    <updated>2023-05-15T13:37:05.394Z</updated>
+    <updated>2023-05-17T12:26:52.452Z</updated>
     
     
     <summary type="html">&lt;p&gt;OAuth 的核心就是向第三方应用颁发令牌&lt;br&gt;四种授权方式&lt;/p&gt;
