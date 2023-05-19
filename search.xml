@@ -128,6 +128,59 @@
       </tags>
   </entry>
   <entry>
+    <title>设计模式-原型</title>
+    <url>/2023/04/07/ProtoTypeDesignPattern/</url>
+    <content><![CDATA[<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><blockquote>
+<p>原型模式达到以原型实例创建副本实例的目的即可，并不需要知道其他原始类，也就是说，原型模式可以用对象创建对象，而不是用类创建对象，以此达到效率的提升。</p>
+</blockquote>
+<span id="more"></span>
+<p>对那些非常复杂的初始化过程的对象或者是需要耗费大量资源的情况，原型模式是更好的选择。</p>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p>我们正准备设计一个空战游戏</p>
+<p>设定：<br>设置游戏为单打即主角飞机只有一架，而敌机有很多架，而且可以在屏幕上垂直下移来撞击主角飞机。</p>
+<p><code>EnemyPlane:敌机类</code></p>
+<ul>
+<li>敌机默认从屏幕顶部飞出，故设定y坐标为0</li>
+<li>只给出属性的setter方法表示我们一旦设定好敌机的x轴坐标就不再可能手动修改</li>
+<li>通过连续调用fly方法，敌机就可以一直向下飞行<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EnemyPlane</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> x;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="variable">y</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">EnemyPlane</span><span class="params">(<span class="type">int</span> x)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.x = x;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getX</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> x;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getY</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> y;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">fly</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.y++;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<code>Client:客户端类</code><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Client</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        List&lt;EnemyPlane&gt; enemyPlanes = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">500</span>; i++) &#123;</span><br><span class="line">            <span class="type">EnemyPlane</span> <span class="variable">ep</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">EnemyPlane</span>(<span class="keyword">new</span> <span class="title class_">Random</span>().nextInt(<span class="number">200</span>));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="存在的问题"><a href="#存在的问题" class="headerlink" title="存在的问题"></a>存在的问题</h3><ol>
+<li>在游戏的初始化阶段直接示例500架飞机无疑会占用大量内存，使得加载速度变慢<br>解决办法：懒加载，屏幕滚动到一定值的时候才实例对象。单问题依然存在，游戏运行大量实例进行初始化及其浪费CPU性能。</li>
+</ol>
+<h3 id="使用ProtoType模式"><a href="#使用ProtoType模式" class="headerlink" title="使用ProtoType模式"></a>使用ProtoType模式</h3><p><code>EnemyPlane:敌机类</code></p>
+<ul>
+<li>重写Object的clone方法，以便外部能够实现对本类实例的克隆，省略构造过程。</li>
+<li>编写了x属性的setter方法，以便能够对克隆出来的敌机实例横坐标进行修改。<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> test01;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EnemyPlane</span> <span class="keyword">implements</span> <span class="title class_">Cloneable</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> x;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="variable">y</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">EnemyPlane</span><span class="params">(<span class="type">int</span> x)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.x = x;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setX</span><span class="params">(<span class="type">int</span> x)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.x = x;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getX</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> x;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getY</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> y;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">fly</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.y++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> EnemyPlane <span class="title function_">clone</span><span class="params">()</span> <span class="keyword">throws</span> CloneNotSupportedException &#123;</span><br><span class="line">        <span class="keyword">return</span> (EnemyPlane)<span class="built_in">super</span>.clone();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<code>EnemyplaneFactory</code>:敌机工厂类</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EnemyPlaneFactory</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">EnemyPlane</span> <span class="variable">protoType</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">EnemyPlane</span>(<span class="number">200</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> EnemyPlane <span class="title function_">getInstance</span><span class="params">(<span class="type">int</span> x)</span> <span class="keyword">throws</span> CloneNotSupportedException &#123;</span><br><span class="line">        <span class="type">EnemyPlane</span> <span class="variable">clone</span> <span class="operator">=</span> protoType.clone();</span><br><span class="line">        clone.setX(x);</span><br><span class="line">        <span class="keyword">return</span> clone;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>Client</code>：客户端类</p>
+<ul>
+<li>每隔10高度，克隆一个敌机<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Client</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> CloneNotSupportedException &#123;</span><br><span class="line"></span><br><span class="line">        List&lt;EnemyPlane&gt; planes = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">        <span class="type">int</span> <span class="variable">screen</span> <span class="operator">=</span> <span class="number">0</span>; <span class="comment">// 屏幕滚动的高度</span></span><br><span class="line">      <span class="keyword">while</span>(screen &lt; <span class="number">100</span>)&#123;</span><br><span class="line"></span><br><span class="line">          <span class="keyword">if</span>(screen % <span class="number">10</span> == <span class="number">0</span>) &#123;</span><br><span class="line">              <span class="type">EnemyPlane</span> <span class="variable">instance</span> <span class="operator">=</span> EnemyPlaneFactory.getInstance(<span class="keyword">new</span> <span class="title class_">Random</span>().nextInt(<span class="number">200</span>));</span><br><span class="line">              planes.add(instance);</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="keyword">for</span> (EnemyPlane plane : planes) &#123;</span><br><span class="line">              plane.fly();</span><br><span class="line">              System.out.println(<span class="string">&quot;敌机：&quot;</span>+plane.toString()+<span class="string">&quot;,&quot;</span>+plane.getX()+<span class="string">&quot;,&quot;</span>+plane.getY());</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          screen ++;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="深浅拷贝"><a href="#深浅拷贝" class="headerlink" title="深浅拷贝"></a>深浅拷贝</h2><ul>
+<li>浅拷贝<blockquote>
+<p>所谓浅拷贝是指只复制原始类型的值，比如横坐标x与纵坐标y这种以原始类型int定义的值，它们会被复制到新克隆出的对象中。而引用类型bullet同样会被拷贝，但是请注意这个操作只是拷贝了地址引用（指针），也就是说副本敌机与原型敌机中的子弹是同一颗，因为两个同样的地址实际指向的内存对象是同一个bullet对象。</p>
+</blockquote>
+</li>
+<li>深拷贝<br>即手动实例化对象并将地址引用赋值给对应属性</li>
+</ul>
+<h2 id="克隆的本质"><a href="#克隆的本质" class="headerlink" title="克隆的本质"></a>克隆的本质</h2><blockquote>
+<p>克隆操作时Java虚拟机会进行内存操作，直接拷贝原型对象数据流生成新的副本对象，绝不会拖泥带水地触发一些多余的复杂操作（如类加载、实例化、初始化等），所以其效率远远高于“new”关键字所触发的实例化操作</p>
+</blockquote>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
+<li>刘韬《秒懂设计模式》</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Design Pattern</category>
+      </categories>
+      <tags>
+        <tag>设计模式</tag>
+        <tag>单例</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>TCP/IP-study</title>
     <url>/2023/04/05/TCP-IP-study/</url>
     <content><![CDATA[<p>目前绝大多数网络都采用TCP&#x2F;IP协议，TCP&#x2F;IP是目前最完整的、被普遍接受的通信协议标准</p>
@@ -222,6 +275,69 @@
       </tags>
   </entry>
   <entry>
+    <title>JVM学习</title>
+    <url>/2023/05/16/jvm-learning01/</url>
+    <content><![CDATA[<p>编译器可以分为：前端编译器、JIT 编译器和AOT编译器。</p>
+<h1 id="源代码到机器码"><a href="#源代码到机器码" class="headerlink" title="源代码到机器码"></a>源代码到机器码</h1><h2 id="前端编译器：源代码到字节码"><a href="#前端编译器：源代码到字节码" class="headerlink" title="前端编译器：源代码到字节码"></a>前端编译器：源代码到字节码</h2><h2 id="JIT-编译器：从字节码到机器码"><a href="#JIT-编译器：从字节码到机器码" class="headerlink" title="JIT 编译器：从字节码到机器码"></a>JIT 编译器：从字节码到机器码</h2><h2 id="AOT-编译器：源代码到机器码"><a href="#AOT-编译器：源代码到机器码" class="headerlink" title="AOT 编译器：源代码到机器码"></a>AOT 编译器：源代码到机器码</h2><span id="more"></span>
+
+<h1 id="字节码文件结构"><a href="#字节码文件结构" class="headerlink" title="字节码文件结构"></a>字节码文件结构</h1><h1 id="JVM-类加载机制"><a href="#JVM-类加载机制" class="headerlink" title="JVM 类加载机制"></a>JVM 类加载机制</h1><p>当编译器将 Java 源码编译为字节码之后，虚拟机便可以将字节码读取进内存，从而进行解析、运行等整个过程。</p>
+<p>JVM 虚拟机执行 class 字节码的过程可以分为七个阶段：<br>加载、验证、准备、解析、初始化、使用、卸载。</p>
+<h2 id="加载"><a href="#加载" class="headerlink" title="加载"></a>加载</h2><p>加载阶段是类加载过程的第一个阶段。在这个阶段，JVM 的主要目的是将字节码从各个位置（网络、磁盘等）转化为二进制字节流加载到内存中，接着会为这个类在 JVM 的方法区创建一个对应的 Class 对象，这个 Class 对象就是这个类各种数据的访问入口。</p>
+<h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><p>当 JVM 加载完 Class 字节码文件并在方法区创建对应的 Class 对象之后，JVM 便会启动对该字节码流的校验，只有符合 JVM 字节码规范的文件才能被 JVM 正确执行。<br>因为Class文件并不要求一定要从Java源代码编译而来，可以从其他地方加载，如网络，甚至包括十六进制编辑器。</p>
+<ul>
+<li><p>文件格式验证<br>字节流格式，是否以0xcafebabe开头，主次版本号是否在当前虚拟机处理范围内等</p>
+</li>
+<li><p>元数据验证<br>Java语言规范验证，是否有父类，父类是否继承了不允许的类等</p>
+</li>
+<li><p>字节码验证</p>
+</li>
+<li><p>符号引用验证 —- 链接的第三阶段：解析阶段发生</p>
+</li>
+</ul>
+<h2 id="准备（重点）"><a href="#准备（重点）" class="headerlink" title="准备（重点）"></a>准备（重点）</h2><p>当完成字节码文件的校验之后，JVM 便会开始为类变量分配内存并初始化。</p>
+<ul>
+<li>内存分配的对象。<br>Java 中的变量有「类变量」和「类成员变量」两种类型，「类变量」指的是被 static 修饰的变量，而其他所有类型的变量都属于「类成员变量」。在准备阶段，JVM 只会为「类变量」分配内存，而不会为「类成员变量」分配内存。「类成员变量」的内存分配需要等到初始化阶段才开始。</li>
+<li>初始化的类型。<br>在准备阶段，JVM 会为类变量分配内存，并为其初始化。但是这里的初始化指的是为变量赋予 Java 语言中该数据类型的零值，而不是用户代码里初始化的值。<br>但如果一个变量是常量（被 static final 修饰）的话，那么在准备阶段，属性便会被赋予用户希望的值。</li>
+</ul>
+<h2 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h2><p>通过准备阶段之后，JVM 针对类或接口、字段、类方法、接口方法、方法类型、方法句柄和调用点限定符 7 类引用进行解析。这个阶段的主要任务是将其在常量池中的符号引用替换成直接其在内存中的直接引用。</p>
+<h2 id="初始化（重点）"><a href="#初始化（重点）" class="headerlink" title="初始化（重点）"></a>初始化（重点）</h2><p>在这个阶段，JVM 会根据语句执行顺序对类对象进行初始化，一般来说当 JVM 遇到下面 5 种情况的时候会触发初始化：</p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h2 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h2><h1 id="JVM-垃圾回收机制"><a href="#JVM-垃圾回收机制" class="headerlink" title="JVM 垃圾回收机制"></a>JVM 垃圾回收机制</h1><p>所以很多时候不同的虚拟机有不同的实现方式，下面所说的垃圾回收都是以 HotSpot 虚拟机为例。</p>
+<h2 id="判断垃圾方法"><a href="#判断垃圾方法" class="headerlink" title="判断垃圾方法"></a>判断垃圾方法</h2><ol>
+<li><p>引用计数法 — 循环引用问题</p>
+</li>
+<li><p>GC Root Tracing 算法<br>从 GC Root 出发，所有可达的对象都是存活的对象，而所有不可达的对象都是垃圾。GC ROOT通常包括</p>
+</li>
+</ol>
+<ul>
+<li>所有当前被加载的 Java 类</li>
+<li>Java 类的引用类型静态变量</li>
+<li>Java类的运行时常量池里的引用类型常量</li>
+<li>JVM的一些静态数据结构里指向GC堆里的对象的引用</li>
+<li>等等</li>
+</ul>
+<h2 id="如何进行垃圾回收"><a href="#如何进行垃圾回收" class="headerlink" title="如何进行垃圾回收"></a>如何进行垃圾回收</h2><p>三种算法：标记清除算法、复制算法、标记压缩算法。</p>
+<h3 id="标记清除算法"><a href="#标记清除算法" class="headerlink" title="标记清除算法"></a>标记清除算法</h3><p>从名字可以看到其分为两个阶段：标记阶段和清除阶段。一种可行的实现方式是，在标记阶段，标记所有由 GC Root 触发的可达对象。此时，所有未被标记的对象就是垃圾对象。之后在清除阶段，清除所有未被标记的对象。标记清除算法最大的问题就是空间碎片问题。如果空间碎片过多，则会导致内存空间的不连续。虽说大对象也可以分配在不连续的空间中，但是效率要低于连续的内存空间。</p>
+<h3 id="复制算法"><a href="#复制算法" class="headerlink" title="复制算法"></a>复制算法</h3><p>复制算法的核心思想是将原有的内存空间分为两块，每次只使用一块，在垃圾回收时，将正在使用的内存中的存活对象复制到未使用的内存块中。之后清除正在使用的内存块中的所有对象，之后交换两个内存块的角色，完成垃圾回收。该算法的缺点是要将内存空间折半，极大地浪费了内存空间。</p>
+<h3 id="标记压缩算法"><a href="#标记压缩算法" class="headerlink" title="标记压缩算法"></a>标记压缩算法</h3><p>标记压缩算法可以说是标记清除算法的优化版，其同样需要经历两个阶段，分别是：标记结算、压缩阶段。在标记阶段，从 GC Root 引用集合触发去标记所有对象。在压缩阶段，其则是将所有存活的对象压缩在内存的一边，之后清理边界外的所有空间。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>对比一下这三种算法，可以发现他们都有各自的优点和缺点。</p>
+<p>标记清除算法虽然会产生内存碎片，但是不需要移动太多对象，比较适合在存活对象比较多的情况。而复制算法虽然需要将内存空间折半，并且需要移动存活对象，但是其清理后不会有空间碎片，比较适合存活对象比较少的情况。而标记压缩算法，则是标记清除算法的优化版，减少了空间碎片。</p>
+<h2 id="分代思想"><a href="#分代思想" class="headerlink" title="分代思想"></a>分代思想</h2><p>分代思想按照对象的生命周期长短将其分为了两个部分（新生代、老年代）</p>
+<p>分代算法，就是根据 JVM 内存的不同内存区域，采用不同的垃圾回收算法。</p>
+<p>例如对于存活对象少的新生代区域，比较适合采用复制算法。这样只需要复制少量对象，便可完成垃圾回收，并且还不会有内存碎片。而对于老年代这种存活对象多的区域，比较适合采用标记压缩算法或标记清除算法，这样不需要移动太多的内存对象。</p>
+<h2 id="分区思想"><a href="#分区思想" class="headerlink" title="分区思想"></a>分区思想</h2><p>但 JVM 中其实还有一个分区思想，即将整个堆空间划分成连续的不同小区间。<br>分代思想按照对象的生命周期长短将其分为了两个部分（新生代、老年代）</p>
+<h1 id="JVM垃圾回收器"><a href="#JVM垃圾回收器" class="headerlink" title="JVM垃圾回收器"></a>JVM垃圾回收器</h1><p>四大类别：串行回收器、并行回收器、CMS 回收器、G1 回收器。</p>
+<h2 id="串行回收器"><a href="#串行回收器" class="headerlink" title="串行回收器"></a>串行回收器</h2><p>串行回收器是指使用单线程进行垃圾回收的回收器。</p>
+<h2 id="并行回收器"><a href="#并行回收器" class="headerlink" title="并行回收器"></a>并行回收器</h2><p>并行回收器在串行回收器的基础上做了改进，其使用多线程进行垃圾回收。</p>
+<h2 id="CMS-回收器"><a href="#CMS-回收器" class="headerlink" title="CMS 回收器"></a>CMS 回收器</h2><p>与 ParallelGC 和 ParallelOldGC 不同，CMS 回收器主要关注系统停顿时间。CMS 回收器全称为 Concurrent Mark Sweep，意为标记清除算法，其是一个使用多线程并行回收的垃圾回收器。</p>
+<h2 id="G1-回收器"><a href="#G1-回收器" class="headerlink" title="G1 回收器"></a>G1 回收器</h2><p>G1 回收器是 JDK 1.7 中使用的全新垃圾回收器，从长期目标来看，其是为了取代 CMS 回收器。</p>
+<p>G1 回收器拥有独特的垃圾回收策略，和之前所有垃圾回收器采用的垃圾回收策略不同。从分代看，G1 依然属于分代垃圾回收器。但它最大的改变是使用了分区算法，从而使得 Eden 区、From 区、Survivor 区和老年代等各块内存不必连续。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://www.cnblogs.com/chanshuyi/p/jvm_serial_04_from_source_code_to_machine_code.html">https://www.cnblogs.com/chanshuyi/p/jvm_serial_04_from_source_code_to_machine_code.html</a></p>
+]]></content>
+      <categories>
+        <category>jvm</category>
+      </categories>
+  </entry>
+  <entry>
     <title>设计模式-单例</title>
     <url>/2023/04/01/SingletonDesignPattern/</url>
     <content><![CDATA[<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>单例即单实例，指在系统(程序)中，<b>某个类只存在一个实例</b>，同时提供集中、统一的访问接口。</p>
@@ -288,119 +404,75 @@
       </tags>
   </entry>
   <entry>
-    <title>设计模式-原型</title>
-    <url>/2023/04/07/ProtoTypeDesignPattern/</url>
-    <content><![CDATA[<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><blockquote>
-<p>原型模式达到以原型实例创建副本实例的目的即可，并不需要知道其他原始类，也就是说，原型模式可以用对象创建对象，而不是用类创建对象，以此达到效率的提升。</p>
-</blockquote>
-<span id="more"></span>
-<p>对那些非常复杂的初始化过程的对象或者是需要耗费大量资源的情况，原型模式是更好的选择。</p>
-<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p>我们正准备设计一个空战游戏</p>
-<p>设定：<br>设置游戏为单打即主角飞机只有一架，而敌机有很多架，而且可以在屏幕上垂直下移来撞击主角飞机。</p>
-<p><code>EnemyPlane:敌机类</code></p>
-<ul>
-<li>敌机默认从屏幕顶部飞出，故设定y坐标为0</li>
-<li>只给出属性的setter方法表示我们一旦设定好敌机的x轴坐标就不再可能手动修改</li>
-<li>通过连续调用fly方法，敌机就可以一直向下飞行<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EnemyPlane</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> x;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="variable">y</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">EnemyPlane</span><span class="params">(<span class="type">int</span> x)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.x = x;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getX</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> x;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getY</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> y;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">fly</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.y++;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<code>Client:客户端类</code><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Client</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        List&lt;EnemyPlane&gt; enemyPlanes = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">500</span>; i++) &#123;</span><br><span class="line">            <span class="type">EnemyPlane</span> <span class="variable">ep</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">EnemyPlane</span>(<span class="keyword">new</span> <span class="title class_">Random</span>().nextInt(<span class="number">200</span>));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h3 id="存在的问题"><a href="#存在的问题" class="headerlink" title="存在的问题"></a>存在的问题</h3><ol>
-<li>在游戏的初始化阶段直接示例500架飞机无疑会占用大量内存，使得加载速度变慢<br>解决办法：懒加载，屏幕滚动到一定值的时候才实例对象。单问题依然存在，游戏运行大量实例进行初始化及其浪费CPU性能。</li>
+    <title>redis-learning</title>
+    <url>/2023/05/18/redis-learning/</url>
+    <content><![CDATA[<h1 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h1><p>RDB持久化、AOF持久化，RDB-AOF混合持久化</p>
+<h2 id="RDB持久化"><a href="#RDB持久化" class="headerlink" title="RDB持久化"></a>RDB持久化</h2><p>全面持久化操作，</p>
+<h3 id="载入RDB文件过程"><a href="#载入RDB文件过程" class="headerlink" title="载入RDB文件过程"></a>载入RDB文件过程</h3><ol>
+<li>打开RDB文件</li>
+<li>检查文件头</li>
+<li>检查版本号</li>
+<li>读取设备信息</li>
+<li>重建数据库</li>
+<li>重建脚本缓存</li>
+<li>对比校验和</li>
+<li>数据载入完毕</li>
 </ol>
-<h3 id="使用ProtoType模式"><a href="#使用ProtoType模式" class="headerlink" title="使用ProtoType模式"></a>使用ProtoType模式</h3><p><code>EnemyPlane:敌机类</code></p>
-<ul>
-<li>重写Object的clone方法，以便外部能够实现对本类实例的克隆，省略构造过程。</li>
-<li>编写了x属性的setter方法，以便能够对克隆出来的敌机实例横坐标进行修改。<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> test01;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EnemyPlane</span> <span class="keyword">implements</span> <span class="title class_">Cloneable</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> x;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="variable">y</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">EnemyPlane</span><span class="params">(<span class="type">int</span> x)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.x = x;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setX</span><span class="params">(<span class="type">int</span> x)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.x = x;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getX</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> x;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getY</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> y;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">fly</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.y++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> EnemyPlane <span class="title function_">clone</span><span class="params">()</span> <span class="keyword">throws</span> CloneNotSupportedException &#123;</span><br><span class="line">        <span class="keyword">return</span> (EnemyPlane)<span class="built_in">super</span>.clone();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<code>EnemyplaneFactory</code>:敌机工厂类</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EnemyPlaneFactory</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">EnemyPlane</span> <span class="variable">protoType</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">EnemyPlane</span>(<span class="number">200</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> EnemyPlane <span class="title function_">getInstance</span><span class="params">(<span class="type">int</span> x)</span> <span class="keyword">throws</span> CloneNotSupportedException &#123;</span><br><span class="line">        <span class="type">EnemyPlane</span> <span class="variable">clone</span> <span class="operator">=</span> protoType.clone();</span><br><span class="line">        clone.setX(x);</span><br><span class="line">        <span class="keyword">return</span> clone;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><code>Client</code>：客户端类</p>
-<ul>
-<li>每隔10高度，克隆一个敌机<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Client</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> CloneNotSupportedException &#123;</span><br><span class="line"></span><br><span class="line">        List&lt;EnemyPlane&gt; planes = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">        <span class="type">int</span> <span class="variable">screen</span> <span class="operator">=</span> <span class="number">0</span>; <span class="comment">// 屏幕滚动的高度</span></span><br><span class="line">      <span class="keyword">while</span>(screen &lt; <span class="number">100</span>)&#123;</span><br><span class="line"></span><br><span class="line">          <span class="keyword">if</span>(screen % <span class="number">10</span> == <span class="number">0</span>) &#123;</span><br><span class="line">              <span class="type">EnemyPlane</span> <span class="variable">instance</span> <span class="operator">=</span> EnemyPlaneFactory.getInstance(<span class="keyword">new</span> <span class="title class_">Random</span>().nextInt(<span class="number">200</span>));</span><br><span class="line">              planes.add(instance);</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="keyword">for</span> (EnemyPlane plane : planes) &#123;</span><br><span class="line">              plane.fly();</span><br><span class="line">              System.out.println(<span class="string">&quot;敌机：&quot;</span>+plane.toString()+<span class="string">&quot;,&quot;</span>+plane.getX()+<span class="string">&quot;,&quot;</span>+plane.getY());</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          screen ++;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h2 id="深浅拷贝"><a href="#深浅拷贝" class="headerlink" title="深浅拷贝"></a>深浅拷贝</h2><ul>
-<li>浅拷贝<blockquote>
-<p>所谓浅拷贝是指只复制原始类型的值，比如横坐标x与纵坐标y这种以原始类型int定义的值，它们会被复制到新克隆出的对象中。而引用类型bullet同样会被拷贝，但是请注意这个操作只是拷贝了地址引用（指针），也就是说副本敌机与原型敌机中的子弹是同一颗，因为两个同样的地址实际指向的内存对象是同一个bullet对象。</p>
-</blockquote>
-</li>
-<li>深拷贝<br>即手动实例化对象并将地址引用赋值给对应属性</li>
-</ul>
-<h2 id="克隆的本质"><a href="#克隆的本质" class="headerlink" title="克隆的本质"></a>克隆的本质</h2><blockquote>
-<p>克隆操作时Java虚拟机会进行内存操作，直接拷贝原型对象数据流生成新的副本对象，绝不会拖泥带水地触发一些多余的复杂操作（如类加载、实例化、初始化等），所以其效率远远高于“new”关键字所触发的实例化操作</p>
-</blockquote>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
-<li>刘韬《秒懂设计模式》</li>
+<h2 id="AOF持久化"><a href="#AOF持久化" class="headerlink" title="AOF持久化"></a>AOF持久化</h2><p>增量持久化操作，服务器每次执行完命令后，都会以【协议文本】的方式将被执行的命令追加到AOF文件末尾。</p>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><ol>
+<li>体积大</li>
+<li>数据恢复速度慢</li>
 </ol>
 ]]></content>
-      <categories>
-        <category>Design Pattern</category>
-      </categories>
-      <tags>
-        <tag>设计模式</tag>
-        <tag>单例</tag>
-      </tags>
   </entry>
   <entry>
-    <title>JVM学习</title>
-    <url>/2023/05/16/jvm-learning01/</url>
-    <content><![CDATA[<p>编译器可以分为：前端编译器、JIT 编译器和AOT编译器。</p>
-<h1 id="源代码到机器码"><a href="#源代码到机器码" class="headerlink" title="源代码到机器码"></a>源代码到机器码</h1><h2 id="前端编译器：源代码到字节码"><a href="#前端编译器：源代码到字节码" class="headerlink" title="前端编译器：源代码到字节码"></a>前端编译器：源代码到字节码</h2><h2 id="JIT-编译器：从字节码到机器码"><a href="#JIT-编译器：从字节码到机器码" class="headerlink" title="JIT 编译器：从字节码到机器码"></a>JIT 编译器：从字节码到机器码</h2><h2 id="AOT-编译器：源代码到机器码"><a href="#AOT-编译器：源代码到机器码" class="headerlink" title="AOT 编译器：源代码到机器码"></a>AOT 编译器：源代码到机器码</h2><span id="more"></span>
-
-<h1 id="字节码文件结构"><a href="#字节码文件结构" class="headerlink" title="字节码文件结构"></a>字节码文件结构</h1><h1 id="JVM-类加载机制"><a href="#JVM-类加载机制" class="headerlink" title="JVM 类加载机制"></a>JVM 类加载机制</h1><p>当编译器将 Java 源码编译为字节码之后，虚拟机便可以将字节码读取进内存，从而进行解析、运行等整个过程。</p>
-<p>JVM 虚拟机执行 class 字节码的过程可以分为七个阶段：<br>加载、验证、准备、解析、初始化、使用、卸载。</p>
-<h2 id="加载"><a href="#加载" class="headerlink" title="加载"></a>加载</h2><p>加载阶段是类加载过程的第一个阶段。在这个阶段，JVM 的主要目的是将字节码从各个位置（网络、磁盘等）转化为二进制字节流加载到内存中，接着会为这个类在 JVM 的方法区创建一个对应的 Class 对象，这个 Class 对象就是这个类各种数据的访问入口。</p>
-<h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><p>当 JVM 加载完 Class 字节码文件并在方法区创建对应的 Class 对象之后，JVM 便会启动对该字节码流的校验，只有符合 JVM 字节码规范的文件才能被 JVM 正确执行。<br>因为Class文件并不要求一定要从Java源代码编译而来，可以从其他地方加载，如网络，甚至包括十六进制编辑器。</p>
+    <title>someQuestions</title>
+    <url>/2023/05/19/someQuestions/</url>
+    <content><![CDATA[<h1 id="什么是Java方法重写"><a href="#什么是Java方法重写" class="headerlink" title="什么是Java方法重写"></a>什么是Java方法重写</h1><p>要求遵循“两同两大一小”</p>
 <ul>
-<li><p>文件格式验证<br>字节流格式，是否以0xcafebabe开头，主次版本号是否在当前虚拟机处理范围内等</p>
+<li>“两同” 指方法名相同，形参列表相同</li>
+<li>“两小” 指子类方法返回值类型应该比父类返回值类型更小，子类方法声明抛出的异常类应该比父类方法抛出的更小或者相等</li>
+<li>“一大” 指子类方法的访问权限应该比父类方法的访问权限更大或者相等。</li>
+</ul>
+<p>这是因为如果返回值类型更大，则可能会造成父类对象无法完全转换为子类对象，从而导致编译错误和运行时异常。<br>重写还有一条规则是访问控制符必须高于父类？那是因为为了多态的实现。有时候父类需要上转型引用子类的方法实现多态，这就导致子类方法的访问控制符必须高于父类，否则子类里写成了private，父类还怎么访问？</p>
+<h1 id="对象实例都在Java堆中吗？"><a href="#对象实例都在Java堆中吗？" class="headerlink" title="对象实例都在Java堆中吗？"></a>对象实例都在Java堆中吗？</h1><p>不一定，是几乎所有的实例都在堆中。<br>JIT编译除了具有缓存的功能外，还会对代码做各种优化，其中有逃逸分析功能。<br>如果逃逸分析发现一个对象不会逃逸出当前方法或线程，则可以将该对象存储在栈上而不是堆上。由于栈是局部的，存储在栈上的对象只能由当前方法或线程访问，这样就减少了对内存的分配和垃圾回收的工作量，从而提高了程序的性能。<br>可以通过 -XX:+DoEscapeAnalysis 指定是否进行逃逸分析。</p>
+<p>参考：<br><a href="http://www.hollischuang.com/archives/2398">http://www.hollischuang.com/archives/2398</a></p>
+<h1 id="接口和抽象类的共同点和区别"><a href="#接口和抽象类的共同点和区别" class="headerlink" title="接口和抽象类的共同点和区别"></a>接口和抽象类的共同点和区别</h1><p>共同点:</p>
+<ul>
+<li>都不能被实例化</li>
+<li>都可以包含抽象方法</li>
+<li>都可以有默认实现的方法</li>
+</ul>
+<p>区别：</p>
+<ul>
+<li>接口是对类的行为进行约束，实现了某个接口就有了对应的行为，抽象类主要用于代码复用，强调的是所属关系</li>
+<li>类只能继承一个类，但可以实现多个接口</li>
+<li>接口中的成员变量只能是<code>public static final</code>,抽象类的成员变量默认<code>defalut</code></li>
+</ul>
+<h1 id="解决哈希冲突的办法"><a href="#解决哈希冲突的办法" class="headerlink" title="解决哈希冲突的办法"></a>解决哈希冲突的办法</h1><ul>
+<li><p>开放地址法<br>开放地址法是指当发生哈希冲突时，继续在哈希表中查找空闲的位置，直到找到一个空闲的位置为止。其中包括线性探测、二次探测等技术。</p>
 </li>
-<li><p>元数据验证<br>Java语言规范验证，是否有父类，父类是否继承了不允许的类等</p>
+<li><p>链表法<br>链表法是指每个哈希值对应一个链表，如果发生哈希冲突，则将新的元素加入到对应位置的链表中。</p>
 </li>
-<li><p>字节码验证</p>
+<li><p>再哈希法<br>再哈希法是指在第一次哈希之后，如果出现冲突，则再次进行哈希，直到找到合适的位置。</p>
 </li>
-<li><p>符号引用验证 —- 链接的第三阶段：解析阶段发生</p>
+<li><p>建立公共溢出区<br>建立公共溢出区是指将所有冲突的元素都存储在同一个溢出区，并通过某种方式来确定元素在该区域中的位置。</p>
 </li>
 </ul>
-<h2 id="准备（重点）"><a href="#准备（重点）" class="headerlink" title="准备（重点）"></a>准备（重点）</h2><p>当完成字节码文件的校验之后，JVM 便会开始为类变量分配内存并初始化。</p>
+<h1 id="String-StringBulider-，StringBuffer"><a href="#String-StringBulider-，StringBuffer" class="headerlink" title="String,StringBulider ，StringBuffer"></a>String,StringBulider ，StringBuffer</h1><p>先看后两者：<br>共同点：</p>
 <ul>
-<li>内存分配的对象。<br>Java 中的变量有「类变量」和「类成员变量」两种类型，「类变量」指的是被 static 修饰的变量，而其他所有类型的变量都属于「类成员变量」。在准备阶段，JVM 只会为「类变量」分配内存，而不会为「类成员变量」分配内存。「类成员变量」的内存分配需要等到初始化阶段才开始。</li>
-<li>初始化的类型。<br>在准备阶段，JVM 会为类变量分配内存，并为其初始化。但是这里的初始化指的是为变量赋予 Java 语言中该数据类型的零值，而不是用户代码里初始化的值。<br>但如果一个变量是常量（被 static final 修饰）的话，那么在准备阶段，属性便会被赋予用户希望的值。</li>
+<li><code>StringBulider</code>和<code>StringBuffer</code>都继承了<code>AbstractStringBuilder</code>  <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">AbstractStringBuilder</span> <span class="keyword">implements</span> <span class="title class_">Appendable</span>, CharSequence &#123;</span><br><span class="line"><span class="type">byte</span>[] value;</span><br></pre></td></tr></table></figure>
+区别：</li>
+<li>StringBuffer线程安全，StringBulider非线程安全。</li>
 </ul>
-<h2 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h2><p>通过准备阶段之后，JVM 针对类或接口、字段、类方法、接口方法、方法类型、方法句柄和调用点限定符 7 类引用进行解析。这个阶段的主要任务是将其在常量池中的符号引用替换成直接其在内存中的直接引用。</p>
-<h2 id="初始化（重点）"><a href="#初始化（重点）" class="headerlink" title="初始化（重点）"></a>初始化（重点）</h2><p>在这个阶段，JVM 会根据语句执行顺序对类对象进行初始化，一般来说当 JVM 遇到下面 5 种情况的时候会触发初始化：</p>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h2 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h2><h1 id="JVM-垃圾回收机制"><a href="#JVM-垃圾回收机制" class="headerlink" title="JVM 垃圾回收机制"></a>JVM 垃圾回收机制</h1><p>所以很多时候不同的虚拟机有不同的实现方式，下面所说的垃圾回收都是以 HotSpot 虚拟机为例。</p>
-<h2 id="判断垃圾方法"><a href="#判断垃圾方法" class="headerlink" title="判断垃圾方法"></a>判断垃圾方法</h2><ol>
-<li><p>引用计数法 — 循环引用问题</p>
-</li>
-<li><p>GC Root Tracing 算法<br>从 GC Root 出发，所有可达的对象都是存活的对象，而所有不可达的对象都是垃圾。GC ROOT通常包括</p>
-</li>
-</ol>
+<p><code>String</code>不可变的真正原因：</p>
 <ul>
-<li>所有当前被加载的 Java 类</li>
-<li>Java 类的引用类型静态变量</li>
-<li>Java类的运行时常量池里的引用类型常量</li>
-<li>JVM的一些静态数据结构里指向GC堆里的对象的引用</li>
-<li>等等</li>
+<li>整个类被final修饰，确保不会被继承，防止被子类修改byte数组。</li>
+<li>byte数组的修饰符为<code>private final</code> ，同时没有提供修改的方法。</li>
 </ul>
-<h2 id="如何进行垃圾回收"><a href="#如何进行垃圾回收" class="headerlink" title="如何进行垃圾回收"></a>如何进行垃圾回收</h2><p>三种算法：标记清除算法、复制算法、标记压缩算法。</p>
-<h3 id="标记清除算法"><a href="#标记清除算法" class="headerlink" title="标记清除算法"></a>标记清除算法</h3><p>从名字可以看到其分为两个阶段：标记阶段和清除阶段。一种可行的实现方式是，在标记阶段，标记所有由 GC Root 触发的可达对象。此时，所有未被标记的对象就是垃圾对象。之后在清除阶段，清除所有未被标记的对象。标记清除算法最大的问题就是空间碎片问题。如果空间碎片过多，则会导致内存空间的不连续。虽说大对象也可以分配在不连续的空间中，但是效率要低于连续的内存空间。</p>
-<h3 id="复制算法"><a href="#复制算法" class="headerlink" title="复制算法"></a>复制算法</h3><p>复制算法的核心思想是将原有的内存空间分为两块，每次只使用一块，在垃圾回收时，将正在使用的内存中的存活对象复制到未使用的内存块中。之后清除正在使用的内存块中的所有对象，之后交换两个内存块的角色，完成垃圾回收。该算法的缺点是要将内存空间折半，极大地浪费了内存空间。</p>
-<h3 id="标记压缩算法"><a href="#标记压缩算法" class="headerlink" title="标记压缩算法"></a>标记压缩算法</h3><p>标记压缩算法可以说是标记清除算法的优化版，其同样需要经历两个阶段，分别是：标记结算、压缩阶段。在标记阶段，从 GC Root 引用集合触发去标记所有对象。在压缩阶段，其则是将所有存活的对象压缩在内存的一边，之后清理边界外的所有空间。</p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>对比一下这三种算法，可以发现他们都有各自的优点和缺点。</p>
-<p>标记清除算法虽然会产生内存碎片，但是不需要移动太多对象，比较适合在存活对象比较多的情况。而复制算法虽然需要将内存空间折半，并且需要移动存活对象，但是其清理后不会有空间碎片，比较适合存活对象比较少的情况。而标记压缩算法，则是标记清除算法的优化版，减少了空间碎片。</p>
-<h2 id="分代思想"><a href="#分代思想" class="headerlink" title="分代思想"></a>分代思想</h2><p>分代思想按照对象的生命周期长短将其分为了两个部分（新生代、老年代）</p>
-<p>分代算法，就是根据 JVM 内存的不同内存区域，采用不同的垃圾回收算法。</p>
-<p>例如对于存活对象少的新生代区域，比较适合采用复制算法。这样只需要复制少量对象，便可完成垃圾回收，并且还不会有内存碎片。而对于老年代这种存活对象多的区域，比较适合采用标记压缩算法或标记清除算法，这样不需要移动太多的内存对象。</p>
-<h2 id="分区思想"><a href="#分区思想" class="headerlink" title="分区思想"></a>分区思想</h2><p>但 JVM 中其实还有一个分区思想，即将整个堆空间划分成连续的不同小区间。<br>分代思想按照对象的生命周期长短将其分为了两个部分（新生代、老年代）</p>
-<h1 id="JVM垃圾回收器"><a href="#JVM垃圾回收器" class="headerlink" title="JVM垃圾回收器"></a>JVM垃圾回收器</h1><p>四大类别：串行回收器、并行回收器、CMS 回收器、G1 回收器。</p>
-<h2 id="串行回收器"><a href="#串行回收器" class="headerlink" title="串行回收器"></a>串行回收器</h2><p>串行回收器是指使用单线程进行垃圾回收的回收器。</p>
-<h2 id="并行回收器"><a href="#并行回收器" class="headerlink" title="并行回收器"></a>并行回收器</h2><p>并行回收器在串行回收器的基础上做了改进，其使用多线程进行垃圾回收。</p>
-<h2 id="CMS-回收器"><a href="#CMS-回收器" class="headerlink" title="CMS 回收器"></a>CMS 回收器</h2><p>与 ParallelGC 和 ParallelOldGC 不同，CMS 回收器主要关注系统停顿时间。CMS 回收器全称为 Concurrent Mark Sweep，意为标记清除算法，其是一个使用多线程并行回收的垃圾回收器。</p>
-<h2 id="G1-回收器"><a href="#G1-回收器" class="headerlink" title="G1 回收器"></a>G1 回收器</h2><p>G1 回收器是 JDK 1.7 中使用的全新垃圾回收器，从长期目标来看，其是为了取代 CMS 回收器。</p>
-<p>G1 回收器拥有独特的垃圾回收策略，和之前所有垃圾回收器采用的垃圾回收策略不同。从分代看，G1 依然属于分代垃圾回收器。但它最大的改变是使用了分区算法，从而使得 Eden 区、From 区、Survivor 区和老年代等各块内存不必连续。</p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://www.cnblogs.com/chanshuyi/p/jvm_serial_04_from_source_code_to_machine_code.html">https://www.cnblogs.com/chanshuyi/p/jvm_serial_04_from_source_code_to_machine_code.html</a></p>
 ]]></content>
       <categories>
-        <category>jvm</category>
+        <category>一些想到的问题</category>
       </categories>
   </entry>
   <entry>
@@ -444,13 +516,5 @@
       <tags>
         <tag>软件测试</tag>
       </tags>
-  </entry>
-  <entry>
-    <title></title>
-    <url>/2023/05/17/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/jvm%E9%9D%A2%E8%AF%95%E9%A2%98%E6%80%BB%E7%BB%93/</url>
-    <content><![CDATA[<ol>
-<li>JVM包含哪几部分？</li>
-</ol>
-]]></content>
   </entry>
 </search>

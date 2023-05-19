@@ -203,7 +203,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://llmathur.github.io/2023/05/17/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/jvm%E9%9D%A2%E8%AF%95%E9%A2%98%E6%80%BB%E7%BB%93/">
+    <link itemprop="mainEntityOfPage" href="http://llmathur.github.io/2023/05/19/someQuestions/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/profile.png">
@@ -217,7 +217,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2023/05/17/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/jvm%E9%9D%A2%E8%AF%95%E9%A2%98%E6%80%BB%E7%BB%93/" class="post-title-link" itemprop="url">未命名</a>
+            <a href="/2023/05/19/someQuestions/" class="post-title-link" itemprop="url">someQuestions</a>
         </h2>
 
         <div class="post-meta">
@@ -229,7 +229,17 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2023-05-17 20:25:01 / 修改时间：20:26:25" itemprop="dateCreated datePublished" datetime="2023-05-17T20:25:01+08:00">2023-05-17</time>
+              <time title="创建时间：2023-05-19 21:49:31 / 修改时间：22:37:04" itemprop="dateCreated datePublished" datetime="2023-05-19T21:49:31+08:00">2023-05-19</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+                分类于
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%B8%80%E4%BA%9B%E6%83%B3%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">一些想到的问题</span></a>
+                </span>
             </span>
 
           
@@ -241,8 +251,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2023/05/17/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/jvm%E9%9D%A2%E8%AF%95%E9%A2%98%E6%80%BB%E7%BB%93/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2023/05/17/%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/jvm%E9%9D%A2%E8%AF%95%E9%A2%98%E6%80%BB%E7%BB%93/" itemprop="commentCount"></span>
+    <a title="valine" href="/2023/05/19/someQuestions/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2023/05/19/someQuestions/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -253,7 +263,7 @@
                 本文字数 :
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>10</span>
+              <span>1.2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -273,8 +283,153 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <ol>
-<li>JVM包含哪几部分？</li>
+          <h1 id="什么是Java方法重写"><a href="#什么是Java方法重写" class="headerlink" title="什么是Java方法重写"></a>什么是Java方法重写</h1><p>要求遵循“两同两大一小”</p>
+<ul>
+<li>“两同” 指方法名相同，形参列表相同</li>
+<li>“两小” 指子类方法返回值类型应该比父类返回值类型更小，子类方法声明抛出的异常类应该比父类方法抛出的更小或者相等</li>
+<li>“一大” 指子类方法的访问权限应该比父类方法的访问权限更大或者相等。</li>
+</ul>
+<p>这是因为如果返回值类型更大，则可能会造成父类对象无法完全转换为子类对象，从而导致编译错误和运行时异常。<br>重写还有一条规则是访问控制符必须高于父类？那是因为为了多态的实现。有时候父类需要上转型引用子类的方法实现多态，这就导致子类方法的访问控制符必须高于父类，否则子类里写成了private，父类还怎么访问？</p>
+<h1 id="对象实例都在Java堆中吗？"><a href="#对象实例都在Java堆中吗？" class="headerlink" title="对象实例都在Java堆中吗？"></a>对象实例都在Java堆中吗？</h1><p>不一定，是几乎所有的实例都在堆中。<br>JIT编译除了具有缓存的功能外，还会对代码做各种优化，其中有逃逸分析功能。<br>如果逃逸分析发现一个对象不会逃逸出当前方法或线程，则可以将该对象存储在栈上而不是堆上。由于栈是局部的，存储在栈上的对象只能由当前方法或线程访问，这样就减少了对内存的分配和垃圾回收的工作量，从而提高了程序的性能。<br>可以通过 -XX:+DoEscapeAnalysis 指定是否进行逃逸分析。</p>
+<p>参考：<br><a target="_blank" rel="noopener" href="http://www.hollischuang.com/archives/2398">http://www.hollischuang.com/archives/2398</a></p>
+<h1 id="接口和抽象类的共同点和区别"><a href="#接口和抽象类的共同点和区别" class="headerlink" title="接口和抽象类的共同点和区别"></a>接口和抽象类的共同点和区别</h1><p>共同点:</p>
+<ul>
+<li>都不能被实例化</li>
+<li>都可以包含抽象方法</li>
+<li>都可以有默认实现的方法</li>
+</ul>
+<p>区别：</p>
+<ul>
+<li>接口是对类的行为进行约束，实现了某个接口就有了对应的行为，抽象类主要用于代码复用，强调的是所属关系</li>
+<li>类只能继承一个类，但可以实现多个接口</li>
+<li>接口中的成员变量只能是<code>public static final</code>,抽象类的成员变量默认<code>defalut</code></li>
+</ul>
+<h1 id="解决哈希冲突的办法"><a href="#解决哈希冲突的办法" class="headerlink" title="解决哈希冲突的办法"></a>解决哈希冲突的办法</h1><ul>
+<li><p>开放地址法<br>开放地址法是指当发生哈希冲突时，继续在哈希表中查找空闲的位置，直到找到一个空闲的位置为止。其中包括线性探测、二次探测等技术。</p>
+</li>
+<li><p>链表法<br>链表法是指每个哈希值对应一个链表，如果发生哈希冲突，则将新的元素加入到对应位置的链表中。</p>
+</li>
+<li><p>再哈希法<br>再哈希法是指在第一次哈希之后，如果出现冲突，则再次进行哈希，直到找到合适的位置。</p>
+</li>
+<li><p>建立公共溢出区<br>建立公共溢出区是指将所有冲突的元素都存储在同一个溢出区，并通过某种方式来确定元素在该区域中的位置。</p>
+</li>
+</ul>
+<h1 id="String-StringBulider-，StringBuffer"><a href="#String-StringBulider-，StringBuffer" class="headerlink" title="String,StringBulider ，StringBuffer"></a>String,StringBulider ，StringBuffer</h1><p>先看后两者：<br>共同点：</p>
+<ul>
+<li><code>StringBulider</code>和<code>StringBuffer</code>都继承了<code>AbstractStringBuilder</code>  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">AbstractStringBuilder</span> <span class="keyword">implements</span> <span class="title class_">Appendable</span>, CharSequence &#123;</span><br><span class="line"><span class="type">byte</span>[] value;</span><br></pre></td></tr></table></figure>
+区别：</li>
+<li>StringBuffer线程安全，StringBulider非线程安全。</li>
+</ul>
+<p><code>String</code>不可变的真正原因：</p>
+<ul>
+<li>整个类被final修饰，确保不会被继承，防止被子类修改byte数组。</li>
+<li>byte数组的修饰符为<code>private final</code> ，同时没有提供修改的方法。</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://llmathur.github.io/2023/05/18/redis-learning/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/profile.png">
+      <meta itemprop="name" content="llmathur">
+      <meta itemprop="description" content="正是我">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="唯见青山">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/05/18/redis-learning/" class="post-title-link" itemprop="url">redis-learning</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+                发布于
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-05-18 14:35:26 / 修改时间：14:54:47" itemprop="dateCreated datePublished" datetime="2023-05-18T14:35:26+08:00">2023-05-18</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2023/05/18/redis-learning/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2023/05/18/redis-learning/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+                本文字数 :
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>165</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+                阅读时间 ≈ 
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h1><p>RDB持久化、AOF持久化，RDB-AOF混合持久化</p>
+<h2 id="RDB持久化"><a href="#RDB持久化" class="headerlink" title="RDB持久化"></a>RDB持久化</h2><p>全面持久化操作，</p>
+<h3 id="载入RDB文件过程"><a href="#载入RDB文件过程" class="headerlink" title="载入RDB文件过程"></a>载入RDB文件过程</h3><ol>
+<li>打开RDB文件</li>
+<li>检查文件头</li>
+<li>检查版本号</li>
+<li>读取设备信息</li>
+<li>重建数据库</li>
+<li>重建脚本缓存</li>
+<li>对比校验和</li>
+<li>数据载入完毕</li>
+</ol>
+<h2 id="AOF持久化"><a href="#AOF持久化" class="headerlink" title="AOF持久化"></a>AOF持久化</h2><p>增量持久化操作，服务器每次执行完命令后，都会以【协议文本】的方式将被执行的命令追加到AOF文件末尾。</p>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><ol>
+<li>体积大</li>
+<li>数据恢复速度慢</li>
 </ol>
 
       
@@ -1154,14 +1309,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-count">9</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-count">4</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -1204,13 +1359,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">17k</span>
+    <span title="站点总字数">19k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">16 分钟</span>
+    <span title="站点阅读时长">17 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
   </div>
