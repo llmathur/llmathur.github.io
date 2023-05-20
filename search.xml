@@ -301,33 +301,47 @@
       </categories>
   </entry>
   <entry>
-    <title>testing</title>
+    <title>Testing</title>
     <url>/2023/05/16/Testing/</url>
-    <content><![CDATA[<h1 id="Objectives"><a href="#Objectives" class="headerlink" title="Objectives"></a>Objectives</h1><p>这是学习完该章节后需要达到的目标：</p>
+    <content><![CDATA[<h1>Objectives</h1>
+<p>这是学习完该章节后需要达到的目标：</p>
 <ul>
 <li>understand the value of testing ,and know the process of test-first programming;</li>
 <li>be able to jude a test suite for correctness,thoroughness,and size;</li>
 <li>be able to design a test suite for a method by partitioning its input space and choosing good test cases;</li>
-<li>be able to judge a test suite by measuring its code coverage; </li>
-<li>understand and know when to use black box vs. glass box testing, unit tests vs. integration tests, and automated regression testing.<span id="more"></span></li>
+<li>be able to judge a test suite by measuring its code coverage;</li>
+<li>understand and know when to use black box vs. glass box testing, unit tests vs. integration tests, and automated regression testing.</li>
 </ul>
-<h1 id="Validation"><a href="#Validation" class="headerlink" title="Validation"></a>Validation</h1><p>Validation includes:</p>
+<span id="more"></span>
+<h1>Validation</h1>
+<p>Validation includes:</p>
 <ul>
-<li>Formal reasoning about a program, usually called verification.<br>指的是程序正确性的逻辑推理，</li>
-<li>Code review. </li>
+<li>Formal reasoning about a program, usually called verification.<br>
+指的是程序正确性的逻辑推理，</li>
+<li>Code review.</li>
 <li>Testing.</li>
 </ul>
-<h1 id="Test-first-programming"><a href="#Test-first-programming" class="headerlink" title="Test-first programming"></a>Test-first programming</h1><p>some terms:</p>
+<h1>Test-first programming</h1>
+<p>some terms:</p>
 <ul>
-<li><p>A module is a part of a software system that can be designed, implemented, tested, and reasoned about separately from the rest of the system.<br>此处指的是Java方法，或者在将来探讨更大的模块，如有多种交互方法的类。</p>
+<li>
+<p>A module is a part of a software system that can be designed, implemented, tested, and reasoned about separately from the rest of the system.<br>
+此处指的是Java方法，或者在将来探讨更大的模块，如有多种交互方法的类。</p>
 </li>
-<li><p>specification (or spec) describes the behavior of a module.<br>对一个方法来说，spec给出了参数的类型以及对它们的额外要求，同时给出了返回值的类型和输入值之间的关系。在Java代码中spec包括方法签名以及描述其功能的注释。</p>
+<li>
+<p>specification (or spec) describes the behavior of a module.<br>
+对一个方法来说，spec给出了参数的类型以及对它们的额外要求，同时给出了返回值的类型和输入值之间的关系。在Java代码中spec包括方法签名以及描述其功能的注释。</p>
 </li>
-<li><p>A module has an implementation that provides its behavior, and clients that use the module.<br>对于一个方法来说，implementation是方法的方法体，client指调用该方法的函数的代码。同时一个模块的spec对impletation和client两者进行了限制。</p>
+<li>
+<p>A module has an implementation that provides its behavior, and clients that use the module.<br>
+对于一个方法来说，implementation是方法的方法体，client指调用该方法的函数的代码。同时一个模块的spec对impletation和client两者进行了限制。</p>
 </li>
-<li><p>A test case is a particular choice of inputs, along with the<br>expected output behavior required by the specification.</p>
+<li>
+<p>A test case is a particular choice of inputs, along with the<br>
+expected output behavior required by the specification.</p>
 </li>
-<li><p>A test suite is a set of test cases for a module.</p>
+<li>
+<p>A test suite is a set of test cases for a module.</p>
 </li>
 </ul>
 <p>the development of a single function proceeds in this order:</p>
@@ -336,7 +350,9 @@
 <li>Test: Write tests that exercise the specification.</li>
 <li>Implement: Write the implementation.</li>
 </ol>
-<h1 id="Systematic-testing"><a href="#Systematic-testing" class="headerlink" title="Systematic testing"></a>Systematic testing</h1><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="http://web.mit.edu/6.031/www/sp21/classes/03-testing/">http://web.mit.edu/6.031/www/sp21/classes/03-testing/</a></p>
+<h1>Systematic testing</h1>
+<h1>参考</h1>
+<p><a href="http://web.mit.edu/6.031/www/sp21/classes/03-testing/">http://web.mit.edu/6.031/www/sp21/classes/03-testing/</a></p>
 ]]></content>
       <categories>
         <category>MIT6.031 Software Construction</category>
@@ -435,13 +451,19 @@
       </categories>
   </entry>
   <entry>
-    <title>TCP/IP-study</title>
+    <title>TCP/IPLearning</title>
     <url>/2023/04/05/TCPIPLearning/</url>
-    <content><![CDATA[<p>目前绝大多数网络都采用TCP&#x2F;IP协议，TCP&#x2F;IP是目前最完整的、被普遍接受的通信协议标准</p>
-<h2 id="第一章-TCP-x2F-IP协议基础"><a href="#第一章-TCP-x2F-IP协议基础" class="headerlink" title="第一章 TCP&#x2F;IP协议基础"></a>第一章 TCP&#x2F;IP协议基础</h2><h3 id="网络通信协议"><a href="#网络通信协议" class="headerlink" title="网络通信协议"></a>网络通信协议</h3><p>指计算机在网络中实现通信必须遵守的规则和约定，主要是对信息传输的<b>速率、传输代码、代码结构、传输控制步骤、差错控制</b>等做出规定并制定出标准。</p>
+    <content><![CDATA[<p>目前绝大多数网络都采用TCP/IP协议，TCP/IP是目前最完整的、被普遍接受的通信协议标准</p>
+<h2 id="第一章-TCP-IP协议基础">第一章 TCP/IP协议基础</h2>
+<h3 id="网络通信协议">网络通信协议</h3>
+<p>指计算机在网络中实现通信必须遵守的规则和约定，主要是对信息传输的<b>速率、传输代码、代码结构、传输控制步骤、差错控制</b>等做出规定并制定出标准。</p>
 <span id="more"></span>
-<h4 id="协议的组成成分"><a href="#协议的组成成分" class="headerlink" title="协议的组成成分:"></a>协议的组成成分:</h4><p>语义:规定双方完成通信需要的控制信息及执行的动作<br>语法:规定通信双方交换的数据或控制信息的格式和结构<br>时序:规定通信双方彼此的应答关系，包括速度的匹配和顺序</p>
-<h4 id="OSI参考模型"><a href="#OSI参考模型" class="headerlink" title="OSI参考模型"></a>OSI参考模型</h4><p>顺口溜： “物联网淑慧适用”</p>
+<h4 id="协议的组成成分">协议的组成成分:</h4>
+<p>语义:规定双方完成通信需要的控制信息及执行的动作<br>
+语法:规定通信双方交换的数据或控制信息的格式和结构<br>
+时序:规定通信双方彼此的应答关系，包括速度的匹配和顺序</p>
+<h4 id="OSI参考模型">OSI参考模型</h4>
+<p>顺口溜： “物联网淑慧适用”</p>
 <ol>
 <li>物理层：原始比特流传输，电子信号传输和硬件接口</li>
 <li>链路层：物理寻址，将数据分帧并处理流控制</li>
@@ -451,23 +473,33 @@
 <li>表示层：格式化数据，为应用程序提供通用接口</li>
 <li>应用层：直接对用户应用程序提供服务</li>
 </ol>
-<p>其中<br>通信子网：第1层—-第3层<br>网络高层：第5层—-第7层 </p>
-<h4 id="TCP-x2F-IP"><a href="#TCP-x2F-IP" class="headerlink" title="TCP&#x2F;IP"></a>TCP&#x2F;IP</h4><ol>
-<li>网络接口层：又称网络访问层（Network Access Layer），包括OSI的物理层和链路层，负责向网络物理介质发送数据包，从网络物理介质接收数据包。TCP&#x2F;IP并没有对物理层和链路层进行定义，它只是支持现有的各种底层网络技术和标准</li>
-<li>网络层：网络层又称为互联网层或IP层，负责处理IP数据包的传输、路由选择、流量控制和拥塞控制。<br><code>协议：ARP，RARP; IP; ICMP,IGMP;</code></li>
-<li>传输层为两台主机上的应用程序提供端到端的通信。<br><code>协议：TCP ,UDP</code></li>
-<li>应用层：这个层次包括OSI的会话层、表示层和应用层，直接为特定的应用提供服务。应用层为用户提供一些常用的应用程序。<br><code>协议：FTP,SMTP,HTTP</code></li>
+<p>其中<br>
+通信子网：第1层----第3层<br>
+网络高层：第5层----第7层</p>
+<h4 id="TCP-IP">TCP/IP</h4>
+<ol>
+<li>网络接口层：又称网络访问层（Network Access Layer），包括OSI的物理层和链路层，负责向网络物理介质发送数据包，从网络物理介质接收数据包。TCP/IP并没有对物理层和链路层进行定义，它只是支持现有的各种底层网络技术和标准</li>
+<li>网络层：网络层又称为互联网层或IP层，负责处理IP数据包的传输、路由选择、流量控制和拥塞控制。<br>
+<code>协议：ARP，RARP; IP; ICMP,IGMP;</code></li>
+<li>传输层为两台主机上的应用程序提供端到端的通信。<br>
+<code>协议：TCP ,UDP</code></li>
+<li>应用层：这个层次包括OSI的会话层、表示层和应用层，直接为特定的应用提供服务。应用层为用户提供一些常用的应用程序。<br>
+<code>协议：FTP,SMTP,HTTP</code></li>
 </ol>
-<h2 id="aplication-layer"><a href="#aplication-layer" class="headerlink" title="aplication layer"></a>aplication layer</h2><blockquote>
-<p>The application layer provides a servcices to <b>the users</b>;<br>kerwords: logical connection</p>
+<h2 id="aplication-layer">aplication layer</h2>
+<blockquote>
+<p>The application layer provides a servcices to <b>the users</b>;<br>
+kerwords: logical connection</p>
 </blockquote>
-<h3 id="Application-Layer-Paradigms"><a href="#Application-Layer-Paradigms" class="headerlink" title="Application-Layer Paradigms"></a>Application-Layer Paradigms</h3><ol>
+<h3 id="Application-Layer-Paradigms">Application-Layer Paradigms</h3>
+<ol>
 <li>client-server patadigm</li>
 <li>peer-to-peer paradigm</li>
 <li>Mixed Paradigm</li>
 </ol>
-<h4 id="Traditional-Parafigm-Client-Server"><a href="#Traditional-Parafigm-Client-Server" class="headerlink" title="Traditional Parafigm:Client-Server"></a>Traditional Parafigm:Client-Server</h4><blockquote>
-<p>In this paradigm,the servivce provider is an application program,called the server process;it run continuously,waiting for another application program,called the client process,to make a connection through the Internet and ask for service. </p>
+<h4 id="Traditional-Parafigm-Client-Server">Traditional Parafigm:Client-Server</h4>
+<blockquote>
+<p>In this paradigm,the servivce provider is an application program,called the server process;it run continuously,waiting for another application program,called the client process,to make a connection through the Internet and ask for service.</p>
 </blockquote>
 <ul>
 <li>Existing Problems:</li>
@@ -475,7 +507,8 @@
 <ol>
 <li>The concentration of the communication load is on the shoulder of the server.</li>
 </ol>
-<h4 id="New-Paradigm-Peer-to-Peer"><a href="#New-Paradigm-Peer-to-Peer" class="headerlink" title="New Paradigm : Peer-to-Peer"></a>New Paradigm : Peer-to-Peer</h4><blockquote>
+<h4 id="New-Paradigm-Peer-to-Peer">New Paradigm : Peer-to-Peer</h4>
+<blockquote>
 <p>A computer connected to the Internet can provide service at one time and recieve service at another time. A computer can even provide and revice services at the same time</p>
 </blockquote>
 <p>传统的模式中，需要一个时刻都在运行的服务器以接受随时可能由客户端发送的请求。而p2p模式下，一个电脑可以同时提供和接受服务。</p>
@@ -501,22 +534,26 @@
 <li>IPTV</li>
 <li>Internet telephony.</li>
 </ol>
-<h4 id="Mixed-Paradigm"><a href="#Mixed-Paradigm" class="headerlink" title="Mixed Paradigm :"></a>Mixed Paradigm :</h4><blockquote>
+<h4 id="Mixed-Paradigm">Mixed Paradigm :</h4>
+<blockquote>
 <p>a light-load client-server communication can be used to find the address of the peer that can offer a service.</p>
 </blockquote>
-<h3 id="Application-Programming-Interface"><a href="#Application-Programming-Interface" class="headerlink" title="Application Programming Interface"></a>Application Programming Interface</h3><blockquote>
-<p>An interface in programming is a set of instructions between two entities. In this case one of the entities is the process at the aplication layer and the other is sthe operating system that encapsulates the first four layers of the TCP&#x2F;IP protocol suite.</p>
+<h3 id="Application-Programming-Interface">Application Programming Interface</h3>
+<blockquote>
+<p>An interface in programming is a set of instructions between two entities. In this case one of the entities is the process at the aplication layer and the other is sthe operating system that encapsulates the first four layers of the TCP/IP protocol suite.</p>
 </blockquote>
 <p>常见API:</p>
 <ol>
 <li>socket interface</li>
-<li>Transport Layer Interface </li>
+<li>Transport Layer Interface</li>
 <li>STREAM</li>
 </ol>
-<h4 id="Sockets"><a href="#Sockets" class="headerlink" title="Sockets"></a>Sockets</h4><blockquote>
-<p>it is not a physical entity like them.it is an abstraction.It is a data structure that is created and used by the aplication program.</p>
+<h4 id="Sockets">Sockets</h4>
+<blockquote>
+<p>it is not a physical entity like <a href="http://them.it">them.it</a> is an <a href="http://abstraction.It">abstraction.It</a> is a data structure that is created and used by the aplication program.</p>
 </blockquote>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
+<h2 id="参考">参考</h2>
+<ol>
 <li>林成浴 《TCP-IP协议及其应用》</li>
 <li>《computer networking a top-down approach》</li>
 </ol>
