@@ -43,17 +43,10 @@
     <link href="http://llmathur.github.io/2023/05/18/RedisLearning/"/>
     <id>http://llmathur.github.io/2023/05/18/RedisLearning/</id>
     <published>2023-05-18T06:35:26.000Z</published>
-    <updated>2023-05-20T02:20:28.398Z</updated>
+    <updated>2023-05-20T02:24:06.881Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;持久化&quot;&gt;&lt;a href=&quot;#持久化&quot; class=&quot;headerlink&quot; title=&quot;持久化&quot;&gt;&lt;/a&gt;持久化&lt;/h1&gt;&lt;p&gt;RDB持久化、AOF持久化，RDB-AOF混合持久化&lt;/p&gt;
-&lt;h2 id=&quot;RDB持久化&quot;&gt;&lt;a href=&quot;#RDB持久化&quot;</summary>
-        
-      
+    <summary type="html">&lt;h1 id=&quot;持久化&quot;&gt;&lt;a href=&quot;#持久化&quot; class=&quot;headerlink&quot; title=&quot;持久化&quot;&gt;&lt;/a&gt;持久化&lt;/h1&gt;&lt;p&gt;RDB持久化、AOF持久化，RDB-AOF混合持久化&lt;/p&gt;</summary>
     
     
     
@@ -85,7 +78,7 @@
     <link href="http://llmathur.github.io/2023/05/16/Testing/"/>
     <id>http://llmathur.github.io/2023/05/16/Testing/</id>
     <published>2023-05-16T06:10:42.000Z</published>
-    <updated>2023-05-20T02:23:14.448Z</updated>
+    <updated>2023-05-20T02:23:46.474Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;Objectives&quot;&gt;&lt;a href=&quot;#Objectives&quot; class=&quot;headerlink&quot; title=&quot;Objectives&quot;&gt;&lt;/a&gt;Objectives&lt;/h1&gt;&lt;p&gt;这是学习完该章节后需要达到的目标：&lt;/p&gt;

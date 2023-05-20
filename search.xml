@@ -349,6 +349,7 @@
     <title>redis-learning</title>
     <url>/2023/05/18/RedisLearning/</url>
     <content><![CDATA[<h1 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h1><p>RDB持久化、AOF持久化，RDB-AOF混合持久化</p>
+<span id="more"></span>
 <h2 id="RDB持久化"><a href="#RDB持久化" class="headerlink" title="RDB持久化"></a>RDB持久化</h2><p>全面持久化操作，</p>
 <h3 id="载入RDB文件过程"><a href="#载入RDB文件过程" class="headerlink" title="载入RDB文件过程"></a>载入RDB文件过程</h3><ol>
 <li>打开RDB文件</li>
