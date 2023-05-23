@@ -6,7 +6,7 @@
   <link href="http://llmathur.github.io/atom.xml" rel="self"/>
   
   <link href="http://llmathur.github.io/"/>
-  <updated>2023-05-20T02:19:59.905Z</updated>
+  <updated>2023-05-23T13:20:22.465Z</updated>
   <id>http://llmathur.github.io/</id>
   
   <author>
@@ -18,10 +18,10 @@
   
   <entry>
     <title>someQuestions</title>
-    <link href="http://llmathur.github.io/2023/05/19/someQuestions/"/>
-    <id>http://llmathur.github.io/2023/05/19/someQuestions/</id>
+    <link href="http://llmathur.github.io/2023/05/19/SomeQuestions/"/>
+    <id>http://llmathur.github.io/2023/05/19/SomeQuestions/</id>
     <published>2023-05-19T13:49:31.000Z</published>
-    <updated>2023-05-20T02:19:59.905Z</updated>
+    <updated>2023-05-23T13:20:22.465Z</updated>
     
     
     <summary type="html">&lt;p&gt;记录一些想到的问题&lt;/p&gt;
@@ -81,15 +81,13 @@
     <updated>2023-05-20T02:26:43.689Z</updated>
     
     
-    <summary type="html">&lt;h1&gt;Objectives&lt;/h1&gt;
-&lt;p&gt;这是学习完该章节后需要达到的目标：&lt;/p&gt;
+    <summary type="html">&lt;h1 id=&quot;Objectives&quot;&gt;&lt;a href=&quot;#Objectives&quot; class=&quot;headerlink&quot; title=&quot;Objectives&quot;&gt;&lt;/a&gt;Objectives&lt;/h1&gt;&lt;p&gt;这是学习完该章节后需要达到的目标：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;understand the value of testing ,and know the process of test-first programming;&lt;/li&gt;
 &lt;li&gt;be able to jude a test suite for correctness,thoroughness,and size;&lt;/li&gt;
 &lt;li&gt;be able to design a test suite for a method by partitioning its input space and choosing good test cases;&lt;/li&gt;
-&lt;li&gt;be able to judge a test suite by measuring its code coverage;&lt;/li&gt;
-&lt;li&gt;understand and know when to use black box vs. glass box testing, unit tests vs. integration tests, and automated regression testing.&lt;/li&gt;
-&lt;/ul&gt;</summary>
+&lt;li&gt;be able to judge a test suite by measuring its code coverage; &lt;/li&gt;
+&lt;li&gt;understand and know when to use black box vs. glass box testing, unit tests vs. integration tests, and automated regression testing.&lt;/li&gt;&lt;/ul&gt;</summary>
     
     
     
@@ -143,9 +141,9 @@
     <category term="设计模式" scheme="http://llmathur.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
     
     
-    <category term="设计模式" scheme="http://llmathur.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
     <category term="单例" scheme="http://llmathur.github.io/tags/%E5%8D%95%E4%BE%8B/"/>
+    
+    <category term="设计模式" scheme="http://llmathur.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
     
   </entry>
   
@@ -154,13 +152,11 @@
     <link href="http://llmathur.github.io/2023/04/05/TCPIPLearning/"/>
     <id>http://llmathur.github.io/2023/04/05/TCPIPLearning/</id>
     <published>2023-04-05T05:32:11.000Z</published>
-    <updated>2023-05-20T02:27:15.623Z</updated>
+    <updated>2023-05-21T10:23:57.016Z</updated>
     
     
-    <summary type="html">&lt;p&gt;目前绝大多数网络都采用TCP/IP协议，TCP/IP是目前最完整的、被普遍接受的通信协议标准&lt;/p&gt;
-&lt;h2 id=&quot;第一章-TCP-IP协议基础&quot;&gt;第一章 TCP/IP协议基础&lt;/h2&gt;
-&lt;h3 id=&quot;网络通信协议&quot;&gt;网络通信协议&lt;/h3&gt;
-&lt;p&gt;指计算机在网络中实现通信必须遵守的规则和约定，主要是对信息传输的&lt;b&gt;速率、传输代码、代码结构、传输控制步骤、差错控制&lt;/b&gt;等做出规定并制定出标准。&lt;/p&gt;</summary>
+    <summary type="html">&lt;p&gt;目前绝大多数网络都采用TCP&amp;#x2F;IP协议，TCP&amp;#x2F;IP是目前最完整的、被普遍接受的通信协议标准&lt;/p&gt;
+&lt;h2 id=&quot;第一章-TCP-x2F-IP协议基础&quot;&gt;&lt;a href=&quot;#第一章-TCP-x2F-IP协议基础&quot; class=&quot;headerlink&quot; title=&quot;第一章 TCP&amp;#x2F;IP协议基础&quot;&gt;&lt;/a&gt;第一章 TCP&amp;#x2F;IP协议基础&lt;/h2&gt;&lt;h3 id=&quot;网络通信协议&quot;&gt;&lt;a href=&quot;#网络通信协议&quot; class=&quot;headerlink&quot; title=&quot;网络通信协议&quot;&gt;&lt;/a&gt;网络通信协议&lt;/h3&gt;&lt;p&gt;指计算机在网络中实现通信必须遵守的规则和约定，主要是对信息传输的&lt;b&gt;速率、传输代码、代码结构、传输控制步骤、差错控制&lt;/b&gt;等做出规定并制定出标准。&lt;/p&gt;</summary>
     
     
     
@@ -190,9 +186,9 @@
     <category term="设计模式" scheme="http://llmathur.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
     
     
-    <category term="设计模式" scheme="http://llmathur.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
     <category term="单例" scheme="http://llmathur.github.io/tags/%E5%8D%95%E4%BE%8B/"/>
+    
+    <category term="设计模式" scheme="http://llmathur.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
     
   </entry>
   
@@ -201,7 +197,7 @@
     <link href="http://llmathur.github.io/2023/04/01/InterpreterDesignPattern/"/>
     <id>http://llmathur.github.io/2023/04/01/InterpreterDesignPattern/</id>
     <published>2023-04-01T06:56:02.000Z</published>
-    <updated>2023-05-20T02:21:26.590Z</updated>
+    <updated>2023-05-20T02:24:16.202Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h2&gt;&lt;blockquote&gt;
@@ -214,9 +210,9 @@
     <category term="设计模式" scheme="http://llmathur.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
     
     
-    <category term="解释器" scheme="http://llmathur.github.io/tags/%E8%A7%A3%E9%87%8A%E5%99%A8/"/>
-    
     <category term="设计模式" scheme="http://llmathur.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+    <category term="解释器" scheme="http://llmathur.github.io/tags/%E8%A7%A3%E9%87%8A%E5%99%A8/"/>
     
   </entry>
   
