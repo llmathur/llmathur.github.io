@@ -6,7 +6,7 @@
   <link href="http://llmathur.github.io/atom.xml" rel="self"/>
   
   <link href="http://llmathur.github.io/"/>
-  <updated>2023-05-23T13:20:22.465Z</updated>
+  <updated>2023-05-24T12:30:06.572Z</updated>
   <id>http://llmathur.github.io/</id>
   
   <author>
@@ -21,11 +21,11 @@
     <link href="http://llmathur.github.io/2023/05/19/SomeQuestions/"/>
     <id>http://llmathur.github.io/2023/05/19/SomeQuestions/</id>
     <published>2023-05-19T13:49:31.000Z</published>
-    <updated>2023-05-23T13:20:22.465Z</updated>
+    <updated>2023-05-24T12:30:06.572Z</updated>
     
     
     <summary type="html">&lt;p&gt;记录一些想到的问题&lt;/p&gt;
-&lt;h1 id=&quot;什么是Java方法重写&quot;&gt;&lt;a href=&quot;#什么是Java方法重写&quot; class=&quot;headerlink&quot; title=&quot;什么是Java方法重写&quot;&gt;&lt;/a&gt;什么是Java方法重写&lt;/h1&gt;&lt;p&gt;要求遵循“两同两大一小”&lt;/p&gt;
+&lt;h1 id=&quot;1-什么是Java方法重写&quot;&gt;&lt;a href=&quot;#1-什么是Java方法重写&quot; class=&quot;headerlink&quot; title=&quot;1.什么是Java方法重写&quot;&gt;&lt;/a&gt;1.什么是Java方法重写&lt;/h1&gt;&lt;p&gt;要求遵循“两同两大一小”&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;“两同” 指方法名相同，形参列表相同&lt;/li&gt;
 &lt;li&gt;“两小” 指子类方法返回值类型应该比父类返回值类型更小，子类方法声明抛出的异常类应该比父类方法抛出的更小或者相等&lt;/li&gt;
