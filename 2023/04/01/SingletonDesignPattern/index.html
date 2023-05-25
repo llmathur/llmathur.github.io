@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"llmathur.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="介绍 单例即单实例，指在系统(程序)中，某个类只存在一个实例，同时提供集中、统一的访问接口。  如果一个对象有可能贯穿整个应用程序，而且起到了全局统一管理控制的作用，那么单例模式也许是一个值得考虑的选择。  例如： Spring中bean的定义可以被定义为两种：prototype(原型),singleton(单例) 线程池（threadpool）, 缓存（cache）等比较适合设计为单例模式。 单">
+  <meta name="description" content="介绍单例即单实例，指在系统(程序)中，某个类只存在一个实例，同时提供集中、统一的访问接口。  如果一个对象有可能贯穿整个应用程序，而且起到了全局统一管理控制的作用，那么单例模式也许是一个值得考虑的选择。  例如：Spring中bean的定义可以被定义为两种：prototype(原型),singleton(单例)线程池（threadpool）, 缓存（cache）等比较适合设计为单例模式。 单例模式">
 <meta property="og:type" content="article">
 <meta property="og:title" content="设计模式-单例">
 <meta property="og:url" content="http://llmathur.github.io/2023/04/01/SingletonDesignPattern/index.html">
 <meta property="og:site_name" content="唯见青山">
-<meta property="og:description" content="介绍 单例即单实例，指在系统(程序)中，某个类只存在一个实例，同时提供集中、统一的访问接口。  如果一个对象有可能贯穿整个应用程序，而且起到了全局统一管理控制的作用，那么单例模式也许是一个值得考虑的选择。  例如： Spring中bean的定义可以被定义为两种：prototype(原型),singleton(单例) 线程池（threadpool）, 缓存（cache）等比较适合设计为单例模式。 单">
+<meta property="og:description" content="介绍单例即单实例，指在系统(程序)中，某个类只存在一个实例，同时提供集中、统一的访问接口。  如果一个对象有可能贯穿整个应用程序，而且起到了全局统一管理控制的作用，那么单例模式也许是一个值得考虑的选择。  例如：Spring中bean的定义可以被定义为两种：prototype(原型),singleton(单例)线程池（threadpool）, 缓存（cache）等比较适合设计为单例模式。 单例模式">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-04-01T12:56:49.000Z">
 <meta property="article:modified_time" content="2023-05-25T02:09:38.634Z">
@@ -301,25 +301,19 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="介绍">介绍</h2>
-<p>单例即单实例，指在系统(程序)中，<b>某个类只存在一个实例</b>，同时提供集中、统一的访问接口。</p>
+        <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>单例即单实例，指在系统(程序)中，<b>某个类只存在一个实例</b>，同时提供集中、统一的访问接口。</p>
 <blockquote>
 <p>如果一个对象有可能贯穿整个应用程序，而且起到了全局统一管理控制的作用，那么单例模式也许是一个值得考虑的选择。</p>
 </blockquote>
-<p>例如：<br>
-<code>Spring</code>中<code>bean</code>的定义可以被定义为两种：<code>prototype(原型)</code>,<code>singleton(单例)</code><br>
-<code>线程池（threadpool）</code>, <code>缓存（cache）</code>等比较适合设计为单例模式。</p>
-<h2 id="单例模式的实现">单例模式的实现</h2>
-<ol>
+<p>例如：<br><code>Spring</code>中<code>bean</code>的定义可以被定义为两种：<code>prototype(原型)</code>,<code>singleton(单例)</code><br><code>线程池（threadpool）</code>, <code>缓存（cache）</code>等比较适合设计为单例模式。</p>
+<h2 id="单例模式的实现"><a href="#单例模式的实现" class="headerlink" title="单例模式的实现"></a>单例模式的实现</h2><ol>
 <li>饿汉模式</li>
 <li>懒汉模式</li>
 <li>双重校验锁</li>
 <li>静态内部类</li>
-<li>枚举</li>
+<li>枚举<span id="more"></span></li>
 </ol>
-<span id="more"></span>
-<h3 id="饿汉模式">饿汉模式</h3>
-<p>类加载时，创建实例。</p>
+<h3 id="饿汉模式"><a href="#饿汉模式" class="headerlink" title="饿汉模式"></a>饿汉模式</h3><p>类加载时，创建实例。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Sun</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Sun</span> <span class="variable">sun</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Sun</span>();</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Sun</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Sun <span class="title function_">getInstance</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> sun;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ol>
 <li>私有化的构造方法保证了该类的实例化工作完全属于内部事务，任何外部内无法干预。</li>
@@ -328,38 +322,33 @@
 <li><code>final</code> 确保该实例是个常量，一旦被赋值就不能再修改</li>
 <li><code>getInstance()</code>提供对外获取该实例的接口。</li>
 </ol>
-<p>缺点：该实例如果没用到也会被创建，浪费了内存。<br>
-因此该模式适合单例占用内存比较小，创建成功后立即被使用的情况。如果单例占用内存较大，使用<b>懒汉模式</b>进行延迟加载就更合适。</p>
-<h3 id="懒汉模式">懒汉模式</h3>
-<p>第一次使用时，创建实例</p>
+<p>缺点：该实例如果没用到也会被创建，浪费了内存。<br>因此该模式适合单例占用内存比较小，创建成功后立即被使用的情况。如果单例占用内存较大，使用<b>懒汉模式</b>进行延迟加载就更合适。</p>
+<h3 id="懒汉模式"><a href="#懒汉模式" class="headerlink" title="懒汉模式"></a>懒汉模式</h3><p>第一次使用时，创建实例</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Sun</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Sun sun;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Sun</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Sun1 <span class="title function_">getInstance</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (sun == <span class="literal">null</span>)&#123;</span><br><span class="line">            sun = <span class="keyword">new</span> <span class="title class_">Sun</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sun;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>只有当某线程第一次调用<code>getInstance()</code>方法时，该实例才创建实例。</p>
-<h4 id="存在的问题">存在的问题</h4>
-<p>在多线程的情况下，很多线程并发的进行 <code>if (sun == null)</code>判断，程序就会多次实例化太阳，对sun进行多次赋值。<br>
-解决办法：<code>getInstance</code> 添加 <code>synchronized</code>关键字。</p>
+<h4 id="存在的问题"><a href="#存在的问题" class="headerlink" title="存在的问题"></a>存在的问题</h4><p>在多线程的情况下，很多线程并发的进行 <code>if (sun == null)</code>判断，程序就会多次实例化太阳，对sun进行多次赋值。<br>解决办法：<code>getInstance</code> 添加 <code>synchronized</code>关键字。</p>
 <p>改造：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Sun</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Sun sun;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Sun</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span>  <span class="keyword">static</span> <span class="keyword">synchronized</span> Sun <span class="title function_">getInstance</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (sun == <span class="literal">null</span>)&#123;</span><br><span class="line">            sun = <span class="keyword">new</span> <span class="title class_">Sun</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sun;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>但是这种方法依然存在问题:<br>
-<code>synchronized</code>修饰的同步方法比一般方法要慢很多，如果多次调用<code>getInstance()</code>，累积的性能损耗就比较大了。</p>
-<h3 id="双重校验锁">双重校验锁</h3>
-<p>这种模式是懒汉模式的变种，利用<b>双验锁</b>解决<code>synchronized</code>修饰同步方法开销过大的问题。</p>
+<p>但是这种方法依然存在问题:<br><code>synchronized</code>修饰的同步方法比一般方法要慢很多，如果多次调用<code>getInstance()</code>，累积的性能损耗就比较大了。</p>
+<h3 id="双重校验锁"><a href="#双重校验锁" class="headerlink" title="双重校验锁"></a>双重校验锁</h3><p>这种模式是懒汉模式的变种，利用<b>双验锁</b>解决<code>synchronized</code>修饰同步方法开销过大的问题。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Sun</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">static</span> Sun sun;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Sun</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Sun <span class="title function_">getInstance</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (sun == <span class="literal">null</span>)&#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (Sun.class)&#123;</span><br><span class="line">                <span class="keyword">if</span> (sun == <span class="literal">null</span>)&#123;</span><br><span class="line">                    sun = <span class="keyword">new</span> <span class="title class_">Sun</span>();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sun;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ol>
 <li><code>volatile</code> 禁止指令重排</li>
 <li>第一次校验，即第一个 <code>if (sun == null)</code>判断，程序执行的过程中，大部分线程并不需要进入到同步代码块，保证了线程并发的高效性</li>
 <li>第二次校验，防止二次创建实例。在某情况下，线程A和线程B都通过了第一次校验，实例会被重新赋值。</li>
 </ol>
-<h3 id="静态内部类">静态内部类</h3>
-<p>利用了类加载机制来保证只创建一个instance实例</p>
+<h3 id="静态内部类"><a href="#静态内部类" class="headerlink" title="静态内部类"></a>静态内部类</h3><p>利用了类加载机制来保证只创建一个instance实例</p>
 <blockquote>
 <p>它是在内部类里面去创建对象实例。这样的话，只要应用中不使用内部类，JVM就不会去加载这个单例类，也就不会创建单例对象，从而实现懒汉式的延迟加载。也就是说这种方式可以同时保证延迟加载和线程安全。</p>
 </blockquote>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Sun</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">SingletonHolder</span> &#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Sun</span> <span class="variable">sun</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Sun</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Sun</span> <span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Sun <span class="title function_">getInstance</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> SingletonHolder.sun;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="枚举">枚举</h3>
-<p>既可以避免多线程同步问题；还可以防止通过反射和反序列化来重新创建新的对象</p>
+
+<h3 id="枚举"><a href="#枚举" class="headerlink" title="枚举"></a>枚举</h3><p>既可以避免多线程同步问题；还可以防止通过反射和反序列化来重新创建新的对象</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> <span class="title class_">Singleton</span>&#123;</span><br><span class="line">    INSTANCE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="参考">参考</h2>
-<ul>
+
+
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
 <li>刘韬《秒懂设计模式》</li>
 <li><a target="_blank" rel="noopener" href="https://www.runoob.com/design-pattern/singleton-pattern.html">https://www.runoob.com/design-pattern/singleton-pattern.html</a></li>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/goodlixueyong/article/details/51935526">https://blog.csdn.net/goodlixueyong/article/details/51935526</a></li>

@@ -34,7 +34,7 @@
     <link href="http://llmathur.github.io/2023/05/24/ArrayList-source-code/"/>
     <id>http://llmathur.github.io/2023/05/24/ArrayList-source-code/</id>
     <published>2023-05-24T13:22:33.000Z</published>
-    <updated>2023-05-25T02:11:38.060Z</updated>
+    <updated>2023-05-25T02:14:57.769Z</updated>
     
     
       
@@ -93,11 +93,11 @@
   </entry>
   
   <entry>
-    <title>JVM学习</title>
+    <title>JVM概览</title>
     <link href="http://llmathur.github.io/2023/05/16/JVMLearning/"/>
     <id>http://llmathur.github.io/2023/05/16/JVMLearning/</id>
     <published>2023-05-16T11:33:58.000Z</published>
-    <updated>2023-05-20T02:21:11.277Z</updated>
+    <updated>2023-05-25T02:15:16.173Z</updated>
     
     
     <summary type="html">&lt;p&gt;编译器可以分为：前端编译器、JIT 编译器和AOT编译器。&lt;/p&gt;
@@ -115,7 +115,7 @@
     <link href="http://llmathur.github.io/2023/05/16/Testing/"/>
     <id>http://llmathur.github.io/2023/05/16/Testing/</id>
     <published>2023-05-16T06:10:42.000Z</published>
-    <updated>2023-05-20T02:26:43.689Z</updated>
+    <updated>2023-05-25T02:15:14.571Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;Objectives&quot;&gt;&lt;a href=&quot;#Objectives&quot; class=&quot;headerlink&quot; title=&quot;Objectives&quot;&gt;&lt;/a&gt;Objectives&lt;/h1&gt;&lt;p&gt;这是学习完该章节后需要达到的目标：&lt;/p&gt;
@@ -212,22 +212,17 @@
     <updated>2023-05-25T02:09:38.634Z</updated>
     
     
-    <summary type="html">&lt;h2 id=&quot;介绍&quot;&gt;介绍&lt;/h2&gt;
-&lt;p&gt;单例即单实例，指在系统(程序)中，&lt;b&gt;某个类只存在一个实例&lt;/b&gt;，同时提供集中、统一的访问接口。&lt;/p&gt;
+    <summary type="html">&lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h2&gt;&lt;p&gt;单例即单实例，指在系统(程序)中，&lt;b&gt;某个类只存在一个实例&lt;/b&gt;，同时提供集中、统一的访问接口。&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;如果一个对象有可能贯穿整个应用程序，而且起到了全局统一管理控制的作用，那么单例模式也许是一个值得考虑的选择。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;例如：&lt;br&gt;
-&lt;code&gt;Spring&lt;/code&gt;中&lt;code&gt;bean&lt;/code&gt;的定义可以被定义为两种：&lt;code&gt;prototype(原型)&lt;/code&gt;,&lt;code&gt;singleton(单例)&lt;/code&gt;&lt;br&gt;
-&lt;code&gt;线程池（threadpool）&lt;/code&gt;, &lt;code&gt;缓存（cache）&lt;/code&gt;等比较适合设计为单例模式。&lt;/p&gt;
-&lt;h2 id=&quot;单例模式的实现&quot;&gt;单例模式的实现&lt;/h2&gt;
-&lt;ol&gt;
+&lt;p&gt;例如：&lt;br&gt;&lt;code&gt;Spring&lt;/code&gt;中&lt;code&gt;bean&lt;/code&gt;的定义可以被定义为两种：&lt;code&gt;prototype(原型)&lt;/code&gt;,&lt;code&gt;singleton(单例)&lt;/code&gt;&lt;br&gt;&lt;code&gt;线程池（threadpool）&lt;/code&gt;, &lt;code&gt;缓存（cache）&lt;/code&gt;等比较适合设计为单例模式。&lt;/p&gt;
+&lt;h2 id=&quot;单例模式的实现&quot;&gt;&lt;a href=&quot;#单例模式的实现&quot; class=&quot;headerlink&quot; title=&quot;单例模式的实现&quot;&gt;&lt;/a&gt;单例模式的实现&lt;/h2&gt;&lt;ol&gt;
 &lt;li&gt;饿汉模式&lt;/li&gt;
 &lt;li&gt;懒汉模式&lt;/li&gt;
 &lt;li&gt;双重校验锁&lt;/li&gt;
 &lt;li&gt;静态内部类&lt;/li&gt;
-&lt;li&gt;枚举&lt;/li&gt;
-&lt;/ol&gt;</summary>
+&lt;li&gt;枚举&lt;/li&gt;&lt;/ol&gt;</summary>
     
     
     
