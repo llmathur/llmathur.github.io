@@ -38,17 +38,10 @@
     <link href="http://llmathur.github.io/2023/05/24/ArrayList-source-code/"/>
     <id>http://llmathur.github.io/2023/05/24/ArrayList-source-code/</id>
     <published>2023-05-24T13:22:33.000Z</published>
-    <updated>2023-05-25T02:39:35.283Z</updated>
+    <updated>2023-05-25T03:01:42.373Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;span id=&quot;more&quot;&gt;&lt;/span&gt;
-&lt;p&gt;JDK版本:&lt;br&gt;    openjdk 20.0.1 2023-04-18&lt;br&gt;    OpenJDK Runtime Environment (build 20.0.1+9-29)&lt;br&gt;    OpenJDK</summary>
-        
-      
+    <summary type="html">&lt;p&gt;JDK版本:&lt;br&gt;    openjdk 20.0.1 2023-04-18&lt;br&gt;    OpenJDK Runtime Environment (build 20.0.1+9-29)&lt;br&gt;    OpenJDK 64-Bit Server VM (build 20.0.1+9-29, mixed mode, sharing)&lt;/p&gt;</summary>
     
     
     
@@ -62,18 +55,15 @@
     <link href="http://llmathur.github.io/2023/05/19/SomeQuestions/"/>
     <id>http://llmathur.github.io/2023/05/19/SomeQuestions/</id>
     <published>2023-05-19T13:49:31.000Z</published>
-    <updated>2023-05-25T02:40:15.435Z</updated>
+    <updated>2023-05-25T03:01:17.755Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;span id=&quot;more&quot;&gt;&lt;/span&gt;
-&lt;p&gt;记录一些想到的问题&lt;/p&gt;
-&lt;h1 id=&quot;1-什么是Java方法重写&quot;&gt;&lt;a href=&quot;#1-什么是Java方法重写&quot; class=&quot;headerlink&quot;</summary>
-        
-      
+    <summary type="html">&lt;p&gt;记录一些想到的问题&lt;/p&gt;
+&lt;h1 id=&quot;1-什么是Java方法重写&quot;&gt;&lt;a href=&quot;#1-什么是Java方法重写&quot; class=&quot;headerlink&quot; title=&quot;1.什么是Java方法重写&quot;&gt;&lt;/a&gt;1.什么是Java方法重写&lt;/h1&gt;&lt;p&gt;要求遵循“两同两大一小”&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;“两同” 指方法名相同，形参列表相同&lt;/li&gt;
+&lt;li&gt;“两小” 指子类方法返回值类型应该比父类返回值类型更小，子类方法声明抛出的异常类应该比父类方法抛出的更小或者相等&lt;/li&gt;
+&lt;li&gt;“一大” 指子类方法的访问权限应该比父类方法的访问权限更大或者相等。&lt;/li&gt;&lt;/ul&gt;</summary>
     
     
     
@@ -87,18 +77,10 @@
     <link href="http://llmathur.github.io/2023/05/18/RedisLearning/"/>
     <id>http://llmathur.github.io/2023/05/18/RedisLearning/</id>
     <published>2023-05-18T06:35:26.000Z</published>
-    <updated>2023-05-25T02:39:52.654Z</updated>
+    <updated>2023-05-25T03:01:17.755Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;span id=&quot;more&quot;&gt;&lt;/span&gt;
-&lt;h1 id=&quot;持久化&quot;&gt;&lt;a href=&quot;#持久化&quot; class=&quot;headerlink&quot; title=&quot;持久化&quot;&gt;&lt;/a&gt;持久化&lt;/h1&gt;&lt;p&gt;RDB持久化、AOF持久化，RDB-AOF混合持久化&lt;/p&gt;
-&lt;h2</summary>
-        
-      
+    <summary type="html">&lt;h1 id=&quot;持久化&quot;&gt;&lt;a href=&quot;#持久化&quot; class=&quot;headerlink&quot; title=&quot;持久化&quot;&gt;&lt;/a&gt;持久化&lt;/h1&gt;&lt;p&gt;RDB持久化、AOF持久化，RDB-AOF混合持久化&lt;/p&gt;</summary>
     
     
     
@@ -155,17 +137,17 @@
     <link href="http://llmathur.github.io/2023/05/09/OAuth-2-0/"/>
     <id>http://llmathur.github.io/2023/05/09/OAuth-2-0/</id>
     <published>2023-05-09T11:01:43.000Z</published>
-    <updated>2023-05-25T02:20:07.863Z</updated>
+    <updated>2023-05-25T03:01:17.763Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;span id=&quot;more&quot;&gt;&lt;/span&gt;
-&lt;p&gt;OAuth</summary>
-        
-      
+    <summary type="html">&lt;p&gt;OAuth 的核心就是向第三方应用颁发令牌&lt;br&gt;四种授权方式&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;（授权码）authorization-code&lt;/li&gt;
+&lt;li&gt;（隐藏式）implicit&lt;/li&gt;
+&lt;li&gt;（密码式）password&lt;/li&gt;
+&lt;li&gt;（客户端凭证）client credentials&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;注：任何一种方式，第三方应用都必须到系统备案，以获取客户端ID（client ID）和客户端密钥（client secret）&lt;/p&gt;</summary>
     
     
     
@@ -181,18 +163,13 @@
     <link href="http://llmathur.github.io/2023/04/07/ProtoTypeDesignPattern/"/>
     <id>http://llmathur.github.io/2023/04/07/ProtoTypeDesignPattern/</id>
     <published>2023-04-07T06:00:02.000Z</published>
-    <updated>2023-05-25T02:19:36.728Z</updated>
+    <updated>2023-05-25T03:01:17.762Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;span id=&quot;more&quot;&gt;&lt;/span&gt;
-
-&lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot;</summary>
-        
-      
+    <summary type="html">&lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;原型模式达到以原型实例创建副本实例的目的即可，并不需要知道其他原始类，也就是说，原型模式可以用对象创建对象，而不是用类创建对象，以此达到效率的提升。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;对那些非常复杂的初始化过程的对象或者是需要耗费大量资源的情况，原型模式是更好的选择。&lt;/p&gt;</summary>
     
     
     
@@ -210,19 +187,10 @@
     <link href="http://llmathur.github.io/2023/04/05/TCPIPLearning/"/>
     <id>http://llmathur.github.io/2023/04/05/TCPIPLearning/</id>
     <published>2023-04-05T05:32:11.000Z</published>
-    <updated>2023-05-25T02:41:44.223Z</updated>
+    <updated>2023-05-25T03:01:17.750Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;span id=&quot;more&quot;&gt;&lt;/span&gt;
-
-&lt;p&gt;目前绝大多数网络都采用TCP&amp;#x2F;IP协议，TCP&amp;#x2F;IP是目前最完整的、被普遍接受的通信协议标准&lt;/p&gt;
-&lt;h2 id=&quot;第一章-TCP-x2F-IP协议基础&quot;&gt;&lt;a</summary>
-        
-      
+    <summary type="html">&lt;p&gt;目前绝大多数网络都采用TCP&amp;#x2F;IP协议，TCP&amp;#x2F;IP是目前最完整的、被普遍接受的通信协议标准&lt;/p&gt;</summary>
     
     
     
@@ -238,17 +206,14 @@
     <link href="http://llmathur.github.io/2023/04/01/SingletonDesignPattern/"/>
     <id>http://llmathur.github.io/2023/04/01/SingletonDesignPattern/</id>
     <published>2023-04-01T12:56:49.000Z</published>
-    <updated>2023-05-25T02:40:07.586Z</updated>
+    <updated>2023-05-25T03:01:17.755Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;span id=&quot;more&quot;&gt;&lt;/span&gt;
-&lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot;</summary>
-        
-      
+    <summary type="html">&lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h2&gt;&lt;p&gt;单例即单实例，指在系统(程序)中，&lt;b&gt;某个类只存在一个实例&lt;/b&gt;，同时提供集中、统一的访问接口。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;如果一个对象有可能贯穿整个应用程序，而且起到了全局统一管理控制的作用，那么单例模式也许是一个值得考虑的选择。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;例如：&lt;br&gt;&lt;code&gt;Spring&lt;/code&gt;中&lt;code&gt;bean&lt;/code&gt;的定义可以被定义为两种：&lt;code&gt;prototype(原型)&lt;/code&gt;,&lt;code&gt;singleton(单例)&lt;/code&gt;&lt;br&gt;&lt;code&gt;线程池（threadpool）&lt;/code&gt;, &lt;code&gt;缓存（cache）&lt;/code&gt;等比较适合设计为单例模式。&lt;/p&gt;</summary>
     
     
     
@@ -266,17 +231,13 @@
     <link href="http://llmathur.github.io/2023/04/01/InterpreterDesignPattern/"/>
     <id>http://llmathur.github.io/2023/04/01/InterpreterDesignPattern/</id>
     <published>2023-04-01T06:56:02.000Z</published>
-    <updated>2023-05-25T02:19:07.746Z</updated>
+    <updated>2023-05-25T03:01:17.766Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;span id=&quot;more&quot;&gt;&lt;/span&gt;
-&lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot;</summary>
-        
-      
+    <summary type="html">&lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;解释器模式(Interpreter)会针对某种语言并基于其语法特征创建一系列的表达式类（包括终极表达式与非终极表达式），利用树结构模式将表达式对象组装起来，最终将其翻译成计算机能够识别并执行的语义树。&lt;/p&gt;
+&lt;p&gt;例如结构型数据库对查询语言SQL的解析，浏览器对HTML语言的解析，以及操作系统Shell对命令的解析。不同的语言有着不同的语法和翻译方式，这都依靠解释器完成.&lt;/p&gt;
+&lt;/blockquote&gt;</summary>
     
     
     

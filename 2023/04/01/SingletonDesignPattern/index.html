@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"llmathur.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="介绍单例即单实例，指在系统(程序)中，某个类只存在一个实例，同时提供集中、统一的访问接口。  如果一个对象有可能贯穿整个应用程序，而且起到了全局统一管理控制的作用，那么单例模式也许是一个值得考虑的选择。  例如：Spring中bean的定义可以被定义为两种：prototype(原型),singleton(单例)线程池（threadpool）, 缓存（cache）等比较适合设计为单例模式。 单例模">
+  <meta name="description" content="介绍单例即单实例，指在系统(程序)中，某个类只存在一个实例，同时提供集中、统一的访问接口。  如果一个对象有可能贯穿整个应用程序，而且起到了全局统一管理控制的作用，那么单例模式也许是一个值得考虑的选择。  例如：Spring中bean的定义可以被定义为两种：prototype(原型),singleton(单例)线程池（threadpool）, 缓存（cache）等比较适合设计为单例模式。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="设计模式-单例">
 <meta property="og:url" content="http://llmathur.github.io/2023/04/01/SingletonDesignPattern/index.html">
 <meta property="og:site_name" content="唯见青山">
-<meta property="og:description" content="介绍单例即单实例，指在系统(程序)中，某个类只存在一个实例，同时提供集中、统一的访问接口。  如果一个对象有可能贯穿整个应用程序，而且起到了全局统一管理控制的作用，那么单例模式也许是一个值得考虑的选择。  例如：Spring中bean的定义可以被定义为两种：prototype(原型),singleton(单例)线程池（threadpool）, 缓存（cache）等比较适合设计为单例模式。 单例模">
+<meta property="og:description" content="介绍单例即单实例，指在系统(程序)中，某个类只存在一个实例，同时提供集中、统一的访问接口。  如果一个对象有可能贯穿整个应用程序，而且起到了全局统一管理控制的作用，那么单例模式也许是一个值得考虑的选择。  例如：Spring中bean的定义可以被定义为两种：prototype(原型),singleton(单例)线程池（threadpool）, 缓存（cache）等比较适合设计为单例模式。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-04-01T12:56:49.000Z">
-<meta property="article:modified_time" content="2023-05-25T02:40:07.586Z">
+<meta property="article:modified_time" content="2023-05-25T03:01:17.755Z">
 <meta property="article:author" content="llmathur">
 <meta property="article:tag" content="设计模式">
 <meta property="article:tag" content="单例">
@@ -239,7 +239,7 @@
                 修改于
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-05-25 10:40:07" itemprop="dateModified" datetime="2023-05-25T10:40:07+08:00">2023-05-25</time>
+                <time title="修改时间：2023-05-25 11:01:17" itemprop="dateModified" datetime="2023-05-25T11:01:17+08:00">2023-05-25</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -301,12 +301,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <span id="more"></span>
-<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>单例即单实例，指在系统(程序)中，<b>某个类只存在一个实例</b>，同时提供集中、统一的访问接口。</p>
+        <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>单例即单实例，指在系统(程序)中，<b>某个类只存在一个实例</b>，同时提供集中、统一的访问接口。</p>
 <blockquote>
 <p>如果一个对象有可能贯穿整个应用程序，而且起到了全局统一管理控制的作用，那么单例模式也许是一个值得考虑的选择。</p>
 </blockquote>
 <p>例如：<br><code>Spring</code>中<code>bean</code>的定义可以被定义为两种：<code>prototype(原型)</code>,<code>singleton(单例)</code><br><code>线程池（threadpool）</code>, <code>缓存（cache）</code>等比较适合设计为单例模式。</p>
+<span id="more"></span>
 <h2 id="单例模式的实现"><a href="#单例模式的实现" class="headerlink" title="单例模式的实现"></a>单例模式的实现</h2><ol>
 <li>饿汉模式</li>
 <li>懒汉模式</li>

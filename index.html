@@ -343,7 +343,7 @@
                 修改于
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-05-25 10:39:35" itemprop="dateModified" datetime="2023-05-25T10:39:35+08:00">2023-05-25</time>
+                <time title="修改时间：2023-05-25 11:01:42" itemprop="dateModified" datetime="2023-05-25T11:01:42+08:00">2023-05-25</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -397,23 +397,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <span id="more"></span>
-<p>JDK版本:<br>    openjdk 20.0.1 2023-04-18<br>    OpenJDK Runtime Environment (build 20.0.1+9-29)<br>    OpenJDK 64-Bit Server VM (build 20.0.1+9-29, mixed mode, sharing)</p>
-<h1 id="构造器"><a href="#构造器" class="headerlink" title="构造器"></a>构造器</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ArrayList</span>&lt;E&gt; <span class="keyword">extends</span> <span class="title class_">AbstractList</span>&lt;E&gt; <span class="keyword">implements</span> <span class="title class_">List</span>&lt;E&gt;, RandomAccess, Cloneable, Serializable &#123;</span><br></pre></td></tr></table></figure>
-<h1 id="1-扩容机制分析"><a href="#1-扩容机制分析" class="headerlink" title="1. 扩容机制分析"></a>1. 扩容机制分析</h1><h2 id="添加一个元素：3个add方法"><a href="#添加一个元素：3个add方法" class="headerlink" title="添加一个元素：3个add方法"></a>添加一个元素：3个add方法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">add</span><span class="params">(E e, Object[] elementData, <span class="type">int</span> s)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (s == elementData.length) &#123;</span><br><span class="line">        <span class="comment">// 如果s(list的长度)等于数组的长度时，即存储空间已满</span></span><br><span class="line">        <span class="comment">// 进行扩容</span></span><br><span class="line">        elementData = <span class="built_in">this</span>.grow();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    elementData[s] = e;</span><br><span class="line">    <span class="built_in">this</span>.size = s + <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">add</span><span class="params">(E e)</span> &#123;</span><br><span class="line">    ++<span class="built_in">this</span>.modCount;</span><br><span class="line">    <span class="built_in">this</span>.add(e, <span class="built_in">this</span>.elementData, <span class="built_in">this</span>.size);</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">add</span><span class="params">(<span class="type">int</span> index, E element)</span> &#123;</span><br><span class="line">    <span class="comment">// 检查下标是否合法</span></span><br><span class="line">    <span class="built_in">this</span>.rangeCheckForAdd(index);</span><br><span class="line">    ++<span class="built_in">this</span>.modCount;</span><br><span class="line">    <span class="type">int</span> s;</span><br><span class="line">    Object[] elementData;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 看起来很复杂，功能也是判断数组长度和元素个数是否相等</span></span><br><span class="line">    <span class="comment">// 如果相等则进行扩容</span></span><br><span class="line">    <span class="comment">// 疑问: 为什么以这样的方式判断是否已满，而不是直接</span></span><br><span class="line">    <span class="comment">// this.size === this.elementDate.length的方式判断</span></span><br><span class="line">    <span class="keyword">if</span> ((s = <span class="built_in">this</span>.size) == (elementData = <span class="built_in">this</span>.elementData).length) &#123;</span><br><span class="line">        elementData = <span class="built_in">this</span>.grow();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 将elementDate 中以index为起始位置的内容拷贝到elementDate以index +1 的位置，拷贝长度为 s-index</span></span><br><span class="line">    System.arraycopy(elementData, index, elementData, index + <span class="number">1</span>, s - index);</span><br><span class="line">    elementData[index] = element;</span><br><span class="line">    <span class="built_in">this</span>.size = s + <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="grow-方法"><a href="#grow-方法" class="headerlink" title="grow()方法"></a>grow()方法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> Object[] grow(<span class="type">int</span> minCapacity) &#123;</span><br><span class="line">    <span class="comment">// 原来的容量</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">oldCapacity</span> <span class="operator">=</span> <span class="built_in">this</span>.elementData.length;</span><br><span class="line">    <span class="comment">// 如果容量&lt;=0且，该list没有添加任何元素时候</span></span><br><span class="line">    <span class="comment">// 扩容，最小的容量为10，超过10的时候为minCapacity</span></span><br><span class="line">    <span class="keyword">if</span> (oldCapacity &lt;= <span class="number">0</span> &amp;&amp; <span class="built_in">this</span>.elementData == DEFAULTCAPACITY_EMPTY_ELEMENTDATA) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>.elementData = <span class="keyword">new</span> <span class="title class_">Object</span>[Math.max(<span class="number">10</span>, minCapacity)];</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 不是第一次添加元素</span></span><br><span class="line">        <span class="comment">// 确定新的容量，在添加一个元素的add方法中，扩容为原来的1.5倍</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">newCapacity</span> <span class="operator">=</span> ArraysSupport.newLength(oldCapacity, minCapacity - oldCapacity, oldCapacity &gt;&gt; <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 创建新数组并复制元素，并返回新数组</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>.elementData = Arrays.copyOf(<span class="built_in">this</span>.elementData, newCapacity);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> Object[] grow() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>.grow(<span class="built_in">this</span>.size + <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">newLength</span><span class="params">(<span class="type">int</span> oldLength, <span class="type">int</span> minGrowth, <span class="type">int</span> prefGrowth)</span> &#123;</span><br><span class="line">     <span class="type">int</span> <span class="variable">prefLength</span> <span class="operator">=</span> oldLength + Math.max(minGrowth, prefGrowth);</span><br><span class="line">     <span class="comment">// list的大容量为int的最大值</span></span><br><span class="line">     <span class="keyword">return</span> <span class="number">0</span> &lt; prefLength &amp;&amp; prefLength &lt;= <span class="number">2147483639</span> ? prefLength : hugeLength(oldLength, minGrowth);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-<h2 id="添加一堆元素"><a href="#添加一堆元素" class="headerlink" title="添加一堆元素"></a>添加一堆元素</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">addAll</span><span class="params">(Collection&lt;? extends E&gt; c)</span> &#123;</span><br><span class="line">        Object[] a = c.toArray();</span><br><span class="line">        ++<span class="built_in">this</span>.modCount;</span><br><span class="line">        <span class="type">int</span> <span class="variable">numNew</span> <span class="operator">=</span> a.length;</span><br><span class="line">        <span class="keyword">if</span> (numNew == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            Object[] elementData;</span><br><span class="line">            <span class="type">int</span> s;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> (numNew &gt; (elementData = <span class="built_in">this</span>.elementData).length - (s = <span class="built_in">this</span>.size)) &#123;</span><br><span class="line">                <span class="comment">// 剩余的容量不足，扩容，有可能非1.5倍</span></span><br><span class="line">                elementData = <span class="built_in">this</span>.grow(s + numNew);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            System.arraycopy(a, <span class="number">0</span>, elementData, s, numNew);</span><br><span class="line">            <span class="built_in">this</span>.size = s + numNew;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">addAll</span><span class="params">(<span class="type">int</span> index, Collection&lt;? extends E&gt; c)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.rangeCheckForAdd(index);</span><br><span class="line">        Object[] a = c.toArray();</span><br><span class="line">        ++<span class="built_in">this</span>.modCount;</span><br><span class="line">        <span class="type">int</span> <span class="variable">numNew</span> <span class="operator">=</span> a.length;</span><br><span class="line">        <span class="keyword">if</span> (numNew == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            Object[] elementData;</span><br><span class="line">            <span class="type">int</span> s;</span><br><span class="line">            <span class="keyword">if</span> (numNew &gt; (elementData = <span class="built_in">this</span>.elementData).length - (s = <span class="built_in">this</span>.size)) &#123;</span><br><span class="line">                elementData = <span class="built_in">this</span>.grow(s + numNew);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="type">int</span> <span class="variable">numMoved</span> <span class="operator">=</span> s - index;</span><br><span class="line">            <span class="keyword">if</span> (numMoved &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                System.arraycopy(elementData, index, elementData, index + numNew, numMoved);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            System.arraycopy(a, <span class="number">0</span>, elementData, index, numNew);</span><br><span class="line">            <span class="built_in">this</span>.size = s + numNew;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
-<li>空List添加第一个元素s时，扩容到长度为10</li>
-<li>非空且需要扩容的时候有两种情况<ol>
-<li>添加一个元素：<br> 长度为原来的1.5倍</li>
-<li>添加一堆元素：<br> 长度最小为原来的1.5倍</li>
-</ol>
-</li>
-</ol>
-<h1 id="仍存在的疑问"><a href="#仍存在的疑问" class="headerlink" title="仍存在的疑问"></a>仍存在的疑问</h1>
+          <p>JDK版本:<br>    openjdk 20.0.1 2023-04-18<br>    OpenJDK Runtime Environment (build 20.0.1+9-29)<br>    OpenJDK 64-Bit Server VM (build 20.0.1+9-29, mixed mode, sharing)</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/05/24/ArrayList-source-code/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -465,7 +457,7 @@
                 修改于
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-05-25 10:40:15" itemprop="dateModified" datetime="2023-05-25T10:40:15+08:00">2023-05-25</time>
+                <time title="修改时间：2023-05-25 11:01:17" itemprop="dateModified" datetime="2023-05-25T11:01:17+08:00">2023-05-25</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -519,89 +511,20 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <span id="more"></span>
-<p>记录一些想到的问题</p>
+          <p>记录一些想到的问题</p>
 <h1 id="1-什么是Java方法重写"><a href="#1-什么是Java方法重写" class="headerlink" title="1.什么是Java方法重写"></a>1.什么是Java方法重写</h1><p>要求遵循“两同两大一小”</p>
 <ul>
 <li>“两同” 指方法名相同，形参列表相同</li>
 <li>“两小” 指子类方法返回值类型应该比父类返回值类型更小，子类方法声明抛出的异常类应该比父类方法抛出的更小或者相等</li>
-<li>“一大” 指子类方法的访问权限应该比父类方法的访问权限更大或者相等。</li>
-</ul>
-<p>这是因为如果返回值类型更大，则可能会造成父类对象无法完全转换为子类对象，从而导致编译错误和运行时异常。<br>重写还有一条规则是访问控制符必须高于父类？那是因为为了多态的实现。有时候父类需要上转型引用子类的方法实现多态，这就导致子类方法的访问控制符必须高于父类，否则子类里写成了private，父类还怎么访问？</p>
-<h1 id="2-对象实例都在Java堆中吗？"><a href="#2-对象实例都在Java堆中吗？" class="headerlink" title="2.对象实例都在Java堆中吗？"></a>2.对象实例都在Java堆中吗？</h1><p>不一定，是几乎所有的实例都在堆中。<br>JIT编译除了具有缓存的功能外，还会对代码做各种优化，其中有逃逸分析功能。<br>如果逃逸分析发现一个对象不会逃逸出当前方法或线程，则可以将该对象存储在栈上而不是堆上。由于栈是局部的，存储在栈上的对象只能由当前方法或线程访问，这样就减少了对内存的分配和垃圾回收的工作量，从而提高了程序的性能。<br>可以通过 -XX:+DoEscapeAnalysis 指定是否进行逃逸分析。</p>
-<p>参考：<br><a target="_blank" rel="noopener" href="http://www.hollischuang.com/archives/2398">http://www.hollischuang.com/archives/2398</a></p>
-<h1 id="3-接口和抽象类的共同点和区别"><a href="#3-接口和抽象类的共同点和区别" class="headerlink" title="3.接口和抽象类的共同点和区别"></a>3.接口和抽象类的共同点和区别</h1><p>共同点:</p>
-<ul>
-<li>都不能被实例化</li>
-<li>都可以包含抽象方法</li>
-<li>都可以有默认实现的方法</li>
-</ul>
-<p>区别：</p>
-<ul>
-<li>接口是对类的行为进行约束，实现了某个接口就有了对应的行为，抽象类主要用于代码复用，强调的是所属关系</li>
-<li>类只能继承一个类，但可以实现多个接口</li>
-<li>接口中的成员变量只能是<code>public static final</code>,抽象类的成员变量默认<code>defalut</code></li>
-</ul>
-<h1 id="4-解决哈希冲突的办法"><a href="#4-解决哈希冲突的办法" class="headerlink" title="4.解决哈希冲突的办法"></a>4.解决哈希冲突的办法</h1><ul>
-<li><p>开放地址法<br>开放地址法是指当发生哈希冲突时，继续在哈希表中查找空闲的位置，直到找到一个空闲的位置为止。其中包括线性探测、二次探测等技术。</p>
-</li>
-<li><p>链表法<br>链表法是指每个哈希值对应一个链表，如果发生哈希冲突，则将新的元素加入到对应位置的链表中。</p>
-</li>
-<li><p>再哈希法<br>再哈希法是指在第一次哈希之后，如果出现冲突，则再次进行哈希，直到找到合适的位置。</p>
-</li>
-<li><p>建立公共溢出区<br>建立公共溢出区是指将所有冲突的元素都存储在同一个溢出区，并通过某种方式来确定元素在该区域中的位置。</p>
-</li>
-</ul>
-<h1 id="5-String-StringBulider-，StringBuffer"><a href="#5-String-StringBulider-，StringBuffer" class="headerlink" title="5.String,StringBulider ，StringBuffer"></a>5.String,StringBulider ，StringBuffer</h1><p>先看后两者：<br>共同点：</p>
-<ul>
-<li><code>StringBulider</code>和<code>StringBuffer</code>都继承了<code>AbstractStringBuilder</code>  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">AbstractStringBuilder</span> <span class="keyword">implements</span> <span class="title class_">Appendable</span>, CharSequence &#123;</span><br><span class="line"><span class="type">byte</span>[] value;</span><br></pre></td></tr></table></figure>
-区别：</li>
-<li>StringBuffer线程安全，StringBulider非线程安全。</li>
-</ul>
-<p><code>String</code>不可变的真正原因：</p>
-<ul>
-<li>整个类被final修饰，确保不会被继承，防止被子类修改byte数组。</li>
-<li>byte数组的修饰符为<code>private final</code> ，同时没有提供修改的方法。</li>
-</ul>
-<h1 id="6-Java对象的创建过程"><a href="#6-Java对象的创建过程" class="headerlink" title="6.Java对象的创建过程"></a>6.Java对象的创建过程</h1><ol>
-<li><p>类加载：<br> 检查能否在常量池中定位到一个类的符号引用，并检查这个符号引用代表的类是否被加载、解析、初始化过、如果没有，必须先执行相应的类加载过程</p>
-</li>
-<li><p>在堆中分配内存：</p>
-<ul>
-<li>划分可用空间：<br>  指针碰撞：Serial,ParNew等带Compact过程的收集器时<br>  空闲列表：CMS基于Mark-Sweep算法的收集器</li>
-<li>线程安全：<br>  CAS + 失败重试的方法<br>  TLAB: 每个线程预先分配一小块内存</li>
-</ul>
-</li>
-<li><p>将分配的内存初始化为0：</p>
-</li>
-<li><p>设置对象头的必要设置：<br> GC年代，对象的Hash码等</p>
-</li>
-<li><p>执行init方法：<br> 按程序员意愿初始化</p>
-</li>
-</ol>
-<h1 id="7-红黑树"><a href="#7-红黑树" class="headerlink" title="7.红黑树"></a>7.红黑树</h1><h2 id="性质"><a href="#性质" class="headerlink" title="性质"></a>性质</h2><ol>
-<li>结点是红色或黑色；</li>
-<li>根结点是黑色。</li>
-<li>叶子结点（也叫外部结点、NULL结点、失败结点）是黑色。</li>
-<li>不存在两个相邻的红结点。（即红结点的父结点和子结点都是黑色的）</li>
-<li>从任意结点到可达的叶子结点的每个路径包含相同数目的黑色节点。</li>
-</ol>
-<p>速记：左根右，根叶黑，不红红，黑路同。（源自王道）</p>
-<h2 id="插入操作"><a href="#插入操作" class="headerlink" title="插入操作"></a>插入操作</h2><ol>
-<li>先查找，确定插入位置，原理同二叉查找树，</li>
-<li>新结点是根，则是黑色<br> 新结点非根，则是红色</li>
-<li>若不满足要求，则进行调整<br> 黑叔：旋转 + 染色<br> LL型：右单旋，父换爷，染色<br> RR型：左单旋，父换爷，染色<br> LR型： 左右双旋，儿换爷，染色<br> RL型：右，左双旋，儿换爷，染色<br> 红叔：染色 + 变新<br> 叔父爷染色，爷变为新结点</li>
-</ol>
-<h1 id="8-线程和进程的区别？"><a href="#8-线程和进程的区别？" class="headerlink" title="8.线程和进程的区别？"></a>8.线程和进程的区别？</h1><p>（1）进程在执行时拥有独立的内存单元，多个线程共享进程的内存，如代码段、数据段、扩展段；但每个线程拥有自己的栈段和寄存器组。</p>
-<p>（2）进程切换时需要刷新TLB并获取新的地址空间，然后切换硬件上下文和内核栈，线程切换时只需要切换硬件上下文和内核栈。<br>注意：TLB,MMU将虚拟地址转换成物理地址，虚拟地址和物理地址的映射存储在页表中，根据时间局部性和空间局部性，专门设置了TLB将经常使用的映射存储在TLB中。</p>
-<h1 id="9-死锁的解决办法"><a href="#9-死锁的解决办法" class="headerlink" title="9. 死锁的解决办法"></a>9. 死锁的解决办法</h1><p>破坏四个必要条件：互斥、占有等待、不可抢占、循环等待</p>
-<ul>
-<li>占有等待条件，死锁预防：<br>  进程开始前，必须一次性获得所有资源，否则不许执行</li>
-<li>不可抢占，</li>
-<li>循环等待：<br>  将资源编号，只能申请序号更大的资源</li>
-</ul>
-<p>银行家算法，分配举证，最大需求矩阵，需求矩阵。</p>
-
+<li>“一大” 指子类方法的访问权限应该比父类方法的访问权限更大或者相等。</li></ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/05/19/SomeQuestions/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -653,7 +576,7 @@
                 修改于
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-05-25 10:39:52" itemprop="dateModified" datetime="2023-05-25T10:39:52+08:00">2023-05-25</time>
+                <time title="修改时间：2023-05-25 11:01:17" itemprop="dateModified" datetime="2023-05-25T11:01:17+08:00">2023-05-25</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -707,25 +630,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <span id="more"></span>
-<h1 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h1><p>RDB持久化、AOF持久化，RDB-AOF混合持久化</p>
-<h2 id="RDB持久化"><a href="#RDB持久化" class="headerlink" title="RDB持久化"></a>RDB持久化</h2><p>全面持久化操作，</p>
-<h3 id="载入RDB文件过程"><a href="#载入RDB文件过程" class="headerlink" title="载入RDB文件过程"></a>载入RDB文件过程</h3><ol>
-<li>打开RDB文件</li>
-<li>检查文件头</li>
-<li>检查版本号</li>
-<li>读取设备信息</li>
-<li>重建数据库</li>
-<li>重建脚本缓存</li>
-<li>对比校验和</li>
-<li>数据载入完毕</li>
-</ol>
-<h2 id="AOF持久化"><a href="#AOF持久化" class="headerlink" title="AOF持久化"></a>AOF持久化</h2><p>增量持久化操作，服务器每次执行完命令后，都会以【协议文本】的方式将被执行的命令追加到AOF文件末尾。</p>
-<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><ol>
-<li>体积大</li>
-<li>数据恢复速度慢</li>
-</ol>
-
+          <h1 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h1><p>RDB持久化、AOF持久化，RDB-AOF混合持久化</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/05/18/RedisLearning/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1012,7 +925,7 @@
                 修改于
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-05-25 10:20:07" itemprop="dateModified" datetime="2023-05-25T10:20:07+08:00">2023-05-25</time>
+                <time title="修改时间：2023-05-25 11:01:17" itemprop="dateModified" datetime="2023-05-25T11:01:17+08:00">2023-05-25</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1066,8 +979,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <span id="more"></span>
-<p>OAuth 的核心就是向第三方应用颁发令牌<br>四种授权方式</p>
+          <p>OAuth 的核心就是向第三方应用颁发令牌<br>四种授权方式</p>
 <ol>
 <li>（授权码）authorization-code</li>
 <li>（隐藏式）implicit</li>
@@ -1075,36 +987,14 @@
 <li>（客户端凭证）client credentials</li>
 </ol>
 <p>注：任何一种方式，第三方应用都必须到系统备案，以获取客户端ID（client ID）和客户端密钥（client secret）</p>
-<h1 id="第一种方式：授权码"><a href="#第一种方式：授权码" class="headerlink" title="第一种方式：授权码"></a>第一种方式：授权码</h1><p>最常用、最安全，适用于有后端的应用。<br>授权码通过前端发送，令牌存储在后端，而且所有与资源服务器的通信都在后端完成。</p>
-<p>授权过程：</p>
-<p><img src="process.png" alt="流程图" title="流程图"></p>
-<p>（1）请求授权码<br>A网站提供一个链接，用户点击后会跳转到B网站，授权用户数据给A网站使用<br>链接示意：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">https://b.com/oauth/authorize?</span><br><span class="line">    response_type=code&amp;     // 表示要求返回授权码</span><br><span class="line">    client_id=CLIENT_ID&amp;    // 让B知道谁在请求</span><br><span class="line">    redirect_uri=CALLLBACK_URL&amp; // B接受或者拒绝请求后的跳转网址</span><br><span class="line">    scope=read      // 要求的授权范围</span><br></pre></td></tr></table></figure>
-<p>（2）返回授权码<br>用户跳转后，B网站要求用户登录， 然后询问是否给A网站授权。用户同意后，B网站返回<code>redirect_uri</code>参数指定的网址，同时携带一个授权码</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://a.com/callback?code=AUTHORIZATION_CODE  // code为授权码</span><br></pre></td></tr></table></figure>
-<p>（3）请求令牌<br>A网站拿到授权码后，可以在后端向B网站请求令牌</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">https://b.com/oauth/token?</span><br><span class="line"> client_id=CLIENT_ID&amp;   </span><br><span class="line"> client_secret=CLIENT_SECRET&amp;       // client_id 和client_secret参数确定A的身份</span><br><span class="line"> grant_type=authorization_code&amp;     // 参数值为authorization_code，表示采用的授权方式为授权码</span><br><span class="line"> code=AUTHORIZATION_CODE&amp;           // 上一步拿到的授权码</span><br><span class="line"> redirect_uri=CALLBACK_URL          // 令牌颁发后的回调网址</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>（4）返回令牌<br>B 网站收到请求以后，就会颁发令牌。具体做法是向redirect_uri指定的网址，发送一段 JSON 数据。</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="punctuation">&#123;</span>    </span><br><span class="line">  <span class="attr">&quot;access_token&quot;</span><span class="punctuation">:</span><span class="string">&quot;ACCESS_TOKEN&quot;</span><span class="punctuation">,</span>    <span class="comment">//令牌</span></span><br><span class="line">  <span class="attr">&quot;token_type&quot;</span><span class="punctuation">:</span><span class="string">&quot;bearer&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;expires_in&quot;</span><span class="punctuation">:</span><span class="number">2592000</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;refresh_token&quot;</span><span class="punctuation">:</span><span class="string">&quot;REFRESH_TOKEN&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;scope&quot;</span><span class="punctuation">:</span><span class="string">&quot;read&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;uid&quot;</span><span class="punctuation">:</span><span class="number">100101</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;info&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span>...<span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-
-<h1 id="第二种方式：隐藏式"><a href="#第二种方式：隐藏式" class="headerlink" title="第二种方式：隐藏式"></a>第二种方式：隐藏式</h1><ol>
-<li>令牌的有效期必须非常短，通常就是会话期间（session）有效，浏览器关掉，令牌就失效了。</li>
-<li>纯前端应用，没有后端。</li>
-<li>直接向前端颁发令牌。无授权码中间步骤。<br>（1）第一步，A网站提供链接，用户点击链接跳转B网站，授权用户数据<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">https://b.com/oauth/authorize?</span><br><span class="line">  response_type=token&amp;  //要求直接返回令牌</span><br><span class="line">  client_id=CLIENT_ID&amp;</span><br><span class="line">  redirect_uri=CALLBACK_URL&amp;</span><br><span class="line">  scope=read</span><br></pre></td></tr></table></figure>
-（2）第二步，B网站授权成功，跳转到A网站（通过<code>redirect_uri</code>）并以参数的形式返回令牌。<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://a.com/callback#token=ACCESS_TOKEN</span><br></pre></td></tr></table></figure>
-注意：令牌的位置是 URL 锚点（fragment），而不是查询字符串（querystring），这是因为 OAuth 2.0 允许跳转网址是 HTTP 协议，因此存在”中间人攻击”的风险，而浏览器跳转时，锚点不会发到服务器，就减少了泄漏令牌的风险。</li>
-</ol>
-<h1 id="第三种方式：密码式"><a href="#第三种方式：密码式" class="headerlink" title="第三种方式：密码式"></a>第三种方式：密码式</h1><p>用户把用户名和密码，直接告诉该应用。<br>该应用就使用你的密码，申请令牌。<br>（1）第一步，A网站要求用户提供用户名和密码，向B网站请求令牌</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">https://oauth.b.com/token?</span><br><span class="line">  grant_type=password&amp;</span><br><span class="line">  username=USERNAME&amp;</span><br><span class="line">  password=PASSWORD&amp;</span><br><span class="line">  client_id=CLIENT_ID</span><br></pre></td></tr></table></figure>
-<p>（2） 第二步，B 网站验证身份通过后，直接给出令牌。<br>注意，这时不需要跳转，而是把令牌放在 JSON 数据里面，作为 HTTP 回应，A 因此拿到令牌。</p>
-<h1 id="第四种方式：凭证式（client-credentials）"><a href="#第四种方式：凭证式（client-credentials）" class="headerlink" title="第四种方式：凭证式（client credentials）"></a>第四种方式：凭证式（client credentials）</h1><p>适用于没有前端的命令行应用，即在命令行下请求令牌。<br>这种方式给出的令牌，是针对第三方应用的，而不是针对用户的，即有可能多个用户共享同一个令牌。<br>（1）第一步，A 应用在命令行向 B 发出请求。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">https://oauth.b.com/token?</span><br><span class="line">  grant_type=client_credentials&amp;</span><br><span class="line">  client_id=CLIENT_ID&amp;</span><br><span class="line">  client_secret=CLIENT_SECRET</span><br></pre></td></tr></table></figure>
-<p>第二步，B 网站验证通过以后，直接返回令牌。</p>
-<h1 id="更新令牌"><a href="#更新令牌" class="headerlink" title="更新令牌"></a>更新令牌</h1><p>令牌的有效期到了，OAuth 2.0 允许用户自动更新令牌<br>具体方法是，B 网站颁发令牌的时候，一次性颁发两个令牌，一个用于获取数据，另一个用于获取新的令牌（refresh token 字段）。令牌到期前，用户使用 refresh token 发一个请求，去更新令牌。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">https://b.com/oauth/token?</span><br><span class="line">  grant_type=refresh_token&amp;</span><br><span class="line">  client_id=CLIENT_ID&amp;</span><br><span class="line">  client_secret=CLIENT_SECRET&amp;</span><br><span class="line">  refresh_token=REFRESH_TOKEN</span><br></pre></td></tr></table></figure>
-<p>B 网站验证通过以后，就会颁发新的令牌。</p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2019/04/oauth-grant-types.html">https://www.ruanyifeng.com/blog/2019/04/oauth-grant-types.html</a></p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/05/09/OAuth-2-0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1156,7 +1046,7 @@
                 修改于
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-05-25 10:19:36" itemprop="dateModified" datetime="2023-05-25T10:19:36+08:00">2023-05-25</time>
+                <time title="修改时间：2023-05-25 11:01:17" itemprop="dateModified" datetime="2023-05-25T11:01:17+08:00">2023-05-25</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1210,49 +1100,18 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <span id="more"></span>
-
-<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><blockquote>
+          <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><blockquote>
 <p>原型模式达到以原型实例创建副本实例的目的即可，并不需要知道其他原始类，也就是说，原型模式可以用对象创建对象，而不是用类创建对象，以此达到效率的提升。</p>
 </blockquote>
 <p>对那些非常复杂的初始化过程的对象或者是需要耗费大量资源的情况，原型模式是更好的选择。</p>
-<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p>我们正准备设计一个空战游戏</p>
-<p>设定：<br>设置游戏为单打即主角飞机只有一架，而敌机有很多架，而且可以在屏幕上垂直下移来撞击主角飞机。</p>
-<p><code>EnemyPlane:敌机类</code></p>
-<ul>
-<li>敌机默认从屏幕顶部飞出，故设定y坐标为0</li>
-<li>只给出属性的setter方法表示我们一旦设定好敌机的x轴坐标就不再可能手动修改</li>
-<li>通过连续调用fly方法，敌机就可以一直向下飞行<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EnemyPlane</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> x;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="variable">y</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">EnemyPlane</span><span class="params">(<span class="type">int</span> x)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.x = x;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getX</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> x;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getY</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> y;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">fly</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.y++;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<code>Client:客户端类</code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Client</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        List&lt;EnemyPlane&gt; enemyPlanes = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">500</span>; i++) &#123;</span><br><span class="line">            <span class="type">EnemyPlane</span> <span class="variable">ep</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">EnemyPlane</span>(<span class="keyword">new</span> <span class="title class_">Random</span>().nextInt(<span class="number">200</span>));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h3 id="存在的问题"><a href="#存在的问题" class="headerlink" title="存在的问题"></a>存在的问题</h3><ol>
-<li>在游戏的初始化阶段直接示例500架飞机无疑会占用大量内存，使得加载速度变慢<br>解决办法：懒加载，屏幕滚动到一定值的时候才实例对象。单问题依然存在，游戏运行大量实例进行初始化及其浪费CPU性能。</li>
-</ol>
-<h3 id="使用ProtoType模式"><a href="#使用ProtoType模式" class="headerlink" title="使用ProtoType模式"></a>使用ProtoType模式</h3><p><code>EnemyPlane:敌机类</code></p>
-<ul>
-<li>重写Object的clone方法，以便外部能够实现对本类实例的克隆，省略构造过程。</li>
-<li>编写了x属性的setter方法，以便能够对克隆出来的敌机实例横坐标进行修改。<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> test01;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EnemyPlane</span> <span class="keyword">implements</span> <span class="title class_">Cloneable</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> x;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="variable">y</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">EnemyPlane</span><span class="params">(<span class="type">int</span> x)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.x = x;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setX</span><span class="params">(<span class="type">int</span> x)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.x = x;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getX</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> x;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getY</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> y;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">fly</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.y++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> EnemyPlane <span class="title function_">clone</span><span class="params">()</span> <span class="keyword">throws</span> CloneNotSupportedException &#123;</span><br><span class="line">        <span class="keyword">return</span> (EnemyPlane)<span class="built_in">super</span>.clone();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<code>EnemyplaneFactory</code>:敌机工厂类</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EnemyPlaneFactory</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">EnemyPlane</span> <span class="variable">protoType</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">EnemyPlane</span>(<span class="number">200</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> EnemyPlane <span class="title function_">getInstance</span><span class="params">(<span class="type">int</span> x)</span> <span class="keyword">throws</span> CloneNotSupportedException &#123;</span><br><span class="line">        <span class="type">EnemyPlane</span> <span class="variable">clone</span> <span class="operator">=</span> protoType.clone();</span><br><span class="line">        clone.setX(x);</span><br><span class="line">        <span class="keyword">return</span> clone;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><code>Client</code>：客户端类</p>
-<ul>
-<li>每隔10高度，克隆一个敌机<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Client</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> CloneNotSupportedException &#123;</span><br><span class="line"></span><br><span class="line">        List&lt;EnemyPlane&gt; planes = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">        <span class="type">int</span> <span class="variable">screen</span> <span class="operator">=</span> <span class="number">0</span>; <span class="comment">// 屏幕滚动的高度</span></span><br><span class="line">      <span class="keyword">while</span>(screen &lt; <span class="number">100</span>)&#123;</span><br><span class="line"></span><br><span class="line">          <span class="keyword">if</span>(screen % <span class="number">10</span> == <span class="number">0</span>) &#123;</span><br><span class="line">              <span class="type">EnemyPlane</span> <span class="variable">instance</span> <span class="operator">=</span> EnemyPlaneFactory.getInstance(<span class="keyword">new</span> <span class="title class_">Random</span>().nextInt(<span class="number">200</span>));</span><br><span class="line">              planes.add(instance);</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="keyword">for</span> (EnemyPlane plane : planes) &#123;</span><br><span class="line">              plane.fly();</span><br><span class="line">              System.out.println(<span class="string">&quot;敌机：&quot;</span>+plane.toString()+<span class="string">&quot;,&quot;</span>+plane.getX()+<span class="string">&quot;,&quot;</span>+plane.getY());</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          screen ++;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h2 id="深浅拷贝"><a href="#深浅拷贝" class="headerlink" title="深浅拷贝"></a>深浅拷贝</h2><ul>
-<li>浅拷贝<blockquote>
-<p>所谓浅拷贝是指只复制原始类型的值，比如横坐标x与纵坐标y这种以原始类型int定义的值，它们会被复制到新克隆出的对象中。而引用类型bullet同样会被拷贝，但是请注意这个操作只是拷贝了地址引用（指针），也就是说副本敌机与原型敌机中的子弹是同一颗，因为两个同样的地址实际指向的内存对象是同一个bullet对象。</p>
-</blockquote>
-</li>
-<li>深拷贝<br>即手动实例化对象并将地址引用赋值给对应属性</li>
-</ul>
-<h2 id="克隆的本质"><a href="#克隆的本质" class="headerlink" title="克隆的本质"></a>克隆的本质</h2><blockquote>
-<p>克隆操作时Java虚拟机会进行内存操作，直接拷贝原型对象数据流生成新的副本对象，绝不会拖泥带水地触发一些多余的复杂操作（如类加载、实例化、初始化等），所以其效率远远高于“new”关键字所触发的实例化操作</p>
-</blockquote>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
-<li>刘韬《秒懂设计模式》</li>
-</ol>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/04/07/ProtoTypeDesignPattern/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1304,7 +1163,7 @@
                 修改于
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-05-25 10:41:44" itemprop="dateModified" datetime="2023-05-25T10:41:44+08:00">2023-05-25</time>
+                <time title="修改时间：2023-05-25 11:01:17" itemprop="dateModified" datetime="2023-05-25T11:01:17+08:00">2023-05-25</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1358,91 +1217,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <span id="more"></span>
-
-<p>目前绝大多数网络都采用TCP&#x2F;IP协议，TCP&#x2F;IP是目前最完整的、被普遍接受的通信协议标准</p>
-<h2 id="第一章-TCP-x2F-IP协议基础"><a href="#第一章-TCP-x2F-IP协议基础" class="headerlink" title="第一章 TCP&#x2F;IP协议基础"></a>第一章 TCP&#x2F;IP协议基础</h2><h3 id="网络通信协议"><a href="#网络通信协议" class="headerlink" title="网络通信协议"></a>网络通信协议</h3><p>指计算机在网络中实现通信必须遵守的规则和约定，主要是对信息传输的<b>速率、传输代码、代码结构、传输控制步骤、差错控制</b>等做出规定并制定出标准。</p>
-<h4 id="协议的组成成分"><a href="#协议的组成成分" class="headerlink" title="协议的组成成分:"></a>协议的组成成分:</h4><p>语义:规定双方完成通信需要的控制信息及执行的动作<br>语法:规定通信双方交换的数据或控制信息的格式和结构<br>时序:规定通信双方彼此的应答关系，包括速度的匹配和顺序</p>
-<h4 id="OSI参考模型"><a href="#OSI参考模型" class="headerlink" title="OSI参考模型"></a>OSI参考模型</h4><p>顺口溜： “物联网淑慧适用”</p>
-<ol>
-<li>物理层：原始比特流传输，电子信号传输和硬件接口</li>
-<li>链路层：物理寻址，将数据分帧并处理流控制</li>
-<li>网络层：通过逻辑寻址建立结点之间的连接，包括路由和中继数据</li>
-<li>传输层：常规数据传送</li>
-<li>会话层：在节点间建立端连接</li>
-<li>表示层：格式化数据，为应用程序提供通用接口</li>
-<li>应用层：直接对用户应用程序提供服务</li>
-</ol>
-<p>其中<br>通信子网：第1层—-第3层<br>网络高层：第5层—-第7层 </p>
-<h4 id="TCP-x2F-IP"><a href="#TCP-x2F-IP" class="headerlink" title="TCP&#x2F;IP"></a>TCP&#x2F;IP</h4><ol>
-<li>网络接口层：又称网络访问层（Network Access Layer），包括OSI的物理层和链路层，负责向网络物理介质发送数据包，从网络物理介质接收数据包。TCP&#x2F;IP并没有对物理层和链路层进行定义，它只是支持现有的各种底层网络技术和标准</li>
-<li>网络层：网络层又称为互联网层或IP层，负责处理IP数据包的传输、路由选择、流量控制和拥塞控制。<br><code>协议：ARP，RARP; IP; ICMP,IGMP;</code></li>
-<li>传输层为两台主机上的应用程序提供端到端的通信。<br><code>协议：TCP ,UDP</code></li>
-<li>应用层：这个层次包括OSI的会话层、表示层和应用层，直接为特定的应用提供服务。应用层为用户提供一些常用的应用程序。<br><code>协议：FTP,SMTP,HTTP</code></li>
-</ol>
-<h2 id="aplication-layer"><a href="#aplication-layer" class="headerlink" title="aplication layer"></a>aplication layer</h2><blockquote>
-<p>The application layer provides a servcices to <b>the users</b>;<br>kerwords: logical connection</p>
-</blockquote>
-<h3 id="Application-Layer-Paradigms"><a href="#Application-Layer-Paradigms" class="headerlink" title="Application-Layer Paradigms"></a>Application-Layer Paradigms</h3><ol>
-<li>client-server patadigm</li>
-<li>peer-to-peer paradigm</li>
-<li>Mixed Paradigm</li>
-</ol>
-<h4 id="Traditional-Parafigm-Client-Server"><a href="#Traditional-Parafigm-Client-Server" class="headerlink" title="Traditional Parafigm:Client-Server"></a>Traditional Parafigm:Client-Server</h4><blockquote>
-<p>In this paradigm,the servivce provider is an application program,called the server process;it run continuously,waiting for another application program,called the client process,to make a connection through the Internet and ask for service. </p>
-</blockquote>
-<ul>
-<li>Existing Problems:</li>
-</ul>
-<ol>
-<li>The concentration of the communication load is on the shoulder of the server.</li>
-</ol>
-<h4 id="New-Paradigm-Peer-to-Peer"><a href="#New-Paradigm-Peer-to-Peer" class="headerlink" title="New Paradigm : Peer-to-Peer"></a>New Paradigm : Peer-to-Peer</h4><blockquote>
-<p>A computer connected to the Internet can provide service at one time and recieve service at another time. A computer can even provide and revice services at the same time</p>
-</blockquote>
-<p>传统的模式中，需要一个时刻都在运行的服务器以接受随时可能由客户端发送的请求。而p2p模式下，一个电脑可以同时提供和接受服务。</p>
-<ul>
-<li>when：</li>
-</ul>
-<ol>
-<li>when some computers connected to the Internet have something to share with each other.</li>
-</ol>
-<ul>
-<li>Existing Problems:</li>
-</ul>
-<ol>
-<li>security.</li>
-<li>applicability.</li>
-</ol>
-<ul>
-<li>Example:</li>
-</ul>
-<ol>
-<li>BitTorrent</li>
-<li>Skype</li>
-<li>IPTV</li>
-<li>Internet telephony.</li>
-</ol>
-<h4 id="Mixed-Paradigm"><a href="#Mixed-Paradigm" class="headerlink" title="Mixed Paradigm :"></a>Mixed Paradigm :</h4><blockquote>
-<p>a light-load client-server communication can be used to find the address of the peer that can offer a service.</p>
-</blockquote>
-<h3 id="Application-Programming-Interface"><a href="#Application-Programming-Interface" class="headerlink" title="Application Programming Interface"></a>Application Programming Interface</h3><blockquote>
-<p>An interface in programming is a set of instructions between two entities. In this case one of the entities is the process at the aplication layer and the other is sthe operating system that encapsulates the first four layers of the TCP&#x2F;IP protocol suite.</p>
-</blockquote>
-<p>常见API:</p>
-<ol>
-<li>socket interface</li>
-<li>Transport Layer Interface </li>
-<li>STREAM</li>
-</ol>
-<h4 id="Sockets"><a href="#Sockets" class="headerlink" title="Sockets"></a>Sockets</h4><blockquote>
-<p>it is not a physical entity like them.it is an abstraction.It is a data structure that is created and used by the aplication program.</p>
-</blockquote>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
-<li>林成浴 《TCP-IP协议及其应用》</li>
-<li>《computer networking a top-down approach》</li>
-</ol>
-
+          <p>目前绝大多数网络都采用TCP&#x2F;IP协议，TCP&#x2F;IP是目前最完整的、被普遍接受的通信协议标准</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/04/05/TCPIPLearning/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1494,7 +1277,7 @@
                 修改于
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-05-25 10:40:07" itemprop="dateModified" datetime="2023-05-25T10:40:07+08:00">2023-05-25</time>
+                <time title="修改时间：2023-05-25 11:01:17" itemprop="dateModified" datetime="2023-05-25T11:01:17+08:00">2023-05-25</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1548,61 +1331,19 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <span id="more"></span>
-<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>单例即单实例，指在系统(程序)中，<b>某个类只存在一个实例</b>，同时提供集中、统一的访问接口。</p>
+          <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>单例即单实例，指在系统(程序)中，<b>某个类只存在一个实例</b>，同时提供集中、统一的访问接口。</p>
 <blockquote>
 <p>如果一个对象有可能贯穿整个应用程序，而且起到了全局统一管理控制的作用，那么单例模式也许是一个值得考虑的选择。</p>
 </blockquote>
 <p>例如：<br><code>Spring</code>中<code>bean</code>的定义可以被定义为两种：<code>prototype(原型)</code>,<code>singleton(单例)</code><br><code>线程池（threadpool）</code>, <code>缓存（cache）</code>等比较适合设计为单例模式。</p>
-<h2 id="单例模式的实现"><a href="#单例模式的实现" class="headerlink" title="单例模式的实现"></a>单例模式的实现</h2><ol>
-<li>饿汉模式</li>
-<li>懒汉模式</li>
-<li>双重校验锁</li>
-<li>静态内部类</li>
-<li>枚举</li>
-</ol>
-<h3 id="饿汉模式"><a href="#饿汉模式" class="headerlink" title="饿汉模式"></a>饿汉模式</h3><p>类加载时，创建实例。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Sun</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Sun</span> <span class="variable">sun</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Sun</span>();</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Sun</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Sun <span class="title function_">getInstance</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> sun;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ol>
-<li>私有化的构造方法保证了该类的实例化工作完全属于内部事务，任何外部内无法干预。</li>
-<li><code>private</code>该实例的私有性，不可见性，不可访问性。</li>
-<li><code>static</code> 确保了实例的<code>静态性</code>，当类加载时候进行初始化。</li>
-<li><code>final</code> 确保该实例是个常量，一旦被赋值就不能再修改</li>
-<li><code>getInstance()</code>提供对外获取该实例的接口。</li>
-</ol>
-<p>缺点：该实例如果没用到也会被创建，浪费了内存。<br>因此该模式适合单例占用内存比较小，创建成功后立即被使用的情况。如果单例占用内存较大，使用<b>懒汉模式</b>进行延迟加载就更合适。</p>
-<h3 id="懒汉模式"><a href="#懒汉模式" class="headerlink" title="懒汉模式"></a>懒汉模式</h3><p>第一次使用时，创建实例</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Sun</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Sun sun;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Sun</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Sun1 <span class="title function_">getInstance</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (sun == <span class="literal">null</span>)&#123;</span><br><span class="line">            sun = <span class="keyword">new</span> <span class="title class_">Sun</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sun;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>只有当某线程第一次调用<code>getInstance()</code>方法时，该实例才创建实例。</p>
-<h4 id="存在的问题"><a href="#存在的问题" class="headerlink" title="存在的问题"></a>存在的问题</h4><p>在多线程的情况下，很多线程并发的进行 <code>if (sun == null)</code>判断，程序就会多次实例化太阳，对sun进行多次赋值。<br>解决办法：<code>getInstance</code> 添加 <code>synchronized</code>关键字。</p>
-<p>改造：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Sun</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Sun sun;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Sun</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span>  <span class="keyword">static</span> <span class="keyword">synchronized</span> Sun <span class="title function_">getInstance</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (sun == <span class="literal">null</span>)&#123;</span><br><span class="line">            sun = <span class="keyword">new</span> <span class="title class_">Sun</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sun;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>但是这种方法依然存在问题:<br><code>synchronized</code>修饰的同步方法比一般方法要慢很多，如果多次调用<code>getInstance()</code>，累积的性能损耗就比较大了。</p>
-<h3 id="双重校验锁"><a href="#双重校验锁" class="headerlink" title="双重校验锁"></a>双重校验锁</h3><p>这种模式是懒汉模式的变种，利用<b>双验锁</b>解决<code>synchronized</code>修饰同步方法开销过大的问题。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Sun</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">static</span> Sun sun;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Sun</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Sun <span class="title function_">getInstance</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (sun == <span class="literal">null</span>)&#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (Sun.class)&#123;</span><br><span class="line">                <span class="keyword">if</span> (sun == <span class="literal">null</span>)&#123;</span><br><span class="line">                    sun = <span class="keyword">new</span> <span class="title class_">Sun</span>();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sun;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ol>
-<li><code>volatile</code> 禁止指令重排</li>
-<li>第一次校验，即第一个 <code>if (sun == null)</code>判断，程序执行的过程中，大部分线程并不需要进入到同步代码块，保证了线程并发的高效性</li>
-<li>第二次校验，防止二次创建实例。在某情况下，线程A和线程B都通过了第一次校验，实例会被重新赋值。</li>
-</ol>
-<h3 id="静态内部类"><a href="#静态内部类" class="headerlink" title="静态内部类"></a>静态内部类</h3><p>利用了类加载机制来保证只创建一个instance实例</p>
-<blockquote>
-<p>它是在内部类里面去创建对象实例。这样的话，只要应用中不使用内部类，JVM就不会去加载这个单例类，也就不会创建单例对象，从而实现懒汉式的延迟加载。也就是说这种方式可以同时保证延迟加载和线程安全。</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Sun</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">SingletonHolder</span> &#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Sun</span> <span class="variable">sun</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Sun</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Sun</span> <span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Sun <span class="title function_">getInstance</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> SingletonHolder.sun;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="枚举"><a href="#枚举" class="headerlink" title="枚举"></a>枚举</h3><p>既可以避免多线程同步问题；还可以防止通过反射和反序列化来重新创建新的对象</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> <span class="title class_">Singleton</span>&#123;</span><br><span class="line">    INSTANCE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li>刘韬《秒懂设计模式》</li>
-<li><a target="_blank" rel="noopener" href="https://www.runoob.com/design-pattern/singleton-pattern.html">https://www.runoob.com/design-pattern/singleton-pattern.html</a></li>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/goodlixueyong/article/details/51935526">https://blog.csdn.net/goodlixueyong/article/details/51935526</a></li>
-<li><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1497592">https://cloud.tencent.com/developer/article/1497592</a></li>
-</ul>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/04/01/SingletonDesignPattern/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
