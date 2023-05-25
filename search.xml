@@ -25,10 +25,12 @@
       </categories>
   </entry>
   <entry>
-    <title>Factory Design Pattern</title>
+    <title>设计模式-工厂</title>
     <url>/2023/05/25/Factory-Design-Pattern/</url>
     <content><![CDATA[<span id="more"></span>
-]]></content>
+
+<p>程序设计中的工厂类是对对象构造、实例化、初始化的封装，<br>而工厂方法对工厂构造方法进行接口规范化，以允许子类工厂决定具体制造那类产品的实例。</p>
+<h1 id="简单工厂"><a href="#简单工厂" class="headerlink" title="简单工厂"></a>简单工厂</h1><h1 id="工厂方法"><a href="#工厂方法" class="headerlink" title="工厂方法"></a>工厂方法</h1><h1 id="抽象工厂"><a href="#抽象工厂" class="headerlink" title="抽象工厂"></a>抽象工厂</h1>]]></content>
       <categories>
         <category>设计模式</category>
       </categories>
@@ -114,7 +116,7 @@
   <entry>
     <title>JVM概览</title>
     <url>/2023/05/16/JVMLearning/</url>
-    <content><![CDATA[<span id="more"></span>
+    <content><![CDATA[<!--hemore-->
 <p>编译器可以分为：前端编译器、JIT 编译器和AOT编译器。</p>
 <h1 id="源代码到机器码"><a href="#源代码到机器码" class="headerlink" title="源代码到机器码"></a>源代码到机器码</h1><h2 id="前端编译器：源代码到字节码"><a href="#前端编译器：源代码到字节码" class="headerlink" title="前端编译器：源代码到字节码"></a>前端编译器：源代码到字节码</h2><h2 id="JIT-编译器：从字节码到机器码"><a href="#JIT-编译器：从字节码到机器码" class="headerlink" title="JIT 编译器：从字节码到机器码"></a>JIT 编译器：从字节码到机器码</h2><h2 id="AOT-编译器：源代码到机器码"><a href="#AOT-编译器：源代码到机器码" class="headerlink" title="AOT 编译器：源代码到机器码"></a>AOT 编译器：源代码到机器码</h2><h1 id="字节码文件结构"><a href="#字节码文件结构" class="headerlink" title="字节码文件结构"></a>字节码文件结构</h1><h1 id="JVM-类加载机制"><a href="#JVM-类加载机制" class="headerlink" title="JVM 类加载机制"></a>JVM 类加载机制</h1><p>当编译器将 Java 源码编译为字节码之后，虚拟机便可以将字节码读取进内存，从而进行解析、运行等整个过程。</p>
 <p>JVM 虚拟机执行 class 字节码的过程可以分为七个阶段：<br>加载、验证、准备、解析、初始化、使用、卸载。</p>
