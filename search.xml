@@ -34,6 +34,84 @@
       </categories>
   </entry>
   <entry>
+    <title>设计模式-解释器</title>
+    <url>/2023/04/01/InterpreterDesignPattern/</url>
+    <content><![CDATA[<span id="more"></span>
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><blockquote>
+<p>解释器模式(Interpreter)会针对某种语言并基于其语法特征创建一系列的表达式类（包括终极表达式与非终极表达式），利用树结构模式将表达式对象组装起来，最终将其翻译成计算机能够识别并执行的语义树。</p>
+<p>例如结构型数据库对查询语言SQL的解析，浏览器对HTML语言的解析，以及操作系统Shell对命令的解析。不同的语言有着不同的语法和翻译方式，这都依靠解释器完成.</p>
+</blockquote>
+<h3 id="解释器模式中的角色划分"><a href="#解释器模式中的角色划分" class="headerlink" title="解释器模式中的角色划分"></a>解释器模式中的角色划分</h3><hr>
+<p><img src="2023-04-01-20-07-17.png"></p>
+<hr>
+<p><code>AbstractExpression</code>（抽象表达式）</p>
+<blockquote>
+<p>定义解释器的标准接口interpret()，所有终极表达式类与非终极表达式类均需实现此接口。对应本章例程中的表达式接口Expression。</p>
+</blockquote>
+<p><code>AbstractExpression</code>（抽象表达式</p>
+<blockquote>
+<p>抽象表达式接口的实现类，具有原子性、不可拆分性的表达式。对应本章例程中的鼠标移动表达式Move、鼠标左键按下表达式LeftKeyDown、鼠标左键松开表达式LeftKeyUp、延迟表达式Delay。</p>
+</blockquote>
+<p><code>TerminalExpression</code>（终极表达式）</p>
+<blockquote>
+<p>抽象表达式接口的实现类，具有原子性、不可拆分性的表达式。对应本章例程中的鼠标移动表达式Move、鼠标左键按下表达式LeftKeyDown、鼠标左键松开表达式LeftKeyUp、延迟表达式Delay。</p>
+</blockquote>
+<p><code>NonTerminalExpression</code>（非终极表达式）</p>
+<blockquote>
+<p>抽象表达式接口的实现类，包含一个或多个表达式接口引用，所以它所包含的子表达式可以是非终极表达式，也可以是终极表达式。对应本章例程中的左键单击表达式LeftKeyClick、循环表达式Repetition、表达式序列Sequence。</p>
+</blockquote>
+<p><code>Context</code>（上下文）</p>
+<blockquote>
+<p>需要被解释的语言类，它包含符合解释器语法规则的具体语言。对应本例程中的滑鼠精灵脚本MouseScript。</p>
+</blockquote>
+<p><code>Client</code>（客户端）</p>
+<blockquote>
+<p>根据语言的语法结构生成对应的表达式语法树，然后调用根表达式的解释方法得到结果</p>
+</blockquote>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p> 一段驱动鼠标的脚本，根据该脚本建模。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">BEGIN                   // 脚本开始</span><br><span class="line">MOVE 500,600;           // 鼠标指针移动到坐标（500，600）</span><br><span class="line">    BEGIN LOOP 5        // 开始循环5次</span><br><span class="line">        LEFT_CLICK;     // 循环体内单机左键</span><br><span class="line">        DELAY 1;        // 每次延迟1秒</span><br><span class="line">    END;                // 循环体结束</span><br><span class="line">RIGHT DOWN;             // 按下右键</span><br><span class="line">DELAY 7200;             // 延迟2小时</span><br><span class="line">END;                    // 脚本结束</span><br></pre></td></tr></table></figure>
+<h3 id="表达式接口"><a href="#表达式接口" class="headerlink" title="表达式接口"></a>表达式接口</h3><p>对所有表达式进行行为抽象</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Expression</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">interpre</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="终极表达式"><a href="#终极表达式" class="headerlink" title="终极表达式"></a>终极表达式</h3><p>鼠标移动表达式 <code>Expression</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Move</span> <span class="keyword">implements</span> <span class="title class_">Expression</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> x,y;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Move</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y )</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.x = x;</span><br><span class="line">        <span class="built_in">this</span>.y = y;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">interpret</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;移动鼠标：【&quot;</span> + x + <span class="string">&quot;,&quot;</span> + y +<span class="string">&quot;】&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>鼠标左键按下表达式 <code>LeftKeyDown</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LeftKeyDown</span> <span class="keyword">implements</span> <span class="title class_">Expression</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">interpret</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;按下鼠标: 左键&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>鼠标左键松开表达式 <code>LeftKeyUp</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LeftKeyUp</span> <span class="keyword">implements</span> <span class="title class_">Expression</span>&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">interpret</span><span class="params">()</span> &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;松开鼠标：左键&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>鼠标右键松开表达式 <code>RightKeyUp</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RightKeyUp</span> <span class="keyword">implements</span> <span class="title class_">Expression</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">interpret</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;松开鼠标：右键&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>鼠标右键按下表达式 <code>RightKeyDown</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RightKeyDown</span> <span class="keyword">implements</span> <span class="title class_">Expression</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">interpret</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;按下鼠标: 右键&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>延迟表达式 <code>Delay</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Delay</span> <span class="keyword">implements</span> <span class="title class_">Expression</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> seconds;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Delay</span><span class="params">(<span class="type">int</span> seconds)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.seconds = seconds;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getSeconds</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> seconds;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">interpret</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;系统延迟: &quot;</span>+ seconds + <span class="string">&quot;秒&quot;</span>);</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            Thread.sleep(seconds * <span class="number">100</span>);</span><br><span class="line"></span><br><span class="line">        &#125;<span class="keyword">catch</span> (InterruptedException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="非终极表达式"><a href="#非终极表达式" class="headerlink" title="非终极表达式"></a>非终极表达式</h3><p>左键单击表达式 <code>LeftKeyClick</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LeftKeyClick</span> <span class="keyword">implements</span> <span class="title class_">Expression</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> Expression leftKeyDown;</span><br><span class="line">    <span class="keyword">private</span> Expression leftKeyUp;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">LeftKeyClick</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.leftKeyDown = <span class="keyword">new</span> <span class="title class_">LeftKeyDown</span>();</span><br><span class="line">        <span class="built_in">this</span>.leftKeyUp = <span class="keyword">new</span> <span class="title class_">LeftKeyUp</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">interpret</span><span class="params">()</span> &#123;</span><br><span class="line">        leftKeyDown.interpret();</span><br><span class="line">        leftKeyUp.interpret();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>循环表达式 <code>Repetition</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Repetition</span> <span class="keyword">implements</span> <span class="title class_">Expression</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> loopCount;</span><br><span class="line">    <span class="keyword">private</span> Expression loopBodySequence;    <span class="comment">// 循环体内子表达式序列</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Repetition</span><span class="params">( Expression loopBodySequence,<span class="type">int</span> loopCount)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.loopCount = loopCount;</span><br><span class="line">        <span class="built_in">this</span>.loopBodySequence = loopBodySequence;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">interpret</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">while</span> (loopCount &gt; <span class="number">0</span>)&#123;</span><br><span class="line">            loopBodySequence.interpret();</span><br><span class="line">            loopCount-- ;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+<p>表达式序列 <code>Sequence</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Sequence</span> <span class="keyword">implements</span> <span class="title class_">Expression</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> List&lt;Expression&gt; expressions;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Sequence</span><span class="params">(List&lt;Expression&gt; expressions)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.expressions = expressions;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">interpret</span><span class="params">()</span> &#123;</span><br><span class="line">        expressions.forEach(expression -&gt; expression.interpret());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h3><p>根据语言的语法结构生成对应的表达式语法树，然后调用根表达式的解释方法得到结果。</p>
+<p>客户端 <code>Client</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Client</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">Expression</span> <span class="variable">sequence</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Sequence</span>(Arrays.asList(</span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">Move</span>(<span class="number">500</span>,<span class="number">600</span>),</span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">Repetition</span>(<span class="keyword">new</span> <span class="title class_">Sequence</span>(Arrays.asList(<span class="keyword">new</span> <span class="title class_">LeftKeyClick</span>(),<span class="keyword">new</span> <span class="title class_">Delay</span>(<span class="number">1</span>))), <span class="number">5</span>),</span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">RightKeyClick</span>(),</span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">Delay</span>(<span class="number">7200</span>)));</span><br><span class="line"></span><br><span class="line">        sequence.interpret();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li>刘韬《秒懂设计模式》</li>
+</ul>
+]]></content>
+      <categories>
+        <category>设计模式</category>
+      </categories>
+      <tags>
+        <tag>解释器</tag>
+        <tag>设计模式</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>JVM概览</title>
     <url>/2023/05/16/JVMLearning/</url>
     <content><![CDATA[<span id="more"></span>
@@ -142,84 +220,6 @@
       </categories>
       <tags>
         <tag>authorization</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>设计模式-解释器</title>
-    <url>/2023/04/01/InterpreterDesignPattern/</url>
-    <content><![CDATA[<span id="more"></span>
-<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><blockquote>
-<p>解释器模式(Interpreter)会针对某种语言并基于其语法特征创建一系列的表达式类（包括终极表达式与非终极表达式），利用树结构模式将表达式对象组装起来，最终将其翻译成计算机能够识别并执行的语义树。</p>
-<p>例如结构型数据库对查询语言SQL的解析，浏览器对HTML语言的解析，以及操作系统Shell对命令的解析。不同的语言有着不同的语法和翻译方式，这都依靠解释器完成.</p>
-</blockquote>
-<h3 id="解释器模式中的角色划分"><a href="#解释器模式中的角色划分" class="headerlink" title="解释器模式中的角色划分"></a>解释器模式中的角色划分</h3><hr>
-<p><img src="2023-04-01-20-07-17.png"></p>
-<hr>
-<p><code>AbstractExpression</code>（抽象表达式）</p>
-<blockquote>
-<p>定义解释器的标准接口interpret()，所有终极表达式类与非终极表达式类均需实现此接口。对应本章例程中的表达式接口Expression。</p>
-</blockquote>
-<p><code>AbstractExpression</code>（抽象表达式</p>
-<blockquote>
-<p>抽象表达式接口的实现类，具有原子性、不可拆分性的表达式。对应本章例程中的鼠标移动表达式Move、鼠标左键按下表达式LeftKeyDown、鼠标左键松开表达式LeftKeyUp、延迟表达式Delay。</p>
-</blockquote>
-<p><code>TerminalExpression</code>（终极表达式）</p>
-<blockquote>
-<p>抽象表达式接口的实现类，具有原子性、不可拆分性的表达式。对应本章例程中的鼠标移动表达式Move、鼠标左键按下表达式LeftKeyDown、鼠标左键松开表达式LeftKeyUp、延迟表达式Delay。</p>
-</blockquote>
-<p><code>NonTerminalExpression</code>（非终极表达式）</p>
-<blockquote>
-<p>抽象表达式接口的实现类，包含一个或多个表达式接口引用，所以它所包含的子表达式可以是非终极表达式，也可以是终极表达式。对应本章例程中的左键单击表达式LeftKeyClick、循环表达式Repetition、表达式序列Sequence。</p>
-</blockquote>
-<p><code>Context</code>（上下文）</p>
-<blockquote>
-<p>需要被解释的语言类，它包含符合解释器语法规则的具体语言。对应本例程中的滑鼠精灵脚本MouseScript。</p>
-</blockquote>
-<p><code>Client</code>（客户端）</p>
-<blockquote>
-<p>根据语言的语法结构生成对应的表达式语法树，然后调用根表达式的解释方法得到结果</p>
-</blockquote>
-<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p> 一段驱动鼠标的脚本，根据该脚本建模。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">BEGIN                   // 脚本开始</span><br><span class="line">MOVE 500,600;           // 鼠标指针移动到坐标（500，600）</span><br><span class="line">    BEGIN LOOP 5        // 开始循环5次</span><br><span class="line">        LEFT_CLICK;     // 循环体内单机左键</span><br><span class="line">        DELAY 1;        // 每次延迟1秒</span><br><span class="line">    END;                // 循环体结束</span><br><span class="line">RIGHT DOWN;             // 按下右键</span><br><span class="line">DELAY 7200;             // 延迟2小时</span><br><span class="line">END;                    // 脚本结束</span><br></pre></td></tr></table></figure>
-<h3 id="表达式接口"><a href="#表达式接口" class="headerlink" title="表达式接口"></a>表达式接口</h3><p>对所有表达式进行行为抽象</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Expression</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">interpre</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="终极表达式"><a href="#终极表达式" class="headerlink" title="终极表达式"></a>终极表达式</h3><p>鼠标移动表达式 <code>Expression</code></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Move</span> <span class="keyword">implements</span> <span class="title class_">Expression</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> x,y;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Move</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y )</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.x = x;</span><br><span class="line">        <span class="built_in">this</span>.y = y;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">interpret</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;移动鼠标：【&quot;</span> + x + <span class="string">&quot;,&quot;</span> + y +<span class="string">&quot;】&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>鼠标左键按下表达式 <code>LeftKeyDown</code></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LeftKeyDown</span> <span class="keyword">implements</span> <span class="title class_">Expression</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">interpret</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;按下鼠标: 左键&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>鼠标左键松开表达式 <code>LeftKeyUp</code></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LeftKeyUp</span> <span class="keyword">implements</span> <span class="title class_">Expression</span>&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">interpret</span><span class="params">()</span> &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;松开鼠标：左键&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>鼠标右键松开表达式 <code>RightKeyUp</code></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RightKeyUp</span> <span class="keyword">implements</span> <span class="title class_">Expression</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">interpret</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;松开鼠标：右键&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>鼠标右键按下表达式 <code>RightKeyDown</code></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RightKeyDown</span> <span class="keyword">implements</span> <span class="title class_">Expression</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">interpret</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;按下鼠标: 右键&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-<p>延迟表达式 <code>Delay</code></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Delay</span> <span class="keyword">implements</span> <span class="title class_">Expression</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> seconds;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Delay</span><span class="params">(<span class="type">int</span> seconds)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.seconds = seconds;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getSeconds</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> seconds;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">interpret</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;系统延迟: &quot;</span>+ seconds + <span class="string">&quot;秒&quot;</span>);</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            Thread.sleep(seconds * <span class="number">100</span>);</span><br><span class="line"></span><br><span class="line">        &#125;<span class="keyword">catch</span> (InterruptedException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="非终极表达式"><a href="#非终极表达式" class="headerlink" title="非终极表达式"></a>非终极表达式</h3><p>左键单击表达式 <code>LeftKeyClick</code></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LeftKeyClick</span> <span class="keyword">implements</span> <span class="title class_">Expression</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> Expression leftKeyDown;</span><br><span class="line">    <span class="keyword">private</span> Expression leftKeyUp;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">LeftKeyClick</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.leftKeyDown = <span class="keyword">new</span> <span class="title class_">LeftKeyDown</span>();</span><br><span class="line">        <span class="built_in">this</span>.leftKeyUp = <span class="keyword">new</span> <span class="title class_">LeftKeyUp</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">interpret</span><span class="params">()</span> &#123;</span><br><span class="line">        leftKeyDown.interpret();</span><br><span class="line">        leftKeyUp.interpret();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>循环表达式 <code>Repetition</code></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Repetition</span> <span class="keyword">implements</span> <span class="title class_">Expression</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> loopCount;</span><br><span class="line">    <span class="keyword">private</span> Expression loopBodySequence;    <span class="comment">// 循环体内子表达式序列</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Repetition</span><span class="params">( Expression loopBodySequence,<span class="type">int</span> loopCount)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.loopCount = loopCount;</span><br><span class="line">        <span class="built_in">this</span>.loopBodySequence = loopBodySequence;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">interpret</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">while</span> (loopCount &gt; <span class="number">0</span>)&#123;</span><br><span class="line">            loopBodySequence.interpret();</span><br><span class="line">            loopCount-- ;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
-<p>表达式序列 <code>Sequence</code></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Sequence</span> <span class="keyword">implements</span> <span class="title class_">Expression</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> List&lt;Expression&gt; expressions;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Sequence</span><span class="params">(List&lt;Expression&gt; expressions)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.expressions = expressions;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">interpret</span><span class="params">()</span> &#123;</span><br><span class="line">        expressions.forEach(expression -&gt; expression.interpret());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h3><p>根据语言的语法结构生成对应的表达式语法树，然后调用根表达式的解释方法得到结果。</p>
-<p>客户端 <code>Client</code></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Client</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">Expression</span> <span class="variable">sequence</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Sequence</span>(Arrays.asList(</span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">Move</span>(<span class="number">500</span>,<span class="number">600</span>),</span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">Repetition</span>(<span class="keyword">new</span> <span class="title class_">Sequence</span>(Arrays.asList(<span class="keyword">new</span> <span class="title class_">LeftKeyClick</span>(),<span class="keyword">new</span> <span class="title class_">Delay</span>(<span class="number">1</span>))), <span class="number">5</span>),</span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">RightKeyClick</span>(),</span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">Delay</span>(<span class="number">7200</span>)));</span><br><span class="line"></span><br><span class="line">        sequence.interpret();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li>刘韬《秒懂设计模式》</li>
-</ul>
-]]></content>
-      <categories>
-        <category>设计模式</category>
-      </categories>
-      <tags>
-        <tag>解释器</tag>
-        <tag>设计模式</tag>
       </tags>
   </entry>
   <entry>
