@@ -22,7 +22,7 @@
 </ol>
 <h1 id="仍存在的疑问"><a href="#仍存在的疑问" class="headerlink" title="仍存在的疑问"></a>仍存在的疑问</h1>]]></content>
       <categories>
-        <category>源码分析</category>
+        <category>source code analysis</category>
       </categories>
   </entry>
   <entry>
@@ -68,7 +68,7 @@
 <p>此外可以加入一个”制造工厂的工厂”来决定让那个工厂投入运行。</p>
 ]]></content>
       <categories>
-        <category>设计模式</category>
+        <category>design pattarn</category>
       </categories>
   </entry>
   <entry>
@@ -143,7 +143,7 @@
 </ul>
 ]]></content>
       <categories>
-        <category>设计模式</category>
+        <category>design pattarn</category>
       </categories>
       <tags>
         <tag>解释器</tag>
@@ -256,7 +256,7 @@
 <h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://www.ruanyifeng.com/blog/2019/04/oauth-grant-types.html">https://www.ruanyifeng.com/blog/2019/04/oauth-grant-types.html</a></p>
 ]]></content>
       <categories>
-        <category>第三方授权 OAuth2.0</category>
+        <category>OAuth2.0</category>
       </categories>
       <tags>
         <tag>authorization</tag>
@@ -308,7 +308,7 @@
 </ol>
 ]]></content>
       <categories>
-        <category>设计模式</category>
+        <category>design pattern</category>
       </categories>
       <tags>
         <tag>设计模式</tag>
@@ -399,6 +399,15 @@
 <li>循环等待：<br>  将资源编号，只能申请序号更大的资源</li>
 </ul>
 <p>银行家算法，分配举证，最大需求矩阵，需求矩阵。</p>
+]]></content>
+      <categories>
+        <category>题</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Questions-1</title>
+    <url>/2023/05/25/Questions-1/</url>
+    <content><![CDATA[<h1 id="题目来源"><a href="#题目来源" class="headerlink" title="题目来源"></a>题目来源</h1><p>如何判断 Java 工程师的基础知识是否扎实？ - 王争的回答 - 知乎<br><a href="https://www.zhihu.com/question/48312588/answer/3034670442">https://www.zhihu.com/question/48312588/answer/3034670442</a></p>
 ]]></content>
       <categories>
         <category>题</category>
@@ -497,15 +506,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Questions-1</title>
-    <url>/2023/05/25/Questions-1/</url>
-    <content><![CDATA[<h1 id="题目来源"><a href="#题目来源" class="headerlink" title="题目来源"></a>题目来源</h1><p>如何判断 Java 工程师的基础知识是否扎实？ - 王争的回答 - 知乎<br><a href="https://www.zhihu.com/question/48312588/answer/3034670442">https://www.zhihu.com/question/48312588/answer/3034670442</a></p>
-]]></content>
-      <categories>
-        <category>题</category>
-      </categories>
-  </entry>
-  <entry>
     <title>TCP/IP概览</title>
     <url>/2023/04/05/TCPIPLearning/</url>
     <content><![CDATA[<p>目前绝大多数网络都采用TCP&#x2F;IP协议，TCP&#x2F;IP是目前最完整的、被普遍接受的通信协议标准</p>
@@ -596,9 +596,6 @@
       <categories>
         <category>TCP/IP</category>
       </categories>
-      <tags>
-        <tag>tcp/ip</tag>
-      </tags>
   </entry>
   <entry>
     <title>Testing</title>
@@ -642,8 +639,5 @@
       <categories>
         <category>MIT6.031 Software Construction</category>
       </categories>
-      <tags>
-        <tag>软件测试</tag>
-      </tags>
   </entry>
 </search>

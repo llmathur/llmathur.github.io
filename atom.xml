@@ -44,14 +44,14 @@
     <link href="http://llmathur.github.io/2023/05/25/Factory-Design-Pattern/"/>
     <id>http://llmathur.github.io/2023/05/25/Factory-Design-Pattern/</id>
     <published>2023-05-25T02:09:19.000Z</published>
-    <updated>2023-05-25T07:35:44.865Z</updated>
+    <updated>2023-05-25T08:10:11.392Z</updated>
     
     
     <summary type="html">&lt;p&gt;程序设计中的工厂类是对对象构造、实例化、初始化的封装，&lt;br&gt;而工厂方法对工厂构造方法进行接口规范化，以允许子类工厂决定具体制造那类产品的实例。&lt;/p&gt;</summary>
     
     
     
-    <category term="设计模式" scheme="http://llmathur.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    <category term="design pattarn" scheme="http://llmathur.github.io/categories/design-pattarn/"/>
     
     
   </entry>
@@ -61,14 +61,14 @@
     <link href="http://llmathur.github.io/2023/05/24/ArrayList-source-code/"/>
     <id>http://llmathur.github.io/2023/05/24/ArrayList-source-code/</id>
     <published>2023-05-24T13:22:33.000Z</published>
-    <updated>2023-05-25T03:04:46.109Z</updated>
+    <updated>2023-05-25T08:09:16.457Z</updated>
     
     
     <summary type="html">&lt;p&gt;JDK版本:&lt;br&gt;    openjdk 20.0.1 2023-04-18&lt;br&gt;    OpenJDK Runtime Environment (build 20.0.1+9-29)&lt;br&gt;    OpenJDK 64-Bit Server VM (build 20.0.1+9-29, mixed mode, sharing)&lt;/p&gt;</summary>
     
     
     
-    <category term="源码分析" scheme="http://llmathur.github.io/categories/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/"/>
+    <category term="source code analysis" scheme="http://llmathur.github.io/categories/source-code-analysis/"/>
     
     
   </entry>
@@ -117,7 +117,7 @@
     <link href="http://llmathur.github.io/2023/05/16/JVMLearning/"/>
     <id>http://llmathur.github.io/2023/05/16/JVMLearning/</id>
     <published>2023-05-16T11:33:58.000Z</published>
-    <updated>2023-05-25T08:06:02.936Z</updated>
+    <updated>2023-05-25T08:11:20.082Z</updated>
     
     
     <summary type="html">&lt;p&gt;编译器可以分为：前端编译器、JIT 编译器和AOT编译器。&lt;/p&gt;</summary>
@@ -134,7 +134,7 @@
     <link href="http://llmathur.github.io/2023/05/16/Testing/"/>
     <id>http://llmathur.github.io/2023/05/16/Testing/</id>
     <published>2023-05-16T06:10:42.000Z</published>
-    <updated>2023-05-25T03:04:46.066Z</updated>
+    <updated>2023-05-25T08:10:56.372Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;Objectives&quot;&gt;&lt;a href=&quot;#Objectives&quot; class=&quot;headerlink&quot; title=&quot;Objectives&quot;&gt;&lt;/a&gt;Objectives&lt;/h1&gt;&lt;p&gt;这是学习完该章节后需要达到的目标：&lt;/p&gt;
@@ -151,8 +151,6 @@
     <category term="MIT6.031 Software Construction" scheme="http://llmathur.github.io/categories/MIT6-031-Software-Construction/"/>
     
     
-    <category term="软件测试" scheme="http://llmathur.github.io/tags/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/"/>
-    
   </entry>
   
   <entry>
@@ -160,7 +158,7 @@
     <link href="http://llmathur.github.io/2023/05/09/OAuth-2-0/"/>
     <id>http://llmathur.github.io/2023/05/09/OAuth-2-0/</id>
     <published>2023-05-09T11:01:43.000Z</published>
-    <updated>2023-05-25T03:04:46.089Z</updated>
+    <updated>2023-05-25T08:10:11.377Z</updated>
     
     
     <summary type="html">&lt;p&gt;OAuth 的核心就是向第三方应用颁发令牌&lt;br&gt;四种授权方式&lt;/p&gt;
@@ -174,7 +172,7 @@
     
     
     
-    <category term="第三方授权 OAuth2.0" scheme="http://llmathur.github.io/categories/%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8E%88%E6%9D%83-OAuth2-0/"/>
+    <category term="OAuth2.0" scheme="http://llmathur.github.io/categories/OAuth2-0/"/>
     
     
     <category term="authorization" scheme="http://llmathur.github.io/tags/authorization/"/>
@@ -186,7 +184,7 @@
     <link href="http://llmathur.github.io/2023/04/07/ProtoTypeDesignPattern/"/>
     <id>http://llmathur.github.io/2023/04/07/ProtoTypeDesignPattern/</id>
     <published>2023-04-07T06:00:02.000Z</published>
-    <updated>2023-05-25T03:04:46.098Z</updated>
+    <updated>2023-05-25T08:10:11.377Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h2&gt;&lt;blockquote&gt;
@@ -196,7 +194,7 @@
     
     
     
-    <category term="设计模式" scheme="http://llmathur.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    <category term="design pattern" scheme="http://llmathur.github.io/categories/design-pattern/"/>
     
     
     <category term="设计模式" scheme="http://llmathur.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
@@ -210,7 +208,7 @@
     <link href="http://llmathur.github.io/2023/04/05/TCPIPLearning/"/>
     <id>http://llmathur.github.io/2023/04/05/TCPIPLearning/</id>
     <published>2023-04-05T05:32:11.000Z</published>
-    <updated>2023-05-25T03:04:46.082Z</updated>
+    <updated>2023-05-25T08:11:01.257Z</updated>
     
     
     <summary type="html">&lt;p&gt;目前绝大多数网络都采用TCP&amp;#x2F;IP协议，TCP&amp;#x2F;IP是目前最完整的、被普遍接受的通信协议标准&lt;/p&gt;</summary>
@@ -219,8 +217,6 @@
     
     <category term="TCP/IP" scheme="http://llmathur.github.io/categories/TCP-IP/"/>
     
-    
-    <category term="tcp/ip" scheme="http://llmathur.github.io/tags/tcp-ip/"/>
     
   </entry>
   
@@ -254,7 +250,7 @@
     <link href="http://llmathur.github.io/2023/04/01/InterpreterDesignPattern/"/>
     <id>http://llmathur.github.io/2023/04/01/InterpreterDesignPattern/</id>
     <published>2023-04-01T06:56:02.000Z</published>
-    <updated>2023-05-25T03:04:46.099Z</updated>
+    <updated>2023-05-25T08:10:11.377Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h2&gt;&lt;blockquote&gt;
@@ -264,7 +260,7 @@
     
     
     
-    <category term="设计模式" scheme="http://llmathur.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    <category term="design pattarn" scheme="http://llmathur.github.io/categories/design-pattarn/"/>
     
     
     <category term="解释器" scheme="http://llmathur.github.io/tags/%E8%A7%A3%E9%87%8A%E5%99%A8/"/>
