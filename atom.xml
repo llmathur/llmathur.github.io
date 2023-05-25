@@ -107,7 +107,7 @@
     
     
     
-    <category term="Redis" scheme="http://llmathur.github.io/categories/redis/"/>
+    <category term="Redis" scheme="http://llmathur.github.io/categories/Redis/"/>
     
     
   </entry>
@@ -117,14 +117,14 @@
     <link href="http://llmathur.github.io/2023/05/16/JVMLearning/"/>
     <id>http://llmathur.github.io/2023/05/16/JVMLearning/</id>
     <published>2023-05-16T11:33:58.000Z</published>
-    <updated>2023-05-25T08:17:51.835Z</updated>
+    <updated>2023-05-25T08:21:10.492Z</updated>
     
     
     <summary type="html">&lt;p&gt;编译器可以分为：前端编译器、JIT 编译器和AOT编译器。&lt;/p&gt;</summary>
     
     
     
-    <category term="JVM" scheme="http://llmathur.github.io/categories/jvm/"/>
+    <category term="JVM" scheme="http://llmathur.github.io/categories/JVM/"/>
     
     
   </entry>
@@ -148,7 +148,7 @@
     
     
     
-    <category term="MIT6.031 Software Construction" scheme="http://llmathur.github.io/categories/mit6-031-software-construction/"/>
+    <category term="MIT6.031 Software Construction" scheme="http://llmathur.github.io/categories/MIT6-031-Software-Construction/"/>
     
     
   </entry>
@@ -172,7 +172,7 @@
     
     
     
-    <category term="OAuth2.0" scheme="http://llmathur.github.io/categories/oauth2-0/"/>
+    <category term="OAuth2.0" scheme="http://llmathur.github.io/categories/OAuth2-0/"/>
     
     
   </entry>
@@ -209,7 +209,7 @@
     
     
     
-    <category term="TCP/IP" scheme="http://llmathur.github.io/categories/tcp-ip/"/>
+    <category term="TCP/IP" scheme="http://llmathur.github.io/categories/TCP-IP/"/>
     
     
   </entry>
