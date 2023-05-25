@@ -6,7 +6,7 @@
   <link href="http://llmathur.github.io/atom.xml" rel="self"/>
   
   <link href="http://llmathur.github.io/"/>
-  <updated>2023-05-24T14:05:34.892Z</updated>
+  <updated>2023-05-25T02:09:19.177Z</updated>
   <id>http://llmathur.github.io/</id>
   
   <author>
@@ -17,19 +17,33 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Factory Design Pattern</title>
+    <link href="http://llmathur.github.io/2023/05/25/Factory-Design-Pattern/"/>
+    <id>http://llmathur.github.io/2023/05/25/Factory-Design-Pattern/</id>
+    <published>2023-05-25T02:09:19.000Z</published>
+    <updated>2023-05-25T02:09:19.177Z</updated>
+    
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
     <title>ArrayList source code</title>
     <link href="http://llmathur.github.io/2023/05/24/ArrayList-source-code/"/>
     <id>http://llmathur.github.io/2023/05/24/ArrayList-source-code/</id>
     <published>2023-05-24T13:22:33.000Z</published>
-    <updated>2023-05-24T14:05:34.892Z</updated>
+    <updated>2023-05-25T02:00:48.755Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;span id=&quot;more&quot;&gt;&lt;/span&gt;
-&lt;h1 id=&quot;构造器&quot;&gt;&lt;a href=&quot;#构造器&quot; class=&quot;headerlink&quot; title=&quot;构造器&quot;&gt;&lt;/a&gt;构造器&lt;/h1&gt;&lt;figure class=&quot;highlight</summary>
+    <summary type="html">&lt;!-- moreg --&gt;
+&lt;h1&gt;构造器&lt;/h1&gt;
+&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td</summary>
         
       
     
@@ -196,14 +210,25 @@
     <link href="http://llmathur.github.io/2023/04/01/SingletonDesignPattern/"/>
     <id>http://llmathur.github.io/2023/04/01/SingletonDesignPattern/</id>
     <published>2023-04-01T12:56:49.000Z</published>
-    <updated>2023-05-20T02:20:14.428Z</updated>
+    <updated>2023-05-25T02:09:38.634Z</updated>
     
     
-    <summary type="html">&lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h2&gt;&lt;p&gt;单例即单实例，指在系统(程序)中，&lt;b&gt;某个类只存在一个实例&lt;/b&gt;，同时提供集中、统一的访问接口。&lt;/p&gt;
+    <summary type="html">&lt;h2 id=&quot;介绍&quot;&gt;介绍&lt;/h2&gt;
+&lt;p&gt;单例即单实例，指在系统(程序)中，&lt;b&gt;某个类只存在一个实例&lt;/b&gt;，同时提供集中、统一的访问接口。&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;如果一个对象有可能贯穿整个应用程序，而且起到了全局统一管理控制的作用，那么单例模式也许是一个值得考虑的选择。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;例如：&lt;br&gt;&lt;code&gt;Spring&lt;/code&gt;中&lt;code&gt;bean&lt;/code&gt;的定义可以被定义为两种：&lt;code&gt;prototype(原型)&lt;/code&gt;,&lt;code&gt;singleton(单例)&lt;/code&gt;&lt;br&gt;&lt;code&gt;线程池（threadpool）&lt;/code&gt;, &lt;code&gt;缓存（cache）&lt;/code&gt;等比较适合设计为单例模式。&lt;/p&gt;</summary>
+&lt;p&gt;例如：&lt;br&gt;
+&lt;code&gt;Spring&lt;/code&gt;中&lt;code&gt;bean&lt;/code&gt;的定义可以被定义为两种：&lt;code&gt;prototype(原型)&lt;/code&gt;,&lt;code&gt;singleton(单例)&lt;/code&gt;&lt;br&gt;
+&lt;code&gt;线程池（threadpool）&lt;/code&gt;, &lt;code&gt;缓存（cache）&lt;/code&gt;等比较适合设计为单例模式。&lt;/p&gt;
+&lt;h2 id=&quot;单例模式的实现&quot;&gt;单例模式的实现&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;饿汉模式&lt;/li&gt;
+&lt;li&gt;懒汉模式&lt;/li&gt;
+&lt;li&gt;双重校验锁&lt;/li&gt;
+&lt;li&gt;静态内部类&lt;/li&gt;
+&lt;li&gt;枚举&lt;/li&gt;
+&lt;/ol&gt;</summary>
     
     
     
