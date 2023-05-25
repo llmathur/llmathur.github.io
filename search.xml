@@ -26,6 +26,52 @@
       </categories>
   </entry>
   <entry>
+    <title>设计模式-工厂</title>
+    <url>/2023/05/25/Factory-Design-Pattern/</url>
+    <content><![CDATA[<p>程序设计中的工厂类是对对象构造、实例化、初始化的封装，<br>而工厂方法对工厂构造方法进行接口规范化，以允许子类工厂决定具体制造那类产品的实例。</p>
+<span id="more"></span>
+<p>场景：空战游戏中，敌机分为坦克、飞机。它们都有一些共同的属性和行为</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">Enemy</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> x;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> y;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Enemy</span><span class="params">(<span class="type">int</span> x,<span class="type">int</span> y)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.x = x;</span><br><span class="line">        <span class="built_in">this</span>.y = y;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 抽象方法，在地图上绘制</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title function_">show</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Airplane</span> <span class="keyword">extends</span> <span class="title class_">Enemy</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Airplane</span><span class="params">(<span class="type">int</span> x,<span class="type">int</span> y)</span>&#123;</span><br><span class="line">        <span class="built_in">super</span>(x,y);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">show</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;绘制飞机于上层图层，出现坐标:&quot;</span>+ x + <span class="string">&quot;,&quot;</span> + y);</span><br><span class="line">        System.out.println(<span class="string">&quot;飞机向玩家发起攻击.....&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Tank</span> <span class="keyword">extends</span> <span class="title class_">Enemy</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Tank</span><span class="params">(<span class="type">int</span> x,<span class="type">int</span> y)</span>&#123;</span><br><span class="line">        <span class="built_in">super</span>(x,y);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">show</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;绘制坦克于下层图层，出现坐标:&quot;</span>+ x + <span class="string">&quot;,&quot;</span> + y);</span><br><span class="line">        System.out.println(<span class="string">&quot;坦克向玩家发起攻击.....&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="简单工厂"><a href="#简单工厂" class="headerlink" title="简单工厂"></a>简单工厂</h1><p>简单工厂类：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SimpleFactory</span>()&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> screenWidth;</span><br><span class="line">    <span class="keyword">private</span> Random random;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">SimpleFactory</span><span class="params">(<span class="type">int</span> screenWidth)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.screenWidth = screenWidth;</span><br><span class="line">        <span class="built_in">this</span>.random = <span class="keyword">new</span> <span class="title class_">Random</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> Enemy <span class="title function_">create</span><span class="params">(String type)</span>&#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> random.nextInt(screenWidth);</span><br><span class="line">        <span class="type">Enemy</span> <span class="variable">enemy</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">switch</span> (type)&#123;</span><br><span class="line">             <span class="comment">// 这里采用字符串的方式进行判断</span></span><br><span class="line">             <span class="comment">// 采用instanceof 判断的方式</span></span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;Airplane&quot;</span>:</span><br><span class="line">                enemy = <span class="keyword">new</span> <span class="title class_">Airplane</span>(x,<span class="number">0</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;Tank&quot;</span>:</span><br><span class="line">                enemy = <span class="keyword">new</span> <span class="title class_">Tank</span>(x,<span class="number">0</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> enemy;</span><br><span class="line">    &#125;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+<p>客户端Client:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Client</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="title function_">void</span><span class="params">(String[] args)</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;游戏开始&quot;</span>);</span><br><span class="line">        <span class="type">SimpleFactory</span> <span class="variable">factory</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">SimpleFactory</span>(<span class="number">100</span>);</span><br><span class="line">        factory.create(<span class="string">&quot;Airplane&quot;</span>).show();</span><br><span class="line">        factory.create(<span class="string">&quot;Tank&quot;</span>).show();</span><br><span class="line">    &#125;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+<p>优点：</p>
+<ul>
+<li>将对象的创建交给专门的工厂类负责，实现了对象的创建和对象的使用分离。</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>工厂类不够灵活，增加新的具体产品需要修改工厂类的判断逻辑代码</li>
+<li>而且当产品类型较多时，简单工厂的 if 判断将会非常多，不容易维护。</li>
+</ul>
+<h1 id="工厂方法"><a href="#工厂方法" class="headerlink" title="工厂方法"></a>工厂方法</h1><p>将简单工厂的制造方法进行拆分，构建起抽象化、多态化的生产模式<br>某个具体的类交给对应的工厂进行创建，若不是有一个统一的大工厂创建。<br>分工——-  &gt;提升效率</p>
+<p>Factory接口</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Factory</span>()&#123;</span><br><span class="line">    Enemy <span class="title function_">create</span><span class="params">(<span class="type">int</span> screenWidth)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>飞机工厂</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AirplaneFactory</span> <span class="keyword">implements</span> <span class="title class_">Factory</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Enemy <span class="title function_">create</span><span class="params">(<span class="type">int</span> screenWidth)</span>&#123;</span><br><span class="line">        <span class="type">Random</span> <span class="variable">random</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Random</span>();</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Airplane</span>(random.nextInt(screenWidth),<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>坦克工厂</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TankFactory</span> <span class="keyword">implements</span> <span class="title class_">Factory</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Enemy <span class="title function_">create</span><span class="params">(<span class="type">int</span> screenWidth)</span>&#123;</span><br><span class="line">        <span class="type">Random</span> <span class="variable">random</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Random</span>();</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Tank</span>(random.nextInt(screenWidth),<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>每个工厂有自己的生产策略或者方式，<br>不同的产品需求都可以找到相应的工厂来满足，<br>即使没有也可以添加新工厂来解决。</p>
+<p>存在的问题：<br>系统如果为每一个产品都增加一个工厂类，会造成工厂类泛滥。</p>
+<h1 id="抽象工厂"><a href="#抽象工厂" class="headerlink" title="抽象工厂"></a>抽象工厂</h1><p>抽象工厂提供了另外一种思路，将各种产品分类，基于此来规划各种工厂的制造接口，最终确立产品制造的顶级规范，使其与具体产品彻底脱钩。<br>比如某个汽车生产厂，需要生产轿车，卡车，越野车…等很多种类的车辆，需要在工厂中设置多条生产线，抽象工厂就是完成该功能的。</p>
+<p>背景：<br>    某公司需要开发一款星际战争游戏，分为人类文明和野兽文明两种阵营。每种阵营的兵种可以被归纳为初级、中级、高级三种</p>
+<p>抽象类工厂接口 <code>AbstractFactory</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">AbstractFactory</span>&#123;</span><br><span class="line">    LowClassUnit <span class="title function_">createLowClass</span><span class="params">()</span>;</span><br><span class="line">    MidClassUnit <span class="title function_">createMidClass</span><span class="params">()</span>;</span><br><span class="line">    HighClassUnit <span class="title function_">createHighClass</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>人类兵工厂 <code>HumanFactory</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HumanFactory</span> <span class="keyword">implements</span> <span class="title class_">AbstractFactory</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> x;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> y;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">HumanFactory</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.x = x;</span><br><span class="line">        <span class="built_in">this</span>.y = y;</span><br><span class="line">    &#125; </span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> LowClassUnit <span class="title function_">createLowClass</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="type">LowClassUnit</span> <span class="variable">unit</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Marine</span>(x,y);</span><br><span class="line">        System.out.println(<span class="string">&quot;制造海军陆战队成员成功。&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> unit;</span><br><span class="line">    &#125;</span><br><span class="line">     </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> MidClassUnit <span class="title function_">createMidClass</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="type">MidClassUnit</span> <span class="variable">unit</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Tank</span>(x,y);</span><br><span class="line">        System.out.println(<span class="string">&quot;制造变形坦克成功。&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> unit;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> HighClassUnit <span class="title function_">createHighClass</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="type">HighClassUnit</span> <span class="variable">unit</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Battleship</span>(x,y);</span><br><span class="line">        System.out.println(<span class="string">&quot;制造巨型战舰成功。&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> unit;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>外星兵工厂 <code>AlienFactory</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AlienFactory</span> <span class="keyword">implements</span> <span class="title class_">AbstractFactory</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> x;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> y;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">AlienFactory</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.x = x;</span><br><span class="line">        <span class="built_in">this</span>.y = y;</span><br><span class="line">    &#125; </span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> LowClassUnit <span class="title function_">createLowClass</span><span class="params">()</span>&#123;</span><br><span class="line">       <span class="comment">// todo</span></span><br><span class="line">    &#125;</span><br><span class="line">     </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> MidClassUnit <span class="title function_">createMidClass</span><span class="params">()</span>&#123;</span><br><span class="line">      <span class="comment">// todo</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> HighClassUnit <span class="title function_">createHighClass</span><span class="params">()</span>&#123;</span><br><span class="line">      <span class="comment">// todo</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>此外可以加入一个”制造工厂的工厂”来决定让那个工厂投入运行。</p>
+]]></content>
+      <categories>
+        <category>设计模式</category>
+      </categories>
+  </entry>
+  <entry>
     <title>设计模式-解释器</title>
     <url>/2023/04/01/InterpreterDesignPattern/</url>
     <content><![CDATA[<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><blockquote>
@@ -102,6 +148,59 @@
       <tags>
         <tag>解释器</tag>
         <tag>设计模式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>设计模式-原型</title>
+    <url>/2023/04/07/ProtoTypeDesignPattern/</url>
+    <content><![CDATA[<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><blockquote>
+<p>原型模式达到以原型实例创建副本实例的目的即可，并不需要知道其他原始类，也就是说，原型模式可以用对象创建对象，而不是用类创建对象，以此达到效率的提升。</p>
+</blockquote>
+<p>对那些非常复杂的初始化过程的对象或者是需要耗费大量资源的情况，原型模式是更好的选择。</p>
+<span id="more"></span>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p>我们正准备设计一个空战游戏</p>
+<p>设定：<br>设置游戏为单打即主角飞机只有一架，而敌机有很多架，而且可以在屏幕上垂直下移来撞击主角飞机。</p>
+<p><code>EnemyPlane:敌机类</code></p>
+<ul>
+<li>敌机默认从屏幕顶部飞出，故设定y坐标为0</li>
+<li>只给出属性的setter方法表示我们一旦设定好敌机的x轴坐标就不再可能手动修改</li>
+<li>通过连续调用fly方法，敌机就可以一直向下飞行<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EnemyPlane</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> x;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="variable">y</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">EnemyPlane</span><span class="params">(<span class="type">int</span> x)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.x = x;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getX</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> x;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getY</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> y;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">fly</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.y++;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<code>Client:客户端类</code><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Client</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        List&lt;EnemyPlane&gt; enemyPlanes = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">500</span>; i++) &#123;</span><br><span class="line">            <span class="type">EnemyPlane</span> <span class="variable">ep</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">EnemyPlane</span>(<span class="keyword">new</span> <span class="title class_">Random</span>().nextInt(<span class="number">200</span>));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="存在的问题"><a href="#存在的问题" class="headerlink" title="存在的问题"></a>存在的问题</h3><ol>
+<li>在游戏的初始化阶段直接示例500架飞机无疑会占用大量内存，使得加载速度变慢<br>解决办法：懒加载，屏幕滚动到一定值的时候才实例对象。单问题依然存在，游戏运行大量实例进行初始化及其浪费CPU性能。</li>
+</ol>
+<h3 id="使用ProtoType模式"><a href="#使用ProtoType模式" class="headerlink" title="使用ProtoType模式"></a>使用ProtoType模式</h3><p><code>EnemyPlane:敌机类</code></p>
+<ul>
+<li>重写Object的clone方法，以便外部能够实现对本类实例的克隆，省略构造过程。</li>
+<li>编写了x属性的setter方法，以便能够对克隆出来的敌机实例横坐标进行修改。<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> test01;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EnemyPlane</span> <span class="keyword">implements</span> <span class="title class_">Cloneable</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> x;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="variable">y</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">EnemyPlane</span><span class="params">(<span class="type">int</span> x)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.x = x;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setX</span><span class="params">(<span class="type">int</span> x)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.x = x;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getX</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> x;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getY</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> y;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">fly</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.y++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> EnemyPlane <span class="title function_">clone</span><span class="params">()</span> <span class="keyword">throws</span> CloneNotSupportedException &#123;</span><br><span class="line">        <span class="keyword">return</span> (EnemyPlane)<span class="built_in">super</span>.clone();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<code>EnemyplaneFactory</code>:敌机工厂类</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EnemyPlaneFactory</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">EnemyPlane</span> <span class="variable">protoType</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">EnemyPlane</span>(<span class="number">200</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> EnemyPlane <span class="title function_">getInstance</span><span class="params">(<span class="type">int</span> x)</span> <span class="keyword">throws</span> CloneNotSupportedException &#123;</span><br><span class="line">        <span class="type">EnemyPlane</span> <span class="variable">clone</span> <span class="operator">=</span> protoType.clone();</span><br><span class="line">        clone.setX(x);</span><br><span class="line">        <span class="keyword">return</span> clone;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>Client</code>：客户端类</p>
+<ul>
+<li>每隔10高度，克隆一个敌机<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Client</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> CloneNotSupportedException &#123;</span><br><span class="line"></span><br><span class="line">        List&lt;EnemyPlane&gt; planes = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">        <span class="type">int</span> <span class="variable">screen</span> <span class="operator">=</span> <span class="number">0</span>; <span class="comment">// 屏幕滚动的高度</span></span><br><span class="line">      <span class="keyword">while</span>(screen &lt; <span class="number">100</span>)&#123;</span><br><span class="line"></span><br><span class="line">          <span class="keyword">if</span>(screen % <span class="number">10</span> == <span class="number">0</span>) &#123;</span><br><span class="line">              <span class="type">EnemyPlane</span> <span class="variable">instance</span> <span class="operator">=</span> EnemyPlaneFactory.getInstance(<span class="keyword">new</span> <span class="title class_">Random</span>().nextInt(<span class="number">200</span>));</span><br><span class="line">              planes.add(instance);</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="keyword">for</span> (EnemyPlane plane : planes) &#123;</span><br><span class="line">              plane.fly();</span><br><span class="line">              System.out.println(<span class="string">&quot;敌机：&quot;</span>+plane.toString()+<span class="string">&quot;,&quot;</span>+plane.getX()+<span class="string">&quot;,&quot;</span>+plane.getY());</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          screen ++;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="深浅拷贝"><a href="#深浅拷贝" class="headerlink" title="深浅拷贝"></a>深浅拷贝</h2><ul>
+<li>浅拷贝<blockquote>
+<p>所谓浅拷贝是指只复制原始类型的值，比如横坐标x与纵坐标y这种以原始类型int定义的值，它们会被复制到新克隆出的对象中。而引用类型bullet同样会被拷贝，但是请注意这个操作只是拷贝了地址引用（指针），也就是说副本敌机与原型敌机中的子弹是同一颗，因为两个同样的地址实际指向的内存对象是同一个bullet对象。</p>
+</blockquote>
+</li>
+<li>深拷贝<br>即手动实例化对象并将地址引用赋值给对应属性</li>
+</ul>
+<h2 id="克隆的本质"><a href="#克隆的本质" class="headerlink" title="克隆的本质"></a>克隆的本质</h2><blockquote>
+<p>克隆操作时Java虚拟机会进行内存操作，直接拷贝原型对象数据流生成新的副本对象，绝不会拖泥带水地触发一些多余的复杂操作（如类加载、实例化、初始化等），所以其效率远远高于“new”关键字所触发的实例化操作</p>
+</blockquote>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
+<li>刘韬《秒懂设计模式》</li>
+</ol>
+]]></content>
+      <categories>
+        <category>设计模式</category>
+      </categories>
+      <tags>
+        <tag>设计模式</tag>
+        <tag>单例</tag>
       </tags>
   </entry>
   <entry>
@@ -217,103 +316,30 @@
       </tags>
   </entry>
   <entry>
-    <title>设计模式-工厂</title>
-    <url>/2023/05/25/Factory-Design-Pattern/</url>
-    <content><![CDATA[<p>程序设计中的工厂类是对对象构造、实例化、初始化的封装，<br>而工厂方法对工厂构造方法进行接口规范化，以允许子类工厂决定具体制造那类产品的实例。</p>
+    <title>redis概览</title>
+    <url>/2023/05/18/RedisLearning/</url>
+    <content><![CDATA[<h1 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h1><p>RDB持久化、AOF持久化，RDB-AOF混合持久化</p>
 <span id="more"></span>
-<p>场景：空战游戏中，敌机分为坦克、飞机。它们都有一些共同的属性和行为</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">Enemy</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> x;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> y;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Enemy</span><span class="params">(<span class="type">int</span> x,<span class="type">int</span> y)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.x = x;</span><br><span class="line">        <span class="built_in">this</span>.y = y;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 抽象方法，在地图上绘制</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title function_">show</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Airplane</span> <span class="keyword">extends</span> <span class="title class_">Enemy</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Airplane</span><span class="params">(<span class="type">int</span> x,<span class="type">int</span> y)</span>&#123;</span><br><span class="line">        <span class="built_in">super</span>(x,y);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">show</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;绘制飞机于上层图层，出现坐标:&quot;</span>+ x + <span class="string">&quot;,&quot;</span> + y);</span><br><span class="line">        System.out.println(<span class="string">&quot;飞机向玩家发起攻击.....&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Tank</span> <span class="keyword">extends</span> <span class="title class_">Enemy</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Tank</span><span class="params">(<span class="type">int</span> x,<span class="type">int</span> y)</span>&#123;</span><br><span class="line">        <span class="built_in">super</span>(x,y);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">show</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;绘制坦克于下层图层，出现坐标:&quot;</span>+ x + <span class="string">&quot;,&quot;</span> + y);</span><br><span class="line">        System.out.println(<span class="string">&quot;坦克向玩家发起攻击.....&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="简单工厂"><a href="#简单工厂" class="headerlink" title="简单工厂"></a>简单工厂</h1><p>简单工厂类：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SimpleFactory</span>()&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> screenWidth;</span><br><span class="line">    <span class="keyword">private</span> Random random;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">SimpleFactory</span><span class="params">(<span class="type">int</span> screenWidth)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.screenWidth = screenWidth;</span><br><span class="line">        <span class="built_in">this</span>.random = <span class="keyword">new</span> <span class="title class_">Random</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> Enemy <span class="title function_">create</span><span class="params">(String type)</span>&#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> random.nextInt(screenWidth);</span><br><span class="line">        <span class="type">Enemy</span> <span class="variable">enemy</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">switch</span> (type)&#123;</span><br><span class="line">             <span class="comment">// 这里采用字符串的方式进行判断</span></span><br><span class="line">             <span class="comment">// 采用instanceof 判断的方式</span></span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;Airplane&quot;</span>:</span><br><span class="line">                enemy = <span class="keyword">new</span> <span class="title class_">Airplane</span>(x,<span class="number">0</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;Tank&quot;</span>:</span><br><span class="line">                enemy = <span class="keyword">new</span> <span class="title class_">Tank</span>(x,<span class="number">0</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> enemy;</span><br><span class="line">    &#125;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
-<p>客户端Client:</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Client</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="title function_">void</span><span class="params">(String[] args)</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;游戏开始&quot;</span>);</span><br><span class="line">        <span class="type">SimpleFactory</span> <span class="variable">factory</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">SimpleFactory</span>(<span class="number">100</span>);</span><br><span class="line">        factory.create(<span class="string">&quot;Airplane&quot;</span>).show();</span><br><span class="line">        factory.create(<span class="string">&quot;Tank&quot;</span>).show();</span><br><span class="line">    &#125;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
-<p>优点：</p>
-<ul>
-<li>将对象的创建交给专门的工厂类负责，实现了对象的创建和对象的使用分离。</li>
-</ul>
-<p>缺点：</p>
-<ul>
-<li>工厂类不够灵活，增加新的具体产品需要修改工厂类的判断逻辑代码</li>
-<li>而且当产品类型较多时，简单工厂的 if 判断将会非常多，不容易维护。</li>
-</ul>
-<h1 id="工厂方法"><a href="#工厂方法" class="headerlink" title="工厂方法"></a>工厂方法</h1><p>将简单工厂的制造方法进行拆分，构建起抽象化、多态化的生产模式<br>某个具体的类交给对应的工厂进行创建，若不是有一个统一的大工厂创建。<br>分工——-  &gt;提升效率</p>
-<p>Factory接口</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Factory</span>()&#123;</span><br><span class="line">    Enemy <span class="title function_">create</span><span class="params">(<span class="type">int</span> screenWidth)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>飞机工厂</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AirplaneFactory</span> <span class="keyword">implements</span> <span class="title class_">Factory</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Enemy <span class="title function_">create</span><span class="params">(<span class="type">int</span> screenWidth)</span>&#123;</span><br><span class="line">        <span class="type">Random</span> <span class="variable">random</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Random</span>();</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Airplane</span>(random.nextInt(screenWidth),<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>坦克工厂</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TankFactory</span> <span class="keyword">implements</span> <span class="title class_">Factory</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Enemy <span class="title function_">create</span><span class="params">(<span class="type">int</span> screenWidth)</span>&#123;</span><br><span class="line">        <span class="type">Random</span> <span class="variable">random</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Random</span>();</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Tank</span>(random.nextInt(screenWidth),<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>每个工厂有自己的生产策略或者方式，<br>不同的产品需求都可以找到相应的工厂来满足，<br>即使没有也可以添加新工厂来解决。</p>
-<p>存在的问题：<br>系统如果为每一个产品都增加一个工厂类，会造成工厂类泛滥。</p>
-<h1 id="抽象工厂"><a href="#抽象工厂" class="headerlink" title="抽象工厂"></a>抽象工厂</h1><p>抽象工厂提供了另外一种思路，将各种产品分类，基于此来规划各种工厂的制造接口，最终确立产品制造的顶级规范，使其与具体产品彻底脱钩。<br>比如某个汽车生产厂，需要生产轿车，卡车，越野车…等很多种类的车辆，需要在工厂中设置多条生产线，抽象工厂就是完成该功能的。</p>
-<p>背景：<br>    某公司需要开发一款星际战争游戏，分为人类文明和野兽文明两种阵营。每种阵营的兵种可以被归纳为初级、中级、高级三种</p>
-<p>抽象类工厂接口 <code>AbstractFactory</code></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">AbstractFactory</span>&#123;</span><br><span class="line">    LowClassUnit <span class="title function_">createLowClass</span><span class="params">()</span>;</span><br><span class="line">    MidClassUnit <span class="title function_">createMidClass</span><span class="params">()</span>;</span><br><span class="line">    HighClassUnit <span class="title function_">createHighClass</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>人类兵工厂 <code>HumanFactory</code></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HumanFactory</span> <span class="keyword">implements</span> <span class="title class_">AbstractFactory</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> x;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> y;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">HumanFactory</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.x = x;</span><br><span class="line">        <span class="built_in">this</span>.y = y;</span><br><span class="line">    &#125; </span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> LowClassUnit <span class="title function_">createLowClass</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="type">LowClassUnit</span> <span class="variable">unit</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Marine</span>(x,y);</span><br><span class="line">        System.out.println(<span class="string">&quot;制造海军陆战队成员成功。&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> unit;</span><br><span class="line">    &#125;</span><br><span class="line">     </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> MidClassUnit <span class="title function_">createMidClass</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="type">MidClassUnit</span> <span class="variable">unit</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Tank</span>(x,y);</span><br><span class="line">        System.out.println(<span class="string">&quot;制造变形坦克成功。&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> unit;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> HighClassUnit <span class="title function_">createHighClass</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="type">HighClassUnit</span> <span class="variable">unit</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Battleship</span>(x,y);</span><br><span class="line">        System.out.println(<span class="string">&quot;制造巨型战舰成功。&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> unit;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>外星兵工厂 <code>AlienFactory</code></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AlienFactory</span> <span class="keyword">implements</span> <span class="title class_">AbstractFactory</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> x;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> y;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">AlienFactory</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.x = x;</span><br><span class="line">        <span class="built_in">this</span>.y = y;</span><br><span class="line">    &#125; </span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> LowClassUnit <span class="title function_">createLowClass</span><span class="params">()</span>&#123;</span><br><span class="line">       <span class="comment">// todo</span></span><br><span class="line">    &#125;</span><br><span class="line">     </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> MidClassUnit <span class="title function_">createMidClass</span><span class="params">()</span>&#123;</span><br><span class="line">      <span class="comment">// todo</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> HighClassUnit <span class="title function_">createHighClass</span><span class="params">()</span>&#123;</span><br><span class="line">      <span class="comment">// todo</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-<p>此外可以加入一个”制造工厂的工厂”来决定让那个工厂投入运行。</p>
-]]></content>
-      <categories>
-        <category>设计模式</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>设计模式-原型</title>
-    <url>/2023/04/07/ProtoTypeDesignPattern/</url>
-    <content><![CDATA[<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><blockquote>
-<p>原型模式达到以原型实例创建副本实例的目的即可，并不需要知道其他原始类，也就是说，原型模式可以用对象创建对象，而不是用类创建对象，以此达到效率的提升。</p>
-</blockquote>
-<p>对那些非常复杂的初始化过程的对象或者是需要耗费大量资源的情况，原型模式是更好的选择。</p>
-<span id="more"></span>
-<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p>我们正准备设计一个空战游戏</p>
-<p>设定：<br>设置游戏为单打即主角飞机只有一架，而敌机有很多架，而且可以在屏幕上垂直下移来撞击主角飞机。</p>
-<p><code>EnemyPlane:敌机类</code></p>
-<ul>
-<li>敌机默认从屏幕顶部飞出，故设定y坐标为0</li>
-<li>只给出属性的setter方法表示我们一旦设定好敌机的x轴坐标就不再可能手动修改</li>
-<li>通过连续调用fly方法，敌机就可以一直向下飞行<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EnemyPlane</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> x;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="variable">y</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">EnemyPlane</span><span class="params">(<span class="type">int</span> x)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.x = x;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getX</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> x;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getY</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> y;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">fly</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.y++;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<code>Client:客户端类</code><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Client</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        List&lt;EnemyPlane&gt; enemyPlanes = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">500</span>; i++) &#123;</span><br><span class="line">            <span class="type">EnemyPlane</span> <span class="variable">ep</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">EnemyPlane</span>(<span class="keyword">new</span> <span class="title class_">Random</span>().nextInt(<span class="number">200</span>));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h3 id="存在的问题"><a href="#存在的问题" class="headerlink" title="存在的问题"></a>存在的问题</h3><ol>
-<li>在游戏的初始化阶段直接示例500架飞机无疑会占用大量内存，使得加载速度变慢<br>解决办法：懒加载，屏幕滚动到一定值的时候才实例对象。单问题依然存在，游戏运行大量实例进行初始化及其浪费CPU性能。</li>
+<h2 id="RDB持久化"><a href="#RDB持久化" class="headerlink" title="RDB持久化"></a>RDB持久化</h2><p>全面持久化操作，</p>
+<h3 id="载入RDB文件过程"><a href="#载入RDB文件过程" class="headerlink" title="载入RDB文件过程"></a>载入RDB文件过程</h3><ol>
+<li>打开RDB文件</li>
+<li>检查文件头</li>
+<li>检查版本号</li>
+<li>读取设备信息</li>
+<li>重建数据库</li>
+<li>重建脚本缓存</li>
+<li>对比校验和</li>
+<li>数据载入完毕</li>
 </ol>
-<h3 id="使用ProtoType模式"><a href="#使用ProtoType模式" class="headerlink" title="使用ProtoType模式"></a>使用ProtoType模式</h3><p><code>EnemyPlane:敌机类</code></p>
-<ul>
-<li>重写Object的clone方法，以便外部能够实现对本类实例的克隆，省略构造过程。</li>
-<li>编写了x属性的setter方法，以便能够对克隆出来的敌机实例横坐标进行修改。<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> test01;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EnemyPlane</span> <span class="keyword">implements</span> <span class="title class_">Cloneable</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> x;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="variable">y</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">EnemyPlane</span><span class="params">(<span class="type">int</span> x)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.x = x;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setX</span><span class="params">(<span class="type">int</span> x)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.x = x;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getX</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> x;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getY</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> y;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">fly</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.y++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> EnemyPlane <span class="title function_">clone</span><span class="params">()</span> <span class="keyword">throws</span> CloneNotSupportedException &#123;</span><br><span class="line">        <span class="keyword">return</span> (EnemyPlane)<span class="built_in">super</span>.clone();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<code>EnemyplaneFactory</code>:敌机工厂类</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EnemyPlaneFactory</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">EnemyPlane</span> <span class="variable">protoType</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">EnemyPlane</span>(<span class="number">200</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> EnemyPlane <span class="title function_">getInstance</span><span class="params">(<span class="type">int</span> x)</span> <span class="keyword">throws</span> CloneNotSupportedException &#123;</span><br><span class="line">        <span class="type">EnemyPlane</span> <span class="variable">clone</span> <span class="operator">=</span> protoType.clone();</span><br><span class="line">        clone.setX(x);</span><br><span class="line">        <span class="keyword">return</span> clone;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><code>Client</code>：客户端类</p>
-<ul>
-<li>每隔10高度，克隆一个敌机<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Client</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> CloneNotSupportedException &#123;</span><br><span class="line"></span><br><span class="line">        List&lt;EnemyPlane&gt; planes = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">        <span class="type">int</span> <span class="variable">screen</span> <span class="operator">=</span> <span class="number">0</span>; <span class="comment">// 屏幕滚动的高度</span></span><br><span class="line">      <span class="keyword">while</span>(screen &lt; <span class="number">100</span>)&#123;</span><br><span class="line"></span><br><span class="line">          <span class="keyword">if</span>(screen % <span class="number">10</span> == <span class="number">0</span>) &#123;</span><br><span class="line">              <span class="type">EnemyPlane</span> <span class="variable">instance</span> <span class="operator">=</span> EnemyPlaneFactory.getInstance(<span class="keyword">new</span> <span class="title class_">Random</span>().nextInt(<span class="number">200</span>));</span><br><span class="line">              planes.add(instance);</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="keyword">for</span> (EnemyPlane plane : planes) &#123;</span><br><span class="line">              plane.fly();</span><br><span class="line">              System.out.println(<span class="string">&quot;敌机：&quot;</span>+plane.toString()+<span class="string">&quot;,&quot;</span>+plane.getX()+<span class="string">&quot;,&quot;</span>+plane.getY());</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          screen ++;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h2 id="深浅拷贝"><a href="#深浅拷贝" class="headerlink" title="深浅拷贝"></a>深浅拷贝</h2><ul>
-<li>浅拷贝<blockquote>
-<p>所谓浅拷贝是指只复制原始类型的值，比如横坐标x与纵坐标y这种以原始类型int定义的值，它们会被复制到新克隆出的对象中。而引用类型bullet同样会被拷贝，但是请注意这个操作只是拷贝了地址引用（指针），也就是说副本敌机与原型敌机中的子弹是同一颗，因为两个同样的地址实际指向的内存对象是同一个bullet对象。</p>
-</blockquote>
-</li>
-<li>深拷贝<br>即手动实例化对象并将地址引用赋值给对应属性</li>
-</ul>
-<h2 id="克隆的本质"><a href="#克隆的本质" class="headerlink" title="克隆的本质"></a>克隆的本质</h2><blockquote>
-<p>克隆操作时Java虚拟机会进行内存操作，直接拷贝原型对象数据流生成新的副本对象，绝不会拖泥带水地触发一些多余的复杂操作（如类加载、实例化、初始化等），所以其效率远远高于“new”关键字所触发的实例化操作</p>
-</blockquote>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
-<li>刘韬《秒懂设计模式》</li>
+<h2 id="AOF持久化"><a href="#AOF持久化" class="headerlink" title="AOF持久化"></a>AOF持久化</h2><p>增量持久化操作，服务器每次执行完命令后，都会以【协议文本】的方式将被执行的命令追加到AOF文件末尾。</p>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><ol>
+<li>体积大</li>
+<li>数据恢复速度慢</li>
 </ol>
 ]]></content>
       <categories>
-        <category>设计模式</category>
+        <category>Redis</category>
       </categories>
-      <tags>
-        <tag>设计模式</tag>
-        <tag>单例</tag>
-      </tags>
   </entry>
   <entry>
     <title>一些问题</title>
@@ -414,98 +440,6 @@
       </categories>
   </entry>
   <entry>
-    <title>redis概览</title>
-    <url>/2023/05/18/RedisLearning/</url>
-    <content><![CDATA[<h1 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h1><p>RDB持久化、AOF持久化，RDB-AOF混合持久化</p>
-<span id="more"></span>
-<h2 id="RDB持久化"><a href="#RDB持久化" class="headerlink" title="RDB持久化"></a>RDB持久化</h2><p>全面持久化操作，</p>
-<h3 id="载入RDB文件过程"><a href="#载入RDB文件过程" class="headerlink" title="载入RDB文件过程"></a>载入RDB文件过程</h3><ol>
-<li>打开RDB文件</li>
-<li>检查文件头</li>
-<li>检查版本号</li>
-<li>读取设备信息</li>
-<li>重建数据库</li>
-<li>重建脚本缓存</li>
-<li>对比校验和</li>
-<li>数据载入完毕</li>
-</ol>
-<h2 id="AOF持久化"><a href="#AOF持久化" class="headerlink" title="AOF持久化"></a>AOF持久化</h2><p>增量持久化操作，服务器每次执行完命令后，都会以【协议文本】的方式将被执行的命令追加到AOF文件末尾。</p>
-<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><ol>
-<li>体积大</li>
-<li>数据恢复速度慢</li>
-</ol>
-]]></content>
-      <categories>
-        <category>Redis</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>设计模式-单例</title>
-    <url>/2023/04/01/SingletonDesignPattern/</url>
-    <content><![CDATA[<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>单例即单实例，指在系统(程序)中，<b>某个类只存在一个实例</b>，同时提供集中、统一的访问接口。</p>
-<blockquote>
-<p>如果一个对象有可能贯穿整个应用程序，而且起到了全局统一管理控制的作用，那么单例模式也许是一个值得考虑的选择。</p>
-</blockquote>
-<p>例如：<br><code>Spring</code>中<code>bean</code>的定义可以被定义为两种：<code>prototype(原型)</code>,<code>singleton(单例)</code><br><code>线程池（threadpool）</code>, <code>缓存（cache）</code>等比较适合设计为单例模式。</p>
-<span id="more"></span>
-<h2 id="单例模式的实现"><a href="#单例模式的实现" class="headerlink" title="单例模式的实现"></a>单例模式的实现</h2><ol>
-<li>饿汉模式</li>
-<li>懒汉模式</li>
-<li>双重校验锁</li>
-<li>静态内部类</li>
-<li>枚举</li>
-</ol>
-<h3 id="饿汉模式"><a href="#饿汉模式" class="headerlink" title="饿汉模式"></a>饿汉模式</h3><p>类加载时，创建实例。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Sun</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Sun</span> <span class="variable">sun</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Sun</span>();</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Sun</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Sun <span class="title function_">getInstance</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> sun;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ol>
-<li>私有化的构造方法保证了该类的实例化工作完全属于内部事务，任何外部内无法干预。</li>
-<li><code>private</code>该实例的私有性，不可见性，不可访问性。</li>
-<li><code>static</code> 确保了实例的<code>静态性</code>，当类加载时候进行初始化。</li>
-<li><code>final</code> 确保该实例是个常量，一旦被赋值就不能再修改</li>
-<li><code>getInstance()</code>提供对外获取该实例的接口。</li>
-</ol>
-<p>缺点：该实例如果没用到也会被创建，浪费了内存。<br>因此该模式适合单例占用内存比较小，创建成功后立即被使用的情况。如果单例占用内存较大，使用<b>懒汉模式</b>进行延迟加载就更合适。</p>
-<h3 id="懒汉模式"><a href="#懒汉模式" class="headerlink" title="懒汉模式"></a>懒汉模式</h3><p>第一次使用时，创建实例</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Sun</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Sun sun;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Sun</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Sun1 <span class="title function_">getInstance</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (sun == <span class="literal">null</span>)&#123;</span><br><span class="line">            sun = <span class="keyword">new</span> <span class="title class_">Sun</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sun;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>只有当某线程第一次调用<code>getInstance()</code>方法时，该实例才创建实例。</p>
-<h4 id="存在的问题"><a href="#存在的问题" class="headerlink" title="存在的问题"></a>存在的问题</h4><p>在多线程的情况下，很多线程并发的进行 <code>if (sun == null)</code>判断，程序就会多次实例化太阳，对sun进行多次赋值。<br>解决办法：<code>getInstance</code> 添加 <code>synchronized</code>关键字。</p>
-<p>改造：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Sun</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Sun sun;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Sun</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span>  <span class="keyword">static</span> <span class="keyword">synchronized</span> Sun <span class="title function_">getInstance</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (sun == <span class="literal">null</span>)&#123;</span><br><span class="line">            sun = <span class="keyword">new</span> <span class="title class_">Sun</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sun;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>但是这种方法依然存在问题:<br><code>synchronized</code>修饰的同步方法比一般方法要慢很多，如果多次调用<code>getInstance()</code>，累积的性能损耗就比较大了。</p>
-<h3 id="双重校验锁"><a href="#双重校验锁" class="headerlink" title="双重校验锁"></a>双重校验锁</h3><p>这种模式是懒汉模式的变种，利用<b>双验锁</b>解决<code>synchronized</code>修饰同步方法开销过大的问题。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Sun</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">static</span> Sun sun;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Sun</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Sun <span class="title function_">getInstance</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (sun == <span class="literal">null</span>)&#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (Sun.class)&#123;</span><br><span class="line">                <span class="keyword">if</span> (sun == <span class="literal">null</span>)&#123;</span><br><span class="line">                    sun = <span class="keyword">new</span> <span class="title class_">Sun</span>();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sun;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ol>
-<li><code>volatile</code> 禁止指令重排</li>
-<li>第一次校验，即第一个 <code>if (sun == null)</code>判断，程序执行的过程中，大部分线程并不需要进入到同步代码块，保证了线程并发的高效性</li>
-<li>第二次校验，防止二次创建实例。在某情况下，线程A和线程B都通过了第一次校验，实例会被重新赋值。</li>
-</ol>
-<h3 id="静态内部类"><a href="#静态内部类" class="headerlink" title="静态内部类"></a>静态内部类</h3><p>利用了类加载机制来保证只创建一个instance实例</p>
-<blockquote>
-<p>它是在内部类里面去创建对象实例。这样的话，只要应用中不使用内部类，JVM就不会去加载这个单例类，也就不会创建单例对象，从而实现懒汉式的延迟加载。也就是说这种方式可以同时保证延迟加载和线程安全。</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Sun</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">SingletonHolder</span> &#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Sun</span> <span class="variable">sun</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Sun</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Sun</span> <span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Sun <span class="title function_">getInstance</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> SingletonHolder.sun;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="枚举"><a href="#枚举" class="headerlink" title="枚举"></a>枚举</h3><p>既可以避免多线程同步问题；还可以防止通过反射和反序列化来重新创建新的对象</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> <span class="title class_">Singleton</span>&#123;</span><br><span class="line">    INSTANCE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li>刘韬《秒懂设计模式》</li>
-<li><a href="https://www.runoob.com/design-pattern/singleton-pattern.html">https://www.runoob.com/design-pattern/singleton-pattern.html</a></li>
-<li><a href="https://blog.csdn.net/goodlixueyong/article/details/51935526">https://blog.csdn.net/goodlixueyong/article/details/51935526</a></li>
-<li><a href="https://cloud.tencent.com/developer/article/1497592">https://cloud.tencent.com/developer/article/1497592</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>设计模式</category>
-      </categories>
-      <tags>
-        <tag>设计模式</tag>
-        <tag>单例</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>TCP/IP概览</title>
     <url>/2023/04/05/TCPIPLearning/</url>
     <content><![CDATA[<p>目前绝大多数网络都采用TCP&#x2F;IP协议，TCP&#x2F;IP是目前最完整的、被普遍接受的通信协议标准</p>
@@ -598,6 +532,72 @@
       </categories>
       <tags>
         <tag>tcp/ip</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>设计模式-单例</title>
+    <url>/2023/04/01/SingletonDesignPattern/</url>
+    <content><![CDATA[<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>单例即单实例，指在系统(程序)中，<b>某个类只存在一个实例</b>，同时提供集中、统一的访问接口。</p>
+<blockquote>
+<p>如果一个对象有可能贯穿整个应用程序，而且起到了全局统一管理控制的作用，那么单例模式也许是一个值得考虑的选择。</p>
+</blockquote>
+<p>例如：<br><code>Spring</code>中<code>bean</code>的定义可以被定义为两种：<code>prototype(原型)</code>,<code>singleton(单例)</code><br><code>线程池（threadpool）</code>, <code>缓存（cache）</code>等比较适合设计为单例模式。</p>
+<span id="more"></span>
+<h2 id="单例模式的实现"><a href="#单例模式的实现" class="headerlink" title="单例模式的实现"></a>单例模式的实现</h2><ol>
+<li>饿汉模式</li>
+<li>懒汉模式</li>
+<li>双重校验锁</li>
+<li>静态内部类</li>
+<li>枚举</li>
+</ol>
+<h3 id="饿汉模式"><a href="#饿汉模式" class="headerlink" title="饿汉模式"></a>饿汉模式</h3><p>类加载时，创建实例。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Sun</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Sun</span> <span class="variable">sun</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Sun</span>();</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Sun</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Sun <span class="title function_">getInstance</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> sun;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>私有化的构造方法保证了该类的实例化工作完全属于内部事务，任何外部内无法干预。</li>
+<li><code>private</code>该实例的私有性，不可见性，不可访问性。</li>
+<li><code>static</code> 确保了实例的<code>静态性</code>，当类加载时候进行初始化。</li>
+<li><code>final</code> 确保该实例是个常量，一旦被赋值就不能再修改</li>
+<li><code>getInstance()</code>提供对外获取该实例的接口。</li>
+</ol>
+<p>缺点：该实例如果没用到也会被创建，浪费了内存。<br>因此该模式适合单例占用内存比较小，创建成功后立即被使用的情况。如果单例占用内存较大，使用<b>懒汉模式</b>进行延迟加载就更合适。</p>
+<h3 id="懒汉模式"><a href="#懒汉模式" class="headerlink" title="懒汉模式"></a>懒汉模式</h3><p>第一次使用时，创建实例</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Sun</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Sun sun;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Sun</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Sun1 <span class="title function_">getInstance</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (sun == <span class="literal">null</span>)&#123;</span><br><span class="line">            sun = <span class="keyword">new</span> <span class="title class_">Sun</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sun;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>只有当某线程第一次调用<code>getInstance()</code>方法时，该实例才创建实例。</p>
+<h4 id="存在的问题"><a href="#存在的问题" class="headerlink" title="存在的问题"></a>存在的问题</h4><p>在多线程的情况下，很多线程并发的进行 <code>if (sun == null)</code>判断，程序就会多次实例化太阳，对sun进行多次赋值。<br>解决办法：<code>getInstance</code> 添加 <code>synchronized</code>关键字。</p>
+<p>改造：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Sun</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Sun sun;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Sun</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span>  <span class="keyword">static</span> <span class="keyword">synchronized</span> Sun <span class="title function_">getInstance</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (sun == <span class="literal">null</span>)&#123;</span><br><span class="line">            sun = <span class="keyword">new</span> <span class="title class_">Sun</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sun;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是这种方法依然存在问题:<br><code>synchronized</code>修饰的同步方法比一般方法要慢很多，如果多次调用<code>getInstance()</code>，累积的性能损耗就比较大了。</p>
+<h3 id="双重校验锁"><a href="#双重校验锁" class="headerlink" title="双重校验锁"></a>双重校验锁</h3><p>这种模式是懒汉模式的变种，利用<b>双验锁</b>解决<code>synchronized</code>修饰同步方法开销过大的问题。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Sun</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">static</span> Sun sun;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Sun</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Sun <span class="title function_">getInstance</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (sun == <span class="literal">null</span>)&#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (Sun.class)&#123;</span><br><span class="line">                <span class="keyword">if</span> (sun == <span class="literal">null</span>)&#123;</span><br><span class="line">                    sun = <span class="keyword">new</span> <span class="title class_">Sun</span>();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sun;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li><code>volatile</code> 禁止指令重排</li>
+<li>第一次校验，即第一个 <code>if (sun == null)</code>判断，程序执行的过程中，大部分线程并不需要进入到同步代码块，保证了线程并发的高效性</li>
+<li>第二次校验，防止二次创建实例。在某情况下，线程A和线程B都通过了第一次校验，实例会被重新赋值。</li>
+</ol>
+<h3 id="静态内部类"><a href="#静态内部类" class="headerlink" title="静态内部类"></a>静态内部类</h3><p>利用了类加载机制来保证只创建一个instance实例</p>
+<blockquote>
+<p>它是在内部类里面去创建对象实例。这样的话，只要应用中不使用内部类，JVM就不会去加载这个单例类，也就不会创建单例对象，从而实现懒汉式的延迟加载。也就是说这种方式可以同时保证延迟加载和线程安全。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Sun</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">SingletonHolder</span> &#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Sun</span> <span class="variable">sun</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Sun</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Sun</span> <span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Sun <span class="title function_">getInstance</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> SingletonHolder.sun;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="枚举"><a href="#枚举" class="headerlink" title="枚举"></a>枚举</h3><p>既可以避免多线程同步问题；还可以防止通过反射和反序列化来重新创建新的对象</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> <span class="title class_">Singleton</span>&#123;</span><br><span class="line">    INSTANCE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li>刘韬《秒懂设计模式》</li>
+<li><a href="https://www.runoob.com/design-pattern/singleton-pattern.html">https://www.runoob.com/design-pattern/singleton-pattern.html</a></li>
+<li><a href="https://blog.csdn.net/goodlixueyong/article/details/51935526">https://blog.csdn.net/goodlixueyong/article/details/51935526</a></li>
+<li><a href="https://cloud.tencent.com/developer/article/1497592">https://cloud.tencent.com/developer/article/1497592</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>设计模式</category>
+      </categories>
+      <tags>
+        <tag>设计模式</tag>
+        <tag>单例</tag>
       </tags>
   </entry>
   <entry>
