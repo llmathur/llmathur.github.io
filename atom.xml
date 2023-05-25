@@ -107,7 +107,7 @@
     
     
     
-    <category term="Redis" scheme="http://llmathur.github.io/categories/redis/"/>
+    <category term="Redis" scheme="http://llmathur.github.io/categories/Redis/"/>
     
     
   </entry>
@@ -117,14 +117,14 @@
     <link href="http://llmathur.github.io/2023/05/16/JVMLearning/"/>
     <id>http://llmathur.github.io/2023/05/16/JVMLearning/</id>
     <published>2023-05-16T11:33:58.000Z</published>
-    <updated>2023-05-25T07:43:47.385Z</updated>
+    <updated>2023-05-25T08:06:02.936Z</updated>
     
     
     <summary type="html">&lt;p&gt;编译器可以分为：前端编译器、JIT 编译器和AOT编译器。&lt;/p&gt;</summary>
     
     
     
-    <category term="JVM" scheme="http://llmathur.github.io/categories/jvm/"/>
+    <category term="JVM" scheme="http://llmathur.github.io/categories/JVM/"/>
     
     
   </entry>
@@ -148,7 +148,7 @@
     
     
     
-    <category term="MIT6.031 Software Construction" scheme="http://llmathur.github.io/categories/mit6-031-software-construction/"/>
+    <category term="MIT6.031 Software Construction" scheme="http://llmathur.github.io/categories/MIT6-031-Software-Construction/"/>
     
     
     <category term="软件测试" scheme="http://llmathur.github.io/tags/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/"/>
@@ -174,7 +174,7 @@
     
     
     
-    <category term="第三方授权 OAuth2.0" scheme="http://llmathur.github.io/categories/%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8E%88%E6%9D%83-oauth2-0/"/>
+    <category term="第三方授权 OAuth2.0" scheme="http://llmathur.github.io/categories/%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8E%88%E6%9D%83-OAuth2-0/"/>
     
     
     <category term="authorization" scheme="http://llmathur.github.io/tags/authorization/"/>
@@ -217,7 +217,7 @@
     
     
     
-    <category term="TCP/IP" scheme="http://llmathur.github.io/categories/tcp-ip/"/>
+    <category term="TCP/IP" scheme="http://llmathur.github.io/categories/TCP-IP/"/>
     
     
     <category term="tcp/ip" scheme="http://llmathur.github.io/tags/tcp-ip/"/>
