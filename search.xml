@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>ArrayList source code</title>
+    <title>ArrayList源码分析</title>
     <url>/2023/05/24/ArrayList-source-code/</url>
     <content><![CDATA[<span id="more"></span>
 <p>JDK版本:<br>    openjdk 20.0.1 2023-04-18<br>    OpenJDK Runtime Environment (build 20.0.1+9-29)<br>    OpenJDK 64-Bit Server VM (build 20.0.1+9-29, mixed mode, sharing)</p>
@@ -279,7 +279,7 @@
       </tags>
   </entry>
   <entry>
-    <title>redis-learning</title>
+    <title>redis概览</title>
     <url>/2023/05/18/RedisLearning/</url>
     <content><![CDATA[<span id="more"></span>
 <h1 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h1><p>RDB持久化、AOF持久化，RDB-AOF混合持久化</p>
@@ -371,7 +371,7 @@
       </tags>
   </entry>
   <entry>
-    <title>someQuestions</title>
+    <title>一些问题</title>
     <url>/2023/05/19/SomeQuestions/</url>
     <content><![CDATA[<span id="more"></span>
 <p>记录一些想到的问题</p>
@@ -459,6 +459,52 @@
       <categories>
         <category>Other</category>
       </categories>
+  </entry>
+  <entry>
+    <title>Testing</title>
+    <url>/2023/05/16/Testing/</url>
+    <content><![CDATA[<span id="more"></span>
+<h1 id="Objectives"><a href="#Objectives" class="headerlink" title="Objectives"></a>Objectives</h1><p>这是学习完该章节后需要达到的目标：</p>
+<ul>
+<li>understand the value of testing ,and know the process of test-first programming;</li>
+<li>be able to jude a test suite for correctness,thoroughness,and size;</li>
+<li>be able to design a test suite for a method by partitioning its input space and choosing good test cases;</li>
+<li>be able to judge a test suite by measuring its code coverage; </li>
+<li>understand and know when to use black box vs. glass box testing, unit tests vs. integration tests, and automated regression testing.</li>
+</ul>
+<h1 id="Validation"><a href="#Validation" class="headerlink" title="Validation"></a>Validation</h1><p>Validation includes:</p>
+<ul>
+<li>Formal reasoning about a program, usually called verification.<br>指的是程序正确性的逻辑推理，</li>
+<li>Code review. </li>
+<li>Testing.</li>
+</ul>
+<h1 id="Test-first-programming"><a href="#Test-first-programming" class="headerlink" title="Test-first programming"></a>Test-first programming</h1><p>some terms:</p>
+<ul>
+<li><p>A module is a part of a software system that can be designed, implemented, tested, and reasoned about separately from the rest of the system.<br>此处指的是Java方法，或者在将来探讨更大的模块，如有多种交互方法的类。</p>
+</li>
+<li><p>specification (or spec) describes the behavior of a module.<br>对一个方法来说，spec给出了参数的类型以及对它们的额外要求，同时给出了返回值的类型和输入值之间的关系。在Java代码中spec包括方法签名以及描述其功能的注释。</p>
+</li>
+<li><p>A module has an implementation that provides its behavior, and clients that use the module.<br>对于一个方法来说，implementation是方法的方法体，client指调用该方法的函数的代码。同时一个模块的spec对impletation和client两者进行了限制。</p>
+</li>
+<li><p>A test case is a particular choice of inputs, along with the<br>expected output behavior required by the specification.</p>
+</li>
+<li><p>A test suite is a set of test cases for a module.</p>
+</li>
+</ul>
+<p>the development of a single function proceeds in this order:</p>
+<ol>
+<li>Spec: Write a specification for the function.</li>
+<li>Test: Write tests that exercise the specification.</li>
+<li>Implement: Write the implementation.</li>
+</ol>
+<h1 id="Systematic-testing"><a href="#Systematic-testing" class="headerlink" title="Systematic testing"></a>Systematic testing</h1><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="http://web.mit.edu/6.031/www/sp21/classes/03-testing/">http://web.mit.edu/6.031/www/sp21/classes/03-testing/</a></p>
+]]></content>
+      <categories>
+        <category>MIT6.031 Software Construction</category>
+      </categories>
+      <tags>
+        <tag>软件测试</tag>
+      </tags>
   </entry>
   <entry>
     <title>TCP/IPLearning</title>
@@ -553,52 +599,6 @@
       </categories>
       <tags>
         <tag>tcp/ip</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Testing</title>
-    <url>/2023/05/16/Testing/</url>
-    <content><![CDATA[<span id="more"></span>
-<h1 id="Objectives"><a href="#Objectives" class="headerlink" title="Objectives"></a>Objectives</h1><p>这是学习完该章节后需要达到的目标：</p>
-<ul>
-<li>understand the value of testing ,and know the process of test-first programming;</li>
-<li>be able to jude a test suite for correctness,thoroughness,and size;</li>
-<li>be able to design a test suite for a method by partitioning its input space and choosing good test cases;</li>
-<li>be able to judge a test suite by measuring its code coverage; </li>
-<li>understand and know when to use black box vs. glass box testing, unit tests vs. integration tests, and automated regression testing.</li>
-</ul>
-<h1 id="Validation"><a href="#Validation" class="headerlink" title="Validation"></a>Validation</h1><p>Validation includes:</p>
-<ul>
-<li>Formal reasoning about a program, usually called verification.<br>指的是程序正确性的逻辑推理，</li>
-<li>Code review. </li>
-<li>Testing.</li>
-</ul>
-<h1 id="Test-first-programming"><a href="#Test-first-programming" class="headerlink" title="Test-first programming"></a>Test-first programming</h1><p>some terms:</p>
-<ul>
-<li><p>A module is a part of a software system that can be designed, implemented, tested, and reasoned about separately from the rest of the system.<br>此处指的是Java方法，或者在将来探讨更大的模块，如有多种交互方法的类。</p>
-</li>
-<li><p>specification (or spec) describes the behavior of a module.<br>对一个方法来说，spec给出了参数的类型以及对它们的额外要求，同时给出了返回值的类型和输入值之间的关系。在Java代码中spec包括方法签名以及描述其功能的注释。</p>
-</li>
-<li><p>A module has an implementation that provides its behavior, and clients that use the module.<br>对于一个方法来说，implementation是方法的方法体，client指调用该方法的函数的代码。同时一个模块的spec对impletation和client两者进行了限制。</p>
-</li>
-<li><p>A test case is a particular choice of inputs, along with the<br>expected output behavior required by the specification.</p>
-</li>
-<li><p>A test suite is a set of test cases for a module.</p>
-</li>
-</ul>
-<p>the development of a single function proceeds in this order:</p>
-<ol>
-<li>Spec: Write a specification for the function.</li>
-<li>Test: Write tests that exercise the specification.</li>
-<li>Implement: Write the implementation.</li>
-</ol>
-<h1 id="Systematic-testing"><a href="#Systematic-testing" class="headerlink" title="Systematic testing"></a>Systematic testing</h1><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="http://web.mit.edu/6.031/www/sp21/classes/03-testing/">http://web.mit.edu/6.031/www/sp21/classes/03-testing/</a></p>
-]]></content>
-      <categories>
-        <category>MIT6.031 Software Construction</category>
-      </categories>
-      <tags>
-        <tag>软件测试</tag>
       </tags>
   </entry>
 </search>
