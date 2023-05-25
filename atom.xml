@@ -6,7 +6,7 @@
   <link href="http://llmathur.github.io/atom.xml" rel="self"/>
   
   <link href="http://llmathur.github.io/"/>
-  <updated>2023-05-25T02:57:39.514Z</updated>
+  <updated>2023-05-25T06:51:06.862Z</updated>
   <id>http://llmathur.github.io/</id>
   
   <author>
@@ -17,11 +17,34 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Questions-1</title>
+    <link href="http://llmathur.github.io/2023/05/25/Questions-1/"/>
+    <id>http://llmathur.github.io/2023/05/25/Questions-1/</id>
+    <published>2023-05-25T06:47:07.000Z</published>
+    <updated>2023-05-25T06:51:06.862Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;题目来源&quot;&gt;&lt;a href=&quot;#题目来源&quot; class=&quot;headerlink&quot; title=&quot;题目来源&quot;&gt;&lt;/a&gt;题目来源&lt;/h1&gt;&lt;p&gt;如何判断 Java 工程师的基础知识是否扎实？ - 王争的回答 - 知乎&lt;br&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="题" scheme="http://llmathur.github.io/categories/%E9%A2%98/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>设计模式-工厂</title>
     <link href="http://llmathur.github.io/2023/05/25/Factory-Design-Pattern/"/>
     <id>http://llmathur.github.io/2023/05/25/Factory-Design-Pattern/</id>
     <published>2023-05-25T02:09:19.000Z</published>
-    <updated>2023-05-25T02:57:39.514Z</updated>
+    <updated>2023-05-25T07:35:44.865Z</updated>
     
     
     <summary type="html">&lt;p&gt;程序设计中的工厂类是对对象构造、实例化、初始化的封装，&lt;br&gt;而工厂方法对工厂构造方法进行接口规范化，以允许子类工厂决定具体制造那类产品的实例。&lt;/p&gt;</summary>
@@ -38,7 +61,7 @@
     <link href="http://llmathur.github.io/2023/05/24/ArrayList-source-code/"/>
     <id>http://llmathur.github.io/2023/05/24/ArrayList-source-code/</id>
     <published>2023-05-24T13:22:33.000Z</published>
-    <updated>2023-05-25T03:01:42.373Z</updated>
+    <updated>2023-05-25T03:04:46.109Z</updated>
     
     
     <summary type="html">&lt;p&gt;JDK版本:&lt;br&gt;    openjdk 20.0.1 2023-04-18&lt;br&gt;    OpenJDK Runtime Environment (build 20.0.1+9-29)&lt;br&gt;    OpenJDK 64-Bit Server VM (build 20.0.1+9-29, mixed mode, sharing)&lt;/p&gt;</summary>
@@ -52,10 +75,10 @@
   
   <entry>
     <title>一些问题</title>
-    <link href="http://llmathur.github.io/2023/05/19/SomeQuestions/"/>
-    <id>http://llmathur.github.io/2023/05/19/SomeQuestions/</id>
+    <link href="http://llmathur.github.io/2023/05/19/Questions-0/"/>
+    <id>http://llmathur.github.io/2023/05/19/Questions-0/</id>
     <published>2023-05-19T13:49:31.000Z</published>
-    <updated>2023-05-25T03:01:17.755Z</updated>
+    <updated>2023-05-25T06:47:33.442Z</updated>
     
     
     <summary type="html">&lt;p&gt;记录一些想到的问题&lt;/p&gt;
@@ -67,7 +90,7 @@
     
     
     
-    <category term="Other" scheme="http://llmathur.github.io/categories/Other/"/>
+    <category term="题" scheme="http://llmathur.github.io/categories/%E9%A2%98/"/>
     
     
   </entry>
@@ -77,7 +100,7 @@
     <link href="http://llmathur.github.io/2023/05/18/RedisLearning/"/>
     <id>http://llmathur.github.io/2023/05/18/RedisLearning/</id>
     <published>2023-05-18T06:35:26.000Z</published>
-    <updated>2023-05-25T03:01:17.755Z</updated>
+    <updated>2023-05-25T03:04:46.087Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;持久化&quot;&gt;&lt;a href=&quot;#持久化&quot; class=&quot;headerlink&quot; title=&quot;持久化&quot;&gt;&lt;/a&gt;持久化&lt;/h1&gt;&lt;p&gt;RDB持久化、AOF持久化，RDB-AOF混合持久化&lt;/p&gt;</summary>
@@ -94,7 +117,7 @@
     <link href="http://llmathur.github.io/2023/05/16/JVMLearning/"/>
     <id>http://llmathur.github.io/2023/05/16/JVMLearning/</id>
     <published>2023-05-16T11:33:58.000Z</published>
-    <updated>2023-05-25T02:58:01.844Z</updated>
+    <updated>2023-05-25T03:04:46.107Z</updated>
     
     
     <summary type="html">&lt;p&gt;编译器可以分为：前端编译器、JIT 编译器和AOT编译器。&lt;/p&gt;</summary>
@@ -111,7 +134,7 @@
     <link href="http://llmathur.github.io/2023/05/16/Testing/"/>
     <id>http://llmathur.github.io/2023/05/16/Testing/</id>
     <published>2023-05-16T06:10:42.000Z</published>
-    <updated>2023-05-25T02:58:36.700Z</updated>
+    <updated>2023-05-25T03:04:46.066Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;Objectives&quot;&gt;&lt;a href=&quot;#Objectives&quot; class=&quot;headerlink&quot; title=&quot;Objectives&quot;&gt;&lt;/a&gt;Objectives&lt;/h1&gt;&lt;p&gt;这是学习完该章节后需要达到的目标：&lt;/p&gt;
@@ -137,7 +160,7 @@
     <link href="http://llmathur.github.io/2023/05/09/OAuth-2-0/"/>
     <id>http://llmathur.github.io/2023/05/09/OAuth-2-0/</id>
     <published>2023-05-09T11:01:43.000Z</published>
-    <updated>2023-05-25T03:01:17.763Z</updated>
+    <updated>2023-05-25T03:04:46.089Z</updated>
     
     
     <summary type="html">&lt;p&gt;OAuth 的核心就是向第三方应用颁发令牌&lt;br&gt;四种授权方式&lt;/p&gt;
@@ -163,7 +186,7 @@
     <link href="http://llmathur.github.io/2023/04/07/ProtoTypeDesignPattern/"/>
     <id>http://llmathur.github.io/2023/04/07/ProtoTypeDesignPattern/</id>
     <published>2023-04-07T06:00:02.000Z</published>
-    <updated>2023-05-25T03:01:17.762Z</updated>
+    <updated>2023-05-25T03:04:46.098Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h2&gt;&lt;blockquote&gt;
@@ -187,7 +210,7 @@
     <link href="http://llmathur.github.io/2023/04/05/TCPIPLearning/"/>
     <id>http://llmathur.github.io/2023/04/05/TCPIPLearning/</id>
     <published>2023-04-05T05:32:11.000Z</published>
-    <updated>2023-05-25T03:01:17.750Z</updated>
+    <updated>2023-05-25T03:04:46.082Z</updated>
     
     
     <summary type="html">&lt;p&gt;目前绝大多数网络都采用TCP&amp;#x2F;IP协议，TCP&amp;#x2F;IP是目前最完整的、被普遍接受的通信协议标准&lt;/p&gt;</summary>
@@ -206,7 +229,7 @@
     <link href="http://llmathur.github.io/2023/04/01/SingletonDesignPattern/"/>
     <id>http://llmathur.github.io/2023/04/01/SingletonDesignPattern/</id>
     <published>2023-04-01T12:56:49.000Z</published>
-    <updated>2023-05-25T03:01:17.755Z</updated>
+    <updated>2023-05-25T03:04:46.082Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h2&gt;&lt;p&gt;单例即单实例，指在系统(程序)中，&lt;b&gt;某个类只存在一个实例&lt;/b&gt;，同时提供集中、统一的访问接口。&lt;/p&gt;
@@ -231,7 +254,7 @@
     <link href="http://llmathur.github.io/2023/04/01/InterpreterDesignPattern/"/>
     <id>http://llmathur.github.io/2023/04/01/InterpreterDesignPattern/</id>
     <published>2023-04-01T06:56:02.000Z</published>
-    <updated>2023-05-25T03:01:17.766Z</updated>
+    <updated>2023-05-25T03:04:46.099Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h2&gt;&lt;blockquote&gt;

@@ -1,6 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>设计模式-工厂</title>
+    <url>/2023/05/25/Factory-Design-Pattern/</url>
+    <content><![CDATA[<p>程序设计中的工厂类是对对象构造、实例化、初始化的封装，<br>而工厂方法对工厂构造方法进行接口规范化，以允许子类工厂决定具体制造那类产品的实例。</p>
+<span id="more"></span>
+<p>场景：空战游戏中，敌机分为坦克、飞机。它们都有一些共同的属性和行为</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">Enemy</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> x;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> y;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Enemy</span><span class="params">(<span class="type">int</span> x,<span class="type">int</span> y)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.x = x;</span><br><span class="line">        <span class="built_in">this</span>.y = y;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 抽象方法，在地图上绘制</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title function_">show</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Airplane</span> <span class="keyword">extends</span> <span class="title class_">Enemy</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Airplane</span><span class="params">(<span class="type">int</span> x,<span class="type">int</span> y)</span>&#123;</span><br><span class="line">        <span class="built_in">super</span>(x,y);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">show</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;绘制飞机于上层图层，出现坐标:&quot;</span>+ x + <span class="string">&quot;,&quot;</span> + y);</span><br><span class="line">        System.out.println(<span class="string">&quot;飞机向玩家发起攻击.....&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Tank</span> <span class="keyword">extends</span> <span class="title class_">Enemy</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Tank</span><span class="params">(<span class="type">int</span> x,<span class="type">int</span> y)</span>&#123;</span><br><span class="line">        <span class="built_in">super</span>(x,y);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">show</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;绘制坦克于下层图层，出现坐标:&quot;</span>+ x + <span class="string">&quot;,&quot;</span> + y);</span><br><span class="line">        System.out.println(<span class="string">&quot;坦克向玩家发起攻击.....&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="简单工厂"><a href="#简单工厂" class="headerlink" title="简单工厂"></a>简单工厂</h1><p>简单工厂类：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SimpleFactory</span>()&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> screenWidth;</span><br><span class="line">    <span class="keyword">private</span> Random random;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">SimpleFactory</span><span class="params">(<span class="type">int</span> screenWidth)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.screenWidth = screenWidth;</span><br><span class="line">        <span class="built_in">this</span>.random = <span class="keyword">new</span> <span class="title class_">Random</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> Enemy <span class="title function_">create</span><span class="params">(String type)</span>&#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> random.nextInt(screenWidth);</span><br><span class="line">        <span class="type">Enemy</span> <span class="variable">enemy</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">switch</span> (type)&#123;</span><br><span class="line">             <span class="comment">// 这里采用字符串的方式进行判断</span></span><br><span class="line">             <span class="comment">// 采用instanceof 判断的方式</span></span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;Airplane&quot;</span>:</span><br><span class="line">                enemy = <span class="keyword">new</span> <span class="title class_">Airplane</span>(x,<span class="number">0</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;Tank&quot;</span>:</span><br><span class="line">                enemy = <span class="keyword">new</span> <span class="title class_">Tank</span>(x,<span class="number">0</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> enemy;</span><br><span class="line">    &#125;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+<p>客户端Client:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Client</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="title function_">void</span><span class="params">(String[] args)</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;游戏开始&quot;</span>);</span><br><span class="line">        <span class="type">SimpleFactory</span> <span class="variable">factory</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">SimpleFactory</span>(<span class="number">100</span>);</span><br><span class="line">        factory.create(<span class="string">&quot;Airplane&quot;</span>).show();</span><br><span class="line">        factory.create(<span class="string">&quot;Tank&quot;</span>).show();</span><br><span class="line">    &#125;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+<p>优点：</p>
+<ul>
+<li>将对象的创建交给专门的工厂类负责，实现了对象的创建和对象的使用分离。</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>工厂类不够灵活，增加新的具体产品需要修改工厂类的判断逻辑代码</li>
+<li>而且当产品类型较多时，简单工厂的 if 判断将会非常多，不容易维护。</li>
+</ul>
+<h1 id="工厂方法"><a href="#工厂方法" class="headerlink" title="工厂方法"></a>工厂方法</h1><p>将简单工厂的制造方法进行拆分，构建起抽象化、多态化的生产模式<br>某个具体的类交给对应的工厂进行创建，若不是有一个统一的大工厂创建。<br>分工——-  &gt;提升效率</p>
+<p>Factory接口</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Factory</span>()&#123;</span><br><span class="line">    Enemy <span class="title function_">create</span><span class="params">(<span class="type">int</span> screenWidth)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>飞机工厂</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AirplaneFactory</span> <span class="keyword">implements</span> <span class="title class_">Factory</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Enemy <span class="title function_">create</span><span class="params">(<span class="type">int</span> screenWidth)</span>&#123;</span><br><span class="line">        <span class="type">Random</span> <span class="variable">random</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Random</span>();</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Airplane</span>(random.nextInt(screenWidth),<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>坦克工厂</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TankFactory</span> <span class="keyword">implements</span> <span class="title class_">Factory</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Enemy <span class="title function_">create</span><span class="params">(<span class="type">int</span> screenWidth)</span>&#123;</span><br><span class="line">        <span class="type">Random</span> <span class="variable">random</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Random</span>();</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Tank</span>(random.nextInt(screenWidth),<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>每个工厂有自己的生产策略或者方式，<br>不同的产品需求都可以找到相应的工厂来满足，<br>即使没有也可以添加新工厂来解决。</p>
+<p>存在的问题：<br>系统如果为每一个产品都增加一个工厂类，会造成工厂类泛滥。</p>
+<h1 id="抽象工厂"><a href="#抽象工厂" class="headerlink" title="抽象工厂"></a>抽象工厂</h1><p>抽象工厂提供了另外一种思路，将各种产品分类，基于此来规划各种工厂的制造接口，最终确立产品制造的顶级规范，使其与具体产品彻底脱钩。<br>比如某个汽车生产厂，需要生产轿车，卡车，越野车…等很多种类的车辆，需要在工厂中设置多条生产线，抽象工厂就是完成该功能的。</p>
+<p>背景：<br>    某公司需要开发一款星际战争游戏，分为人类文明和野兽文明两种阵营。每种阵营的兵种可以被归纳为初级、中级、高级三种</p>
+<p>抽象类工厂接口 <code>AbstractFactory</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">AbstractFactory</span>&#123;</span><br><span class="line">    LowClassUnit <span class="title function_">createLowClass</span><span class="params">()</span>;</span><br><span class="line">    MidClassUnit <span class="title function_">createMidClass</span><span class="params">()</span>;</span><br><span class="line">    HighClassUnit <span class="title function_">createHighClass</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>人类兵工厂 <code>HumanFactory</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HumanFactory</span> <span class="keyword">implements</span> <span class="title class_">AbstractFactory</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> x;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> y;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">HumanFactory</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.x = x;</span><br><span class="line">        <span class="built_in">this</span>.y = y;</span><br><span class="line">    &#125; </span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> LowClassUnit <span class="title function_">createLowClass</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="type">LowClassUnit</span> <span class="variable">unit</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Marine</span>(x,y);</span><br><span class="line">        System.out.println(<span class="string">&quot;制造海军陆战队成员成功。&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> unit;</span><br><span class="line">    &#125;</span><br><span class="line">     </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> MidClassUnit <span class="title function_">createMidClass</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="type">MidClassUnit</span> <span class="variable">unit</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Tank</span>(x,y);</span><br><span class="line">        System.out.println(<span class="string">&quot;制造变形坦克成功。&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> unit;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> HighClassUnit <span class="title function_">createHighClass</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="type">HighClassUnit</span> <span class="variable">unit</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Battleship</span>(x,y);</span><br><span class="line">        System.out.println(<span class="string">&quot;制造巨型战舰成功。&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> unit;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>外星兵工厂 <code>AlienFactory</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AlienFactory</span> <span class="keyword">implements</span> <span class="title class_">AbstractFactory</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> x;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> y;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">AlienFactory</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.x = x;</span><br><span class="line">        <span class="built_in">this</span>.y = y;</span><br><span class="line">    &#125; </span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> LowClassUnit <span class="title function_">createLowClass</span><span class="params">()</span>&#123;</span><br><span class="line">       <span class="comment">// todo</span></span><br><span class="line">    &#125;</span><br><span class="line">     </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> MidClassUnit <span class="title function_">createMidClass</span><span class="params">()</span>&#123;</span><br><span class="line">      <span class="comment">// todo</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> HighClassUnit <span class="title function_">createHighClass</span><span class="params">()</span>&#123;</span><br><span class="line">      <span class="comment">// todo</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>此外可以加入一个”制造工厂的工厂”来决定让那个工厂投入运行。</p>
+]]></content>
+      <categories>
+        <category>设计模式</category>
+      </categories>
+  </entry>
+  <entry>
     <title>ArrayList源码分析</title>
     <url>/2023/05/24/ArrayList-source-code/</url>
     <content><![CDATA[<p>JDK版本:<br>    openjdk 20.0.1 2023-04-18<br>    OpenJDK Runtime Environment (build 20.0.1+9-29)<br>    OpenJDK 64-Bit Server VM (build 20.0.1+9-29, mixed mode, sharing)</p>
@@ -26,18 +72,116 @@
       </categories>
   </entry>
   <entry>
-    <title>设计模式-工厂</title>
-    <url>/2023/05/25/Factory-Design-Pattern/</url>
-    <content><![CDATA[<p>程序设计中的工厂类是对对象构造、实例化、初始化的封装，<br>而工厂方法对工厂构造方法进行接口规范化，以允许子类工厂决定具体制造那类产品的实例。</p>
+    <title>JVM概览</title>
+    <url>/2023/05/16/JVMLearning/</url>
+    <content><![CDATA[<p>编译器可以分为：前端编译器、JIT 编译器和AOT编译器。</p>
 <span id="more"></span>
-<p>场景：空战游戏中，敌机分为坦克、飞机。它们都有一些共同的属性和行为</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">Enemy</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> x;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> y;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Enemy</span><span class="params">(<span class="type">int</span> x,<span class="type">int</span> y)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.x = x;</span><br><span class="line">        <span class="built_in">this</span>.y = y;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 抽象方法，在地图上绘制</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title function_">show</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Airplane</span> <span class="keyword">extends</span> <span class="title class_">Enemy</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Airplane</span><span class="params">(<span class="type">int</span> x,<span class="type">int</span> y)</span>&#123;</span><br><span class="line">        <span class="built_in">super</span>(x,y);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">show</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;绘制飞机于上层图层，出现坐标:&quot;</span>+ x + <span class="string">&quot;,&quot;</span> + y);</span><br><span class="line">        System.out.println(<span class="string">&quot;飞机向玩家发起攻击.....&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Tank</span> <span class="keyword">extends</span> <span class="title class_">Enemy</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Tank</span><span class="params">(<span class="type">int</span> x,<span class="type">int</span> y)</span>&#123;</span><br><span class="line">        <span class="built_in">super</span>(x,y);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">show</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;绘制坦克于下层图层，出现坐标:&quot;</span>+ x + <span class="string">&quot;,&quot;</span> + y);</span><br><span class="line">        System.out.println(<span class="string">&quot;坦克向玩家发起攻击.....&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="简单工厂"><a href="#简单工厂" class="headerlink" title="简单工厂"></a>简单工厂</h1><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SimpleFactory</span>()&#123;</span><br><span class="line"></span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
-
-<h1 id="工厂方法"><a href="#工厂方法" class="headerlink" title="工厂方法"></a>工厂方法</h1><h1 id="抽象工厂"><a href="#抽象工厂" class="headerlink" title="抽象工厂"></a>抽象工厂</h1>]]></content>
+<h1 id="源代码到机器码"><a href="#源代码到机器码" class="headerlink" title="源代码到机器码"></a>源代码到机器码</h1><h2 id="前端编译器：源代码到字节码"><a href="#前端编译器：源代码到字节码" class="headerlink" title="前端编译器：源代码到字节码"></a>前端编译器：源代码到字节码</h2><h2 id="JIT-编译器：从字节码到机器码"><a href="#JIT-编译器：从字节码到机器码" class="headerlink" title="JIT 编译器：从字节码到机器码"></a>JIT 编译器：从字节码到机器码</h2><h2 id="AOT-编译器：源代码到机器码"><a href="#AOT-编译器：源代码到机器码" class="headerlink" title="AOT 编译器：源代码到机器码"></a>AOT 编译器：源代码到机器码</h2><h1 id="字节码文件结构"><a href="#字节码文件结构" class="headerlink" title="字节码文件结构"></a>字节码文件结构</h1><h1 id="JVM-类加载机制"><a href="#JVM-类加载机制" class="headerlink" title="JVM 类加载机制"></a>JVM 类加载机制</h1><p>当编译器将 Java 源码编译为字节码之后，虚拟机便可以将字节码读取进内存，从而进行解析、运行等整个过程。</p>
+<p>JVM 虚拟机执行 class 字节码的过程可以分为七个阶段：<br>加载、验证、准备、解析、初始化、使用、卸载。</p>
+<h2 id="加载"><a href="#加载" class="headerlink" title="加载"></a>加载</h2><p>加载阶段是类加载过程的第一个阶段。在这个阶段，JVM 的主要目的是将字节码从各个位置（网络、磁盘等）转化为二进制字节流加载到内存中，接着会为这个类在 JVM 的方法区创建一个对应的 Class 对象，这个 Class 对象就是这个类各种数据的访问入口。</p>
+<h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><p>当 JVM 加载完 Class 字节码文件并在方法区创建对应的 Class 对象之后，JVM 便会启动对该字节码流的校验，只有符合 JVM 字节码规范的文件才能被 JVM 正确执行。<br>因为Class文件并不要求一定要从Java源代码编译而来，可以从其他地方加载，如网络，甚至包括十六进制编辑器。</p>
+<ul>
+<li><p>文件格式验证<br>字节流格式，是否以0xcafebabe开头，主次版本号是否在当前虚拟机处理范围内等</p>
+</li>
+<li><p>元数据验证<br>Java语言规范验证，是否有父类，父类是否继承了不允许的类等</p>
+</li>
+<li><p>字节码验证</p>
+</li>
+<li><p>符号引用验证 —- 链接的第三阶段：解析阶段发生</p>
+</li>
+</ul>
+<h2 id="准备（重点）"><a href="#准备（重点）" class="headerlink" title="准备（重点）"></a>准备（重点）</h2><p>当完成字节码文件的校验之后，JVM 便会开始为类变量分配内存并初始化。</p>
+<ul>
+<li>内存分配的对象。<br>Java 中的变量有「类变量」和「类成员变量」两种类型，「类变量」指的是被 static 修饰的变量，而其他所有类型的变量都属于「类成员变量」。在准备阶段，JVM 只会为「类变量」分配内存，而不会为「类成员变量」分配内存。「类成员变量」的内存分配需要等到初始化阶段才开始。</li>
+<li>初始化的类型。<br>在准备阶段，JVM 会为类变量分配内存，并为其初始化。但是这里的初始化指的是为变量赋予 Java 语言中该数据类型的零值，而不是用户代码里初始化的值。<br>但如果一个变量是常量（被 static final 修饰）的话，那么在准备阶段，属性便会被赋予用户希望的值。</li>
+</ul>
+<h2 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h2><p>通过准备阶段之后，JVM 针对类或接口、字段、类方法、接口方法、方法类型、方法句柄和调用点限定符 7 类引用进行解析。这个阶段的主要任务是将其在常量池中的符号引用替换成直接其在内存中的直接引用。</p>
+<h2 id="初始化（重点）"><a href="#初始化（重点）" class="headerlink" title="初始化（重点）"></a>初始化（重点）</h2><p>在这个阶段，JVM 会根据语句执行顺序对类对象进行初始化，一般来说当 JVM 遇到下面 5 种情况的时候会触发初始化：</p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h2 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h2><h1 id="JVM-垃圾回收机制"><a href="#JVM-垃圾回收机制" class="headerlink" title="JVM 垃圾回收机制"></a>JVM 垃圾回收机制</h1><p>所以很多时候不同的虚拟机有不同的实现方式，下面所说的垃圾回收都是以 HotSpot 虚拟机为例。</p>
+<h2 id="判断垃圾方法"><a href="#判断垃圾方法" class="headerlink" title="判断垃圾方法"></a>判断垃圾方法</h2><ol>
+<li><p>引用计数法 — 循环引用问题</p>
+</li>
+<li><p>GC Root Tracing 算法<br>从 GC Root 出发，所有可达的对象都是存活的对象，而所有不可达的对象都是垃圾。GC ROOT通常包括</p>
+</li>
+</ol>
+<ul>
+<li>所有当前被加载的 Java 类</li>
+<li>Java 类的引用类型静态变量</li>
+<li>Java类的运行时常量池里的引用类型常量</li>
+<li>JVM的一些静态数据结构里指向GC堆里的对象的引用</li>
+<li>等等</li>
+</ul>
+<h2 id="如何进行垃圾回收"><a href="#如何进行垃圾回收" class="headerlink" title="如何进行垃圾回收"></a>如何进行垃圾回收</h2><p>三种算法：标记清除算法、复制算法、标记压缩算法。</p>
+<h3 id="标记清除算法"><a href="#标记清除算法" class="headerlink" title="标记清除算法"></a>标记清除算法</h3><p>从名字可以看到其分为两个阶段：标记阶段和清除阶段。一种可行的实现方式是，在标记阶段，标记所有由 GC Root 触发的可达对象。此时，所有未被标记的对象就是垃圾对象。之后在清除阶段，清除所有未被标记的对象。标记清除算法最大的问题就是空间碎片问题。如果空间碎片过多，则会导致内存空间的不连续。虽说大对象也可以分配在不连续的空间中，但是效率要低于连续的内存空间。</p>
+<h3 id="复制算法"><a href="#复制算法" class="headerlink" title="复制算法"></a>复制算法</h3><p>复制算法的核心思想是将原有的内存空间分为两块，每次只使用一块，在垃圾回收时，将正在使用的内存中的存活对象复制到未使用的内存块中。之后清除正在使用的内存块中的所有对象，之后交换两个内存块的角色，完成垃圾回收。该算法的缺点是要将内存空间折半，极大地浪费了内存空间。</p>
+<h3 id="标记压缩算法"><a href="#标记压缩算法" class="headerlink" title="标记压缩算法"></a>标记压缩算法</h3><p>标记压缩算法可以说是标记清除算法的优化版，其同样需要经历两个阶段，分别是：标记结算、压缩阶段。在标记阶段，从 GC Root 引用集合触发去标记所有对象。在压缩阶段，其则是将所有存活的对象压缩在内存的一边，之后清理边界外的所有空间。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>对比一下这三种算法，可以发现他们都有各自的优点和缺点。</p>
+<p>标记清除算法虽然会产生内存碎片，但是不需要移动太多对象，比较适合在存活对象比较多的情况。而复制算法虽然需要将内存空间折半，并且需要移动存活对象，但是其清理后不会有空间碎片，比较适合存活对象比较少的情况。而标记压缩算法，则是标记清除算法的优化版，减少了空间碎片。</p>
+<h2 id="分代思想"><a href="#分代思想" class="headerlink" title="分代思想"></a>分代思想</h2><p>分代思想按照对象的生命周期长短将其分为了两个部分（新生代、老年代）</p>
+<p>分代算法，就是根据 JVM 内存的不同内存区域，采用不同的垃圾回收算法。</p>
+<p>例如对于存活对象少的新生代区域，比较适合采用复制算法。这样只需要复制少量对象，便可完成垃圾回收，并且还不会有内存碎片。而对于老年代这种存活对象多的区域，比较适合采用标记压缩算法或标记清除算法，这样不需要移动太多的内存对象。</p>
+<h2 id="分区思想"><a href="#分区思想" class="headerlink" title="分区思想"></a>分区思想</h2><p>但 JVM 中其实还有一个分区思想，即将整个堆空间划分成连续的不同小区间。<br>分代思想按照对象的生命周期长短将其分为了两个部分（新生代、老年代）</p>
+<h1 id="JVM垃圾回收器"><a href="#JVM垃圾回收器" class="headerlink" title="JVM垃圾回收器"></a>JVM垃圾回收器</h1><p>四大类别：串行回收器、并行回收器、CMS 回收器、G1 回收器。</p>
+<h2 id="串行回收器"><a href="#串行回收器" class="headerlink" title="串行回收器"></a>串行回收器</h2><p>串行回收器是指使用单线程进行垃圾回收的回收器。</p>
+<h2 id="并行回收器"><a href="#并行回收器" class="headerlink" title="并行回收器"></a>并行回收器</h2><p>并行回收器在串行回收器的基础上做了改进，其使用多线程进行垃圾回收。</p>
+<h2 id="CMS-回收器"><a href="#CMS-回收器" class="headerlink" title="CMS 回收器"></a>CMS 回收器</h2><p>与 ParallelGC 和 ParallelOldGC 不同，CMS 回收器主要关注系统停顿时间。CMS 回收器全称为 Concurrent Mark Sweep，意为标记清除算法，其是一个使用多线程并行回收的垃圾回收器。</p>
+<h2 id="G1-回收器"><a href="#G1-回收器" class="headerlink" title="G1 回收器"></a>G1 回收器</h2><p>G1 回收器是 JDK 1.7 中使用的全新垃圾回收器，从长期目标来看，其是为了取代 CMS 回收器。</p>
+<p>G1 回收器拥有独特的垃圾回收策略，和之前所有垃圾回收器采用的垃圾回收策略不同。从分代看，G1 依然属于分代垃圾回收器。但它最大的改变是使用了分区算法，从而使得 Eden 区、From 区、Survivor 区和老年代等各块内存不必连续。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://www.cnblogs.com/chanshuyi/p/jvm_serial_04_from_source_code_to_machine_code.html">https://www.cnblogs.com/chanshuyi/p/jvm_serial_04_from_source_code_to_machine_code.html</a></p>
+]]></content>
       <categories>
-        <category>设计模式</category>
+        <category>JVM</category>
       </categories>
+  </entry>
+  <entry>
+    <title>OAuth 2.0</title>
+    <url>/2023/05/09/OAuth-2-0/</url>
+    <content><![CDATA[<p>OAuth 的核心就是向第三方应用颁发令牌<br>四种授权方式</p>
+<ol>
+<li>（授权码）authorization-code</li>
+<li>（隐藏式）implicit</li>
+<li>（密码式）password</li>
+<li>（客户端凭证）client credentials</li>
+</ol>
+<p>注：任何一种方式，第三方应用都必须到系统备案，以获取客户端ID（client ID）和客户端密钥（client secret）</p>
+<span id="more"></span>
+
+<h1 id="第一种方式：授权码"><a href="#第一种方式：授权码" class="headerlink" title="第一种方式：授权码"></a>第一种方式：授权码</h1><p>最常用、最安全，适用于有后端的应用。<br>授权码通过前端发送，令牌存储在后端，而且所有与资源服务器的通信都在后端完成。</p>
+<p>授权过程：</p>
+<p><img src="process.png" alt="流程图" title="流程图"></p>
+<p>（1）请求授权码<br>A网站提供一个链接，用户点击后会跳转到B网站，授权用户数据给A网站使用<br>链接示意：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://b.com/oauth/authorize?</span><br><span class="line">    response_type=code&amp;     // 表示要求返回授权码</span><br><span class="line">    client_id=CLIENT_ID&amp;    // 让B知道谁在请求</span><br><span class="line">    redirect_uri=CALLLBACK_URL&amp; // B接受或者拒绝请求后的跳转网址</span><br><span class="line">    scope=read      // 要求的授权范围</span><br></pre></td></tr></table></figure>
+<p>（2）返回授权码<br>用户跳转后，B网站要求用户登录， 然后询问是否给A网站授权。用户同意后，B网站返回<code>redirect_uri</code>参数指定的网址，同时携带一个授权码</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://a.com/callback?code=AUTHORIZATION_CODE  // code为授权码</span><br></pre></td></tr></table></figure>
+<p>（3）请求令牌<br>A网站拿到授权码后，可以在后端向B网站请求令牌</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://b.com/oauth/token?</span><br><span class="line"> client_id=CLIENT_ID&amp;   </span><br><span class="line"> client_secret=CLIENT_SECRET&amp;       // client_id 和client_secret参数确定A的身份</span><br><span class="line"> grant_type=authorization_code&amp;     // 参数值为authorization_code，表示采用的授权方式为授权码</span><br><span class="line"> code=AUTHORIZATION_CODE&amp;           // 上一步拿到的授权码</span><br><span class="line"> redirect_uri=CALLBACK_URL          // 令牌颁发后的回调网址</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>（4）返回令牌<br>B 网站收到请求以后，就会颁发令牌。具体做法是向redirect_uri指定的网址，发送一段 JSON 数据。</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="punctuation">&#123;</span>    </span><br><span class="line">  <span class="attr">&quot;access_token&quot;</span><span class="punctuation">:</span><span class="string">&quot;ACCESS_TOKEN&quot;</span><span class="punctuation">,</span>    <span class="comment">//令牌</span></span><br><span class="line">  <span class="attr">&quot;token_type&quot;</span><span class="punctuation">:</span><span class="string">&quot;bearer&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;expires_in&quot;</span><span class="punctuation">:</span><span class="number">2592000</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;refresh_token&quot;</span><span class="punctuation">:</span><span class="string">&quot;REFRESH_TOKEN&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;scope&quot;</span><span class="punctuation">:</span><span class="string">&quot;read&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;uid&quot;</span><span class="punctuation">:</span><span class="number">100101</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;info&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span>...<span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="第二种方式：隐藏式"><a href="#第二种方式：隐藏式" class="headerlink" title="第二种方式：隐藏式"></a>第二种方式：隐藏式</h1><ol>
+<li>令牌的有效期必须非常短，通常就是会话期间（session）有效，浏览器关掉，令牌就失效了。</li>
+<li>纯前端应用，没有后端。</li>
+<li>直接向前端颁发令牌。无授权码中间步骤。<br>（1）第一步，A网站提供链接，用户点击链接跳转B网站，授权用户数据<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://b.com/oauth/authorize?</span><br><span class="line">  response_type=token&amp;  //要求直接返回令牌</span><br><span class="line">  client_id=CLIENT_ID&amp;</span><br><span class="line">  redirect_uri=CALLBACK_URL&amp;</span><br><span class="line">  scope=read</span><br></pre></td></tr></table></figure>
+（2）第二步，B网站授权成功，跳转到A网站（通过<code>redirect_uri</code>）并以参数的形式返回令牌。<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://a.com/callback#token=ACCESS_TOKEN</span><br></pre></td></tr></table></figure>
+注意：令牌的位置是 URL 锚点（fragment），而不是查询字符串（querystring），这是因为 OAuth 2.0 允许跳转网址是 HTTP 协议，因此存在”中间人攻击”的风险，而浏览器跳转时，锚点不会发到服务器，就减少了泄漏令牌的风险。</li>
+</ol>
+<h1 id="第三种方式：密码式"><a href="#第三种方式：密码式" class="headerlink" title="第三种方式：密码式"></a>第三种方式：密码式</h1><p>用户把用户名和密码，直接告诉该应用。<br>该应用就使用你的密码，申请令牌。<br>（1）第一步，A网站要求用户提供用户名和密码，向B网站请求令牌</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://oauth.b.com/token?</span><br><span class="line">  grant_type=password&amp;</span><br><span class="line">  username=USERNAME&amp;</span><br><span class="line">  password=PASSWORD&amp;</span><br><span class="line">  client_id=CLIENT_ID</span><br></pre></td></tr></table></figure>
+<p>（2） 第二步，B 网站验证身份通过后，直接给出令牌。<br>注意，这时不需要跳转，而是把令牌放在 JSON 数据里面，作为 HTTP 回应，A 因此拿到令牌。</p>
+<h1 id="第四种方式：凭证式（client-credentials）"><a href="#第四种方式：凭证式（client-credentials）" class="headerlink" title="第四种方式：凭证式（client credentials）"></a>第四种方式：凭证式（client credentials）</h1><p>适用于没有前端的命令行应用，即在命令行下请求令牌。<br>这种方式给出的令牌，是针对第三方应用的，而不是针对用户的，即有可能多个用户共享同一个令牌。<br>（1）第一步，A 应用在命令行向 B 发出请求。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://oauth.b.com/token?</span><br><span class="line">  grant_type=client_credentials&amp;</span><br><span class="line">  client_id=CLIENT_ID&amp;</span><br><span class="line">  client_secret=CLIENT_SECRET</span><br></pre></td></tr></table></figure>
+<p>第二步，B 网站验证通过以后，直接返回令牌。</p>
+<h1 id="更新令牌"><a href="#更新令牌" class="headerlink" title="更新令牌"></a>更新令牌</h1><p>令牌的有效期到了，OAuth 2.0 允许用户自动更新令牌<br>具体方法是，B 网站颁发令牌的时候，一次性颁发两个令牌，一个用于获取数据，另一个用于获取新的令牌（refresh token 字段）。令牌到期前，用户使用 refresh token 发一个请求，去更新令牌。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://b.com/oauth/token?</span><br><span class="line">  grant_type=refresh_token&amp;</span><br><span class="line">  client_id=CLIENT_ID&amp;</span><br><span class="line">  client_secret=CLIENT_SECRET&amp;</span><br><span class="line">  refresh_token=REFRESH_TOKEN</span><br></pre></td></tr></table></figure>
+<p>B 网站验证通过以后，就会颁发新的令牌。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://www.ruanyifeng.com/blog/2019/04/oauth-grant-types.html">https://www.ruanyifeng.com/blog/2019/04/oauth-grant-types.html</a></p>
+]]></content>
+      <categories>
+        <category>第三方授权 OAuth2.0</category>
+      </categories>
+      <tags>
+        <tag>authorization</tag>
+      </tags>
   </entry>
   <entry>
     <title>设计模式-解释器</title>
@@ -119,144 +263,6 @@
       </tags>
   </entry>
   <entry>
-    <title>JVM概览</title>
-    <url>/2023/05/16/JVMLearning/</url>
-    <content><![CDATA[<p>编译器可以分为：前端编译器、JIT 编译器和AOT编译器。</p>
-<span id="more"></span>
-<h1 id="源代码到机器码"><a href="#源代码到机器码" class="headerlink" title="源代码到机器码"></a>源代码到机器码</h1><h2 id="前端编译器：源代码到字节码"><a href="#前端编译器：源代码到字节码" class="headerlink" title="前端编译器：源代码到字节码"></a>前端编译器：源代码到字节码</h2><h2 id="JIT-编译器：从字节码到机器码"><a href="#JIT-编译器：从字节码到机器码" class="headerlink" title="JIT 编译器：从字节码到机器码"></a>JIT 编译器：从字节码到机器码</h2><h2 id="AOT-编译器：源代码到机器码"><a href="#AOT-编译器：源代码到机器码" class="headerlink" title="AOT 编译器：源代码到机器码"></a>AOT 编译器：源代码到机器码</h2><h1 id="字节码文件结构"><a href="#字节码文件结构" class="headerlink" title="字节码文件结构"></a>字节码文件结构</h1><h1 id="JVM-类加载机制"><a href="#JVM-类加载机制" class="headerlink" title="JVM 类加载机制"></a>JVM 类加载机制</h1><p>当编译器将 Java 源码编译为字节码之后，虚拟机便可以将字节码读取进内存，从而进行解析、运行等整个过程。</p>
-<p>JVM 虚拟机执行 class 字节码的过程可以分为七个阶段：<br>加载、验证、准备、解析、初始化、使用、卸载。</p>
-<h2 id="加载"><a href="#加载" class="headerlink" title="加载"></a>加载</h2><p>加载阶段是类加载过程的第一个阶段。在这个阶段，JVM 的主要目的是将字节码从各个位置（网络、磁盘等）转化为二进制字节流加载到内存中，接着会为这个类在 JVM 的方法区创建一个对应的 Class 对象，这个 Class 对象就是这个类各种数据的访问入口。</p>
-<h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><p>当 JVM 加载完 Class 字节码文件并在方法区创建对应的 Class 对象之后，JVM 便会启动对该字节码流的校验，只有符合 JVM 字节码规范的文件才能被 JVM 正确执行。<br>因为Class文件并不要求一定要从Java源代码编译而来，可以从其他地方加载，如网络，甚至包括十六进制编辑器。</p>
-<ul>
-<li><p>文件格式验证<br>字节流格式，是否以0xcafebabe开头，主次版本号是否在当前虚拟机处理范围内等</p>
-</li>
-<li><p>元数据验证<br>Java语言规范验证，是否有父类，父类是否继承了不允许的类等</p>
-</li>
-<li><p>字节码验证</p>
-</li>
-<li><p>符号引用验证 —- 链接的第三阶段：解析阶段发生</p>
-</li>
-</ul>
-<h2 id="准备（重点）"><a href="#准备（重点）" class="headerlink" title="准备（重点）"></a>准备（重点）</h2><p>当完成字节码文件的校验之后，JVM 便会开始为类变量分配内存并初始化。</p>
-<ul>
-<li>内存分配的对象。<br>Java 中的变量有「类变量」和「类成员变量」两种类型，「类变量」指的是被 static 修饰的变量，而其他所有类型的变量都属于「类成员变量」。在准备阶段，JVM 只会为「类变量」分配内存，而不会为「类成员变量」分配内存。「类成员变量」的内存分配需要等到初始化阶段才开始。</li>
-<li>初始化的类型。<br>在准备阶段，JVM 会为类变量分配内存，并为其初始化。但是这里的初始化指的是为变量赋予 Java 语言中该数据类型的零值，而不是用户代码里初始化的值。<br>但如果一个变量是常量（被 static final 修饰）的话，那么在准备阶段，属性便会被赋予用户希望的值。</li>
-</ul>
-<h2 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h2><p>通过准备阶段之后，JVM 针对类或接口、字段、类方法、接口方法、方法类型、方法句柄和调用点限定符 7 类引用进行解析。这个阶段的主要任务是将其在常量池中的符号引用替换成直接其在内存中的直接引用。</p>
-<h2 id="初始化（重点）"><a href="#初始化（重点）" class="headerlink" title="初始化（重点）"></a>初始化（重点）</h2><p>在这个阶段，JVM 会根据语句执行顺序对类对象进行初始化，一般来说当 JVM 遇到下面 5 种情况的时候会触发初始化：</p>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h2 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h2><h1 id="JVM-垃圾回收机制"><a href="#JVM-垃圾回收机制" class="headerlink" title="JVM 垃圾回收机制"></a>JVM 垃圾回收机制</h1><p>所以很多时候不同的虚拟机有不同的实现方式，下面所说的垃圾回收都是以 HotSpot 虚拟机为例。</p>
-<h2 id="判断垃圾方法"><a href="#判断垃圾方法" class="headerlink" title="判断垃圾方法"></a>判断垃圾方法</h2><ol>
-<li><p>引用计数法 — 循环引用问题</p>
-</li>
-<li><p>GC Root Tracing 算法<br>从 GC Root 出发，所有可达的对象都是存活的对象，而所有不可达的对象都是垃圾。GC ROOT通常包括</p>
-</li>
-</ol>
-<ul>
-<li>所有当前被加载的 Java 类</li>
-<li>Java 类的引用类型静态变量</li>
-<li>Java类的运行时常量池里的引用类型常量</li>
-<li>JVM的一些静态数据结构里指向GC堆里的对象的引用</li>
-<li>等等</li>
-</ul>
-<h2 id="如何进行垃圾回收"><a href="#如何进行垃圾回收" class="headerlink" title="如何进行垃圾回收"></a>如何进行垃圾回收</h2><p>三种算法：标记清除算法、复制算法、标记压缩算法。</p>
-<h3 id="标记清除算法"><a href="#标记清除算法" class="headerlink" title="标记清除算法"></a>标记清除算法</h3><p>从名字可以看到其分为两个阶段：标记阶段和清除阶段。一种可行的实现方式是，在标记阶段，标记所有由 GC Root 触发的可达对象。此时，所有未被标记的对象就是垃圾对象。之后在清除阶段，清除所有未被标记的对象。标记清除算法最大的问题就是空间碎片问题。如果空间碎片过多，则会导致内存空间的不连续。虽说大对象也可以分配在不连续的空间中，但是效率要低于连续的内存空间。</p>
-<h3 id="复制算法"><a href="#复制算法" class="headerlink" title="复制算法"></a>复制算法</h3><p>复制算法的核心思想是将原有的内存空间分为两块，每次只使用一块，在垃圾回收时，将正在使用的内存中的存活对象复制到未使用的内存块中。之后清除正在使用的内存块中的所有对象，之后交换两个内存块的角色，完成垃圾回收。该算法的缺点是要将内存空间折半，极大地浪费了内存空间。</p>
-<h3 id="标记压缩算法"><a href="#标记压缩算法" class="headerlink" title="标记压缩算法"></a>标记压缩算法</h3><p>标记压缩算法可以说是标记清除算法的优化版，其同样需要经历两个阶段，分别是：标记结算、压缩阶段。在标记阶段，从 GC Root 引用集合触发去标记所有对象。在压缩阶段，其则是将所有存活的对象压缩在内存的一边，之后清理边界外的所有空间。</p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>对比一下这三种算法，可以发现他们都有各自的优点和缺点。</p>
-<p>标记清除算法虽然会产生内存碎片，但是不需要移动太多对象，比较适合在存活对象比较多的情况。而复制算法虽然需要将内存空间折半，并且需要移动存活对象，但是其清理后不会有空间碎片，比较适合存活对象比较少的情况。而标记压缩算法，则是标记清除算法的优化版，减少了空间碎片。</p>
-<h2 id="分代思想"><a href="#分代思想" class="headerlink" title="分代思想"></a>分代思想</h2><p>分代思想按照对象的生命周期长短将其分为了两个部分（新生代、老年代）</p>
-<p>分代算法，就是根据 JVM 内存的不同内存区域，采用不同的垃圾回收算法。</p>
-<p>例如对于存活对象少的新生代区域，比较适合采用复制算法。这样只需要复制少量对象，便可完成垃圾回收，并且还不会有内存碎片。而对于老年代这种存活对象多的区域，比较适合采用标记压缩算法或标记清除算法，这样不需要移动太多的内存对象。</p>
-<h2 id="分区思想"><a href="#分区思想" class="headerlink" title="分区思想"></a>分区思想</h2><p>但 JVM 中其实还有一个分区思想，即将整个堆空间划分成连续的不同小区间。<br>分代思想按照对象的生命周期长短将其分为了两个部分（新生代、老年代）</p>
-<h1 id="JVM垃圾回收器"><a href="#JVM垃圾回收器" class="headerlink" title="JVM垃圾回收器"></a>JVM垃圾回收器</h1><p>四大类别：串行回收器、并行回收器、CMS 回收器、G1 回收器。</p>
-<h2 id="串行回收器"><a href="#串行回收器" class="headerlink" title="串行回收器"></a>串行回收器</h2><p>串行回收器是指使用单线程进行垃圾回收的回收器。</p>
-<h2 id="并行回收器"><a href="#并行回收器" class="headerlink" title="并行回收器"></a>并行回收器</h2><p>并行回收器在串行回收器的基础上做了改进，其使用多线程进行垃圾回收。</p>
-<h2 id="CMS-回收器"><a href="#CMS-回收器" class="headerlink" title="CMS 回收器"></a>CMS 回收器</h2><p>与 ParallelGC 和 ParallelOldGC 不同，CMS 回收器主要关注系统停顿时间。CMS 回收器全称为 Concurrent Mark Sweep，意为标记清除算法，其是一个使用多线程并行回收的垃圾回收器。</p>
-<h2 id="G1-回收器"><a href="#G1-回收器" class="headerlink" title="G1 回收器"></a>G1 回收器</h2><p>G1 回收器是 JDK 1.7 中使用的全新垃圾回收器，从长期目标来看，其是为了取代 CMS 回收器。</p>
-<p>G1 回收器拥有独特的垃圾回收策略，和之前所有垃圾回收器采用的垃圾回收策略不同。从分代看，G1 依然属于分代垃圾回收器。但它最大的改变是使用了分区算法，从而使得 Eden 区、From 区、Survivor 区和老年代等各块内存不必连续。</p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://www.cnblogs.com/chanshuyi/p/jvm_serial_04_from_source_code_to_machine_code.html">https://www.cnblogs.com/chanshuyi/p/jvm_serial_04_from_source_code_to_machine_code.html</a></p>
-]]></content>
-      <categories>
-        <category>JVM</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>redis概览</title>
-    <url>/2023/05/18/RedisLearning/</url>
-    <content><![CDATA[<h1 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h1><p>RDB持久化、AOF持久化，RDB-AOF混合持久化</p>
-<span id="more"></span>
-<h2 id="RDB持久化"><a href="#RDB持久化" class="headerlink" title="RDB持久化"></a>RDB持久化</h2><p>全面持久化操作，</p>
-<h3 id="载入RDB文件过程"><a href="#载入RDB文件过程" class="headerlink" title="载入RDB文件过程"></a>载入RDB文件过程</h3><ol>
-<li>打开RDB文件</li>
-<li>检查文件头</li>
-<li>检查版本号</li>
-<li>读取设备信息</li>
-<li>重建数据库</li>
-<li>重建脚本缓存</li>
-<li>对比校验和</li>
-<li>数据载入完毕</li>
-</ol>
-<h2 id="AOF持久化"><a href="#AOF持久化" class="headerlink" title="AOF持久化"></a>AOF持久化</h2><p>增量持久化操作，服务器每次执行完命令后，都会以【协议文本】的方式将被执行的命令追加到AOF文件末尾。</p>
-<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><ol>
-<li>体积大</li>
-<li>数据恢复速度慢</li>
-</ol>
-]]></content>
-      <categories>
-        <category>Redis</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>OAuth 2.0</title>
-    <url>/2023/05/09/OAuth-2-0/</url>
-    <content><![CDATA[<p>OAuth 的核心就是向第三方应用颁发令牌<br>四种授权方式</p>
-<ol>
-<li>（授权码）authorization-code</li>
-<li>（隐藏式）implicit</li>
-<li>（密码式）password</li>
-<li>（客户端凭证）client credentials</li>
-</ol>
-<p>注：任何一种方式，第三方应用都必须到系统备案，以获取客户端ID（client ID）和客户端密钥（client secret）</p>
-<span id="more"></span>
-
-<h1 id="第一种方式：授权码"><a href="#第一种方式：授权码" class="headerlink" title="第一种方式：授权码"></a>第一种方式：授权码</h1><p>最常用、最安全，适用于有后端的应用。<br>授权码通过前端发送，令牌存储在后端，而且所有与资源服务器的通信都在后端完成。</p>
-<p>授权过程：</p>
-<p><img src="process.png" alt="流程图" title="流程图"></p>
-<p>（1）请求授权码<br>A网站提供一个链接，用户点击后会跳转到B网站，授权用户数据给A网站使用<br>链接示意：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://b.com/oauth/authorize?</span><br><span class="line">    response_type=code&amp;     // 表示要求返回授权码</span><br><span class="line">    client_id=CLIENT_ID&amp;    // 让B知道谁在请求</span><br><span class="line">    redirect_uri=CALLLBACK_URL&amp; // B接受或者拒绝请求后的跳转网址</span><br><span class="line">    scope=read      // 要求的授权范围</span><br></pre></td></tr></table></figure>
-<p>（2）返回授权码<br>用户跳转后，B网站要求用户登录， 然后询问是否给A网站授权。用户同意后，B网站返回<code>redirect_uri</code>参数指定的网址，同时携带一个授权码</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://a.com/callback?code=AUTHORIZATION_CODE  // code为授权码</span><br></pre></td></tr></table></figure>
-<p>（3）请求令牌<br>A网站拿到授权码后，可以在后端向B网站请求令牌</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://b.com/oauth/token?</span><br><span class="line"> client_id=CLIENT_ID&amp;   </span><br><span class="line"> client_secret=CLIENT_SECRET&amp;       // client_id 和client_secret参数确定A的身份</span><br><span class="line"> grant_type=authorization_code&amp;     // 参数值为authorization_code，表示采用的授权方式为授权码</span><br><span class="line"> code=AUTHORIZATION_CODE&amp;           // 上一步拿到的授权码</span><br><span class="line"> redirect_uri=CALLBACK_URL          // 令牌颁发后的回调网址</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>（4）返回令牌<br>B 网站收到请求以后，就会颁发令牌。具体做法是向redirect_uri指定的网址，发送一段 JSON 数据。</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="punctuation">&#123;</span>    </span><br><span class="line">  <span class="attr">&quot;access_token&quot;</span><span class="punctuation">:</span><span class="string">&quot;ACCESS_TOKEN&quot;</span><span class="punctuation">,</span>    <span class="comment">//令牌</span></span><br><span class="line">  <span class="attr">&quot;token_type&quot;</span><span class="punctuation">:</span><span class="string">&quot;bearer&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;expires_in&quot;</span><span class="punctuation">:</span><span class="number">2592000</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;refresh_token&quot;</span><span class="punctuation">:</span><span class="string">&quot;REFRESH_TOKEN&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;scope&quot;</span><span class="punctuation">:</span><span class="string">&quot;read&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;uid&quot;</span><span class="punctuation">:</span><span class="number">100101</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;info&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span>...<span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-
-<h1 id="第二种方式：隐藏式"><a href="#第二种方式：隐藏式" class="headerlink" title="第二种方式：隐藏式"></a>第二种方式：隐藏式</h1><ol>
-<li>令牌的有效期必须非常短，通常就是会话期间（session）有效，浏览器关掉，令牌就失效了。</li>
-<li>纯前端应用，没有后端。</li>
-<li>直接向前端颁发令牌。无授权码中间步骤。<br>（1）第一步，A网站提供链接，用户点击链接跳转B网站，授权用户数据<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://b.com/oauth/authorize?</span><br><span class="line">  response_type=token&amp;  //要求直接返回令牌</span><br><span class="line">  client_id=CLIENT_ID&amp;</span><br><span class="line">  redirect_uri=CALLBACK_URL&amp;</span><br><span class="line">  scope=read</span><br></pre></td></tr></table></figure>
-（2）第二步，B网站授权成功，跳转到A网站（通过<code>redirect_uri</code>）并以参数的形式返回令牌。<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://a.com/callback#token=ACCESS_TOKEN</span><br></pre></td></tr></table></figure>
-注意：令牌的位置是 URL 锚点（fragment），而不是查询字符串（querystring），这是因为 OAuth 2.0 允许跳转网址是 HTTP 协议，因此存在”中间人攻击”的风险，而浏览器跳转时，锚点不会发到服务器，就减少了泄漏令牌的风险。</li>
-</ol>
-<h1 id="第三种方式：密码式"><a href="#第三种方式：密码式" class="headerlink" title="第三种方式：密码式"></a>第三种方式：密码式</h1><p>用户把用户名和密码，直接告诉该应用。<br>该应用就使用你的密码，申请令牌。<br>（1）第一步，A网站要求用户提供用户名和密码，向B网站请求令牌</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://oauth.b.com/token?</span><br><span class="line">  grant_type=password&amp;</span><br><span class="line">  username=USERNAME&amp;</span><br><span class="line">  password=PASSWORD&amp;</span><br><span class="line">  client_id=CLIENT_ID</span><br></pre></td></tr></table></figure>
-<p>（2） 第二步，B 网站验证身份通过后，直接给出令牌。<br>注意，这时不需要跳转，而是把令牌放在 JSON 数据里面，作为 HTTP 回应，A 因此拿到令牌。</p>
-<h1 id="第四种方式：凭证式（client-credentials）"><a href="#第四种方式：凭证式（client-credentials）" class="headerlink" title="第四种方式：凭证式（client credentials）"></a>第四种方式：凭证式（client credentials）</h1><p>适用于没有前端的命令行应用，即在命令行下请求令牌。<br>这种方式给出的令牌，是针对第三方应用的，而不是针对用户的，即有可能多个用户共享同一个令牌。<br>（1）第一步，A 应用在命令行向 B 发出请求。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://oauth.b.com/token?</span><br><span class="line">  grant_type=client_credentials&amp;</span><br><span class="line">  client_id=CLIENT_ID&amp;</span><br><span class="line">  client_secret=CLIENT_SECRET</span><br></pre></td></tr></table></figure>
-<p>第二步，B 网站验证通过以后，直接返回令牌。</p>
-<h1 id="更新令牌"><a href="#更新令牌" class="headerlink" title="更新令牌"></a>更新令牌</h1><p>令牌的有效期到了，OAuth 2.0 允许用户自动更新令牌<br>具体方法是，B 网站颁发令牌的时候，一次性颁发两个令牌，一个用于获取数据，另一个用于获取新的令牌（refresh token 字段）。令牌到期前，用户使用 refresh token 发一个请求，去更新令牌。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://b.com/oauth/token?</span><br><span class="line">  grant_type=refresh_token&amp;</span><br><span class="line">  client_id=CLIENT_ID&amp;</span><br><span class="line">  client_secret=CLIENT_SECRET&amp;</span><br><span class="line">  refresh_token=REFRESH_TOKEN</span><br></pre></td></tr></table></figure>
-<p>B 网站验证通过以后，就会颁发新的令牌。</p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://www.ruanyifeng.com/blog/2019/04/oauth-grant-types.html">https://www.ruanyifeng.com/blog/2019/04/oauth-grant-types.html</a></p>
-]]></content>
-      <categories>
-        <category>第三方授权 OAuth2.0</category>
-      </categories>
-      <tags>
-        <tag>authorization</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>设计模式-原型</title>
     <url>/2023/04/07/ProtoTypeDesignPattern/</url>
     <content><![CDATA[<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><blockquote>
@@ -308,6 +314,130 @@
         <tag>设计模式</tag>
         <tag>单例</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>一些问题</title>
+    <url>/2023/05/19/Questions-0/</url>
+    <content><![CDATA[<p>记录一些想到的问题</p>
+<h1 id="1-什么是Java方法重写"><a href="#1-什么是Java方法重写" class="headerlink" title="1.什么是Java方法重写"></a>1.什么是Java方法重写</h1><p>要求遵循“两同两大一小”</p>
+<ul>
+<li>“两同” 指方法名相同，形参列表相同</li>
+<li>“两小” 指子类方法返回值类型应该比父类返回值类型更小，子类方法声明抛出的异常类应该比父类方法抛出的更小或者相等</li>
+<li>“一大” 指子类方法的访问权限应该比父类方法的访问权限更大或者相等。<span id="more"></span>
+这是因为如果返回值类型更大，则可能会造成父类对象无法完全转换为子类对象，从而导致编译错误和运行时异常。<br>重写还有一条规则是访问控制符必须高于父类？那是因为为了多态的实现。有时候父类需要上转型引用子类的方法实现多态，这就导致子类方法的访问控制符必须高于父类，否则子类里写成了private，父类还怎么访问？</li>
+</ul>
+<h1 id="2-对象实例都在Java堆中吗？"><a href="#2-对象实例都在Java堆中吗？" class="headerlink" title="2.对象实例都在Java堆中吗？"></a>2.对象实例都在Java堆中吗？</h1><p>不一定，是几乎所有的实例都在堆中。<br>JIT编译除了具有缓存的功能外，还会对代码做各种优化，其中有逃逸分析功能。<br>如果逃逸分析发现一个对象不会逃逸出当前方法或线程，则可以将该对象存储在栈上而不是堆上。由于栈是局部的，存储在栈上的对象只能由当前方法或线程访问，这样就减少了对内存的分配和垃圾回收的工作量，从而提高了程序的性能。<br>可以通过 -XX:+DoEscapeAnalysis 指定是否进行逃逸分析。</p>
+<p>参考：<br><a href="http://www.hollischuang.com/archives/2398">http://www.hollischuang.com/archives/2398</a></p>
+<h1 id="3-接口和抽象类的共同点和区别"><a href="#3-接口和抽象类的共同点和区别" class="headerlink" title="3.接口和抽象类的共同点和区别"></a>3.接口和抽象类的共同点和区别</h1><p>共同点:</p>
+<ul>
+<li>都不能被实例化</li>
+<li>都可以包含抽象方法</li>
+<li>都可以有默认实现的方法</li>
+</ul>
+<p>区别：</p>
+<ul>
+<li>接口是对类的行为进行约束，实现了某个接口就有了对应的行为，抽象类主要用于代码复用，强调的是所属关系</li>
+<li>类只能继承一个类，但可以实现多个接口</li>
+<li>接口中的成员变量只能是<code>public static final</code>,抽象类的成员变量默认<code>defalut</code></li>
+</ul>
+<h1 id="4-解决哈希冲突的办法"><a href="#4-解决哈希冲突的办法" class="headerlink" title="4.解决哈希冲突的办法"></a>4.解决哈希冲突的办法</h1><ul>
+<li><p>开放地址法<br>开放地址法是指当发生哈希冲突时，继续在哈希表中查找空闲的位置，直到找到一个空闲的位置为止。其中包括线性探测、二次探测等技术。</p>
+</li>
+<li><p>链表法<br>链表法是指每个哈希值对应一个链表，如果发生哈希冲突，则将新的元素加入到对应位置的链表中。</p>
+</li>
+<li><p>再哈希法<br>再哈希法是指在第一次哈希之后，如果出现冲突，则再次进行哈希，直到找到合适的位置。</p>
+</li>
+<li><p>建立公共溢出区<br>建立公共溢出区是指将所有冲突的元素都存储在同一个溢出区，并通过某种方式来确定元素在该区域中的位置。</p>
+</li>
+</ul>
+<h1 id="5-String-StringBulider-，StringBuffer"><a href="#5-String-StringBulider-，StringBuffer" class="headerlink" title="5.String,StringBulider ，StringBuffer"></a>5.String,StringBulider ，StringBuffer</h1><p>先看后两者：<br>共同点：</p>
+<ul>
+<li><code>StringBulider</code>和<code>StringBuffer</code>都继承了<code>AbstractStringBuilder</code>  <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">AbstractStringBuilder</span> <span class="keyword">implements</span> <span class="title class_">Appendable</span>, CharSequence &#123;</span><br><span class="line"><span class="type">byte</span>[] value;</span><br></pre></td></tr></table></figure>
+区别：</li>
+<li>StringBuffer线程安全，StringBulider非线程安全。</li>
+</ul>
+<p><code>String</code>不可变的真正原因：</p>
+<ul>
+<li>整个类被final修饰，确保不会被继承，防止被子类修改byte数组。</li>
+<li>byte数组的修饰符为<code>private final</code> ，同时没有提供修改的方法。</li>
+</ul>
+<h1 id="6-Java对象的创建过程"><a href="#6-Java对象的创建过程" class="headerlink" title="6.Java对象的创建过程"></a>6.Java对象的创建过程</h1><ol>
+<li><p>类加载：<br> 检查能否在常量池中定位到一个类的符号引用，并检查这个符号引用代表的类是否被加载、解析、初始化过、如果没有，必须先执行相应的类加载过程</p>
+</li>
+<li><p>在堆中分配内存：</p>
+<ul>
+<li>划分可用空间：<br>  指针碰撞：Serial,ParNew等带Compact过程的收集器时<br>  空闲列表：CMS基于Mark-Sweep算法的收集器</li>
+<li>线程安全：<br>  CAS + 失败重试的方法<br>  TLAB: 每个线程预先分配一小块内存</li>
+</ul>
+</li>
+<li><p>将分配的内存初始化为0：</p>
+</li>
+<li><p>设置对象头的必要设置：<br> GC年代，对象的Hash码等</p>
+</li>
+<li><p>执行init方法：<br> 按程序员意愿初始化</p>
+</li>
+</ol>
+<h1 id="7-红黑树"><a href="#7-红黑树" class="headerlink" title="7.红黑树"></a>7.红黑树</h1><h2 id="性质"><a href="#性质" class="headerlink" title="性质"></a>性质</h2><ol>
+<li>结点是红色或黑色；</li>
+<li>根结点是黑色。</li>
+<li>叶子结点（也叫外部结点、NULL结点、失败结点）是黑色。</li>
+<li>不存在两个相邻的红结点。（即红结点的父结点和子结点都是黑色的）</li>
+<li>从任意结点到可达的叶子结点的每个路径包含相同数目的黑色节点。</li>
+</ol>
+<p>速记：左根右，根叶黑，不红红，黑路同。（源自王道）</p>
+<h2 id="插入操作"><a href="#插入操作" class="headerlink" title="插入操作"></a>插入操作</h2><ol>
+<li>先查找，确定插入位置，原理同二叉查找树，</li>
+<li>新结点是根，则是黑色<br> 新结点非根，则是红色</li>
+<li>若不满足要求，则进行调整<br> 黑叔：旋转 + 染色<br> LL型：右单旋，父换爷，染色<br> RR型：左单旋，父换爷，染色<br> LR型： 左右双旋，儿换爷，染色<br> RL型：右，左双旋，儿换爷，染色<br> 红叔：染色 + 变新<br> 叔父爷染色，爷变为新结点</li>
+</ol>
+<h1 id="8-线程和进程的区别？"><a href="#8-线程和进程的区别？" class="headerlink" title="8.线程和进程的区别？"></a>8.线程和进程的区别？</h1><p>（1）进程在执行时拥有独立的内存单元，多个线程共享进程的内存，如代码段、数据段、扩展段；但每个线程拥有自己的栈段和寄存器组。</p>
+<p>（2）进程切换时需要刷新TLB并获取新的地址空间，然后切换硬件上下文和内核栈，线程切换时只需要切换硬件上下文和内核栈。<br>注意：TLB,MMU将虚拟地址转换成物理地址，虚拟地址和物理地址的映射存储在页表中，根据时间局部性和空间局部性，专门设置了TLB将经常使用的映射存储在TLB中。</p>
+<h1 id="9-死锁的解决办法"><a href="#9-死锁的解决办法" class="headerlink" title="9. 死锁的解决办法"></a>9. 死锁的解决办法</h1><p>破坏四个必要条件：互斥、占有等待、不可抢占、循环等待</p>
+<ul>
+<li>占有等待条件，死锁预防：<br>  进程开始前，必须一次性获得所有资源，否则不许执行</li>
+<li>不可抢占，</li>
+<li>循环等待：<br>  将资源编号，只能申请序号更大的资源</li>
+</ul>
+<p>银行家算法，分配举证，最大需求矩阵，需求矩阵。</p>
+]]></content>
+      <categories>
+        <category>题</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Questions-1</title>
+    <url>/2023/05/25/Questions-1/</url>
+    <content><![CDATA[<h1 id="题目来源"><a href="#题目来源" class="headerlink" title="题目来源"></a>题目来源</h1><p>如何判断 Java 工程师的基础知识是否扎实？ - 王争的回答 - 知乎<br><a href="https://www.zhihu.com/question/48312588/answer/3034670442">https://www.zhihu.com/question/48312588/answer/3034670442</a></p>
+]]></content>
+      <categories>
+        <category>题</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>redis概览</title>
+    <url>/2023/05/18/RedisLearning/</url>
+    <content><![CDATA[<h1 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h1><p>RDB持久化、AOF持久化，RDB-AOF混合持久化</p>
+<span id="more"></span>
+<h2 id="RDB持久化"><a href="#RDB持久化" class="headerlink" title="RDB持久化"></a>RDB持久化</h2><p>全面持久化操作，</p>
+<h3 id="载入RDB文件过程"><a href="#载入RDB文件过程" class="headerlink" title="载入RDB文件过程"></a>载入RDB文件过程</h3><ol>
+<li>打开RDB文件</li>
+<li>检查文件头</li>
+<li>检查版本号</li>
+<li>读取设备信息</li>
+<li>重建数据库</li>
+<li>重建脚本缓存</li>
+<li>对比校验和</li>
+<li>数据载入完毕</li>
+</ol>
+<h2 id="AOF持久化"><a href="#AOF持久化" class="headerlink" title="AOF持久化"></a>AOF持久化</h2><p>增量持久化操作，服务器每次执行完命令后，都会以【协议文本】的方式将被执行的命令追加到AOF文件末尾。</p>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><ol>
+<li>体积大</li>
+<li>数据恢复速度慢</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Redis</category>
+      </categories>
   </entry>
   <entry>
     <title>设计模式-单例</title>
@@ -373,6 +503,52 @@
       <tags>
         <tag>设计模式</tag>
         <tag>单例</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Testing</title>
+    <url>/2023/05/16/Testing/</url>
+    <content><![CDATA[<h1 id="Objectives"><a href="#Objectives" class="headerlink" title="Objectives"></a>Objectives</h1><p>这是学习完该章节后需要达到的目标：</p>
+<ul>
+<li>understand the value of testing ,and know the process of test-first programming;</li>
+<li>be able to jude a test suite for correctness,thoroughness,and size;</li>
+<li>be able to design a test suite for a method by partitioning its input space and choosing good test cases;</li>
+<li>be able to judge a test suite by measuring its code coverage; </li>
+<li>understand and know when to use black box vs. glass box testing, unit tests vs. integration tests, and automated regression testing.</li>
+</ul>
+<span id="more"></span>
+<h1 id="Validation"><a href="#Validation" class="headerlink" title="Validation"></a>Validation</h1><p>Validation includes:</p>
+<ul>
+<li>Formal reasoning about a program, usually called verification.<br>指的是程序正确性的逻辑推理，</li>
+<li>Code review. </li>
+<li>Testing.</li>
+</ul>
+<h1 id="Test-first-programming"><a href="#Test-first-programming" class="headerlink" title="Test-first programming"></a>Test-first programming</h1><p>some terms:</p>
+<ul>
+<li><p>A module is a part of a software system that can be designed, implemented, tested, and reasoned about separately from the rest of the system.<br>此处指的是Java方法，或者在将来探讨更大的模块，如有多种交互方法的类。</p>
+</li>
+<li><p>specification (or spec) describes the behavior of a module.<br>对一个方法来说，spec给出了参数的类型以及对它们的额外要求，同时给出了返回值的类型和输入值之间的关系。在Java代码中spec包括方法签名以及描述其功能的注释。</p>
+</li>
+<li><p>A module has an implementation that provides its behavior, and clients that use the module.<br>对于一个方法来说，implementation是方法的方法体，client指调用该方法的函数的代码。同时一个模块的spec对impletation和client两者进行了限制。</p>
+</li>
+<li><p>A test case is a particular choice of inputs, along with the<br>expected output behavior required by the specification.</p>
+</li>
+<li><p>A test suite is a set of test cases for a module.</p>
+</li>
+</ul>
+<p>the development of a single function proceeds in this order:</p>
+<ol>
+<li>Spec: Write a specification for the function.</li>
+<li>Test: Write tests that exercise the specification.</li>
+<li>Implement: Write the implementation.</li>
+</ol>
+<h1 id="Systematic-testing"><a href="#Systematic-testing" class="headerlink" title="Systematic testing"></a>Systematic testing</h1><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="http://web.mit.edu/6.031/www/sp21/classes/03-testing/">http://web.mit.edu/6.031/www/sp21/classes/03-testing/</a></p>
+]]></content>
+      <categories>
+        <category>MIT6.031 Software Construction</category>
+      </categories>
+      <tags>
+        <tag>软件测试</tag>
       </tags>
   </entry>
   <entry>
@@ -468,141 +644,6 @@
       </categories>
       <tags>
         <tag>tcp/ip</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>一些问题</title>
-    <url>/2023/05/19/SomeQuestions/</url>
-    <content><![CDATA[<p>记录一些想到的问题</p>
-<h1 id="1-什么是Java方法重写"><a href="#1-什么是Java方法重写" class="headerlink" title="1.什么是Java方法重写"></a>1.什么是Java方法重写</h1><p>要求遵循“两同两大一小”</p>
-<ul>
-<li>“两同” 指方法名相同，形参列表相同</li>
-<li>“两小” 指子类方法返回值类型应该比父类返回值类型更小，子类方法声明抛出的异常类应该比父类方法抛出的更小或者相等</li>
-<li>“一大” 指子类方法的访问权限应该比父类方法的访问权限更大或者相等。<span id="more"></span>
-这是因为如果返回值类型更大，则可能会造成父类对象无法完全转换为子类对象，从而导致编译错误和运行时异常。<br>重写还有一条规则是访问控制符必须高于父类？那是因为为了多态的实现。有时候父类需要上转型引用子类的方法实现多态，这就导致子类方法的访问控制符必须高于父类，否则子类里写成了private，父类还怎么访问？</li>
-</ul>
-<h1 id="2-对象实例都在Java堆中吗？"><a href="#2-对象实例都在Java堆中吗？" class="headerlink" title="2.对象实例都在Java堆中吗？"></a>2.对象实例都在Java堆中吗？</h1><p>不一定，是几乎所有的实例都在堆中。<br>JIT编译除了具有缓存的功能外，还会对代码做各种优化，其中有逃逸分析功能。<br>如果逃逸分析发现一个对象不会逃逸出当前方法或线程，则可以将该对象存储在栈上而不是堆上。由于栈是局部的，存储在栈上的对象只能由当前方法或线程访问，这样就减少了对内存的分配和垃圾回收的工作量，从而提高了程序的性能。<br>可以通过 -XX:+DoEscapeAnalysis 指定是否进行逃逸分析。</p>
-<p>参考：<br><a href="http://www.hollischuang.com/archives/2398">http://www.hollischuang.com/archives/2398</a></p>
-<h1 id="3-接口和抽象类的共同点和区别"><a href="#3-接口和抽象类的共同点和区别" class="headerlink" title="3.接口和抽象类的共同点和区别"></a>3.接口和抽象类的共同点和区别</h1><p>共同点:</p>
-<ul>
-<li>都不能被实例化</li>
-<li>都可以包含抽象方法</li>
-<li>都可以有默认实现的方法</li>
-</ul>
-<p>区别：</p>
-<ul>
-<li>接口是对类的行为进行约束，实现了某个接口就有了对应的行为，抽象类主要用于代码复用，强调的是所属关系</li>
-<li>类只能继承一个类，但可以实现多个接口</li>
-<li>接口中的成员变量只能是<code>public static final</code>,抽象类的成员变量默认<code>defalut</code></li>
-</ul>
-<h1 id="4-解决哈希冲突的办法"><a href="#4-解决哈希冲突的办法" class="headerlink" title="4.解决哈希冲突的办法"></a>4.解决哈希冲突的办法</h1><ul>
-<li><p>开放地址法<br>开放地址法是指当发生哈希冲突时，继续在哈希表中查找空闲的位置，直到找到一个空闲的位置为止。其中包括线性探测、二次探测等技术。</p>
-</li>
-<li><p>链表法<br>链表法是指每个哈希值对应一个链表，如果发生哈希冲突，则将新的元素加入到对应位置的链表中。</p>
-</li>
-<li><p>再哈希法<br>再哈希法是指在第一次哈希之后，如果出现冲突，则再次进行哈希，直到找到合适的位置。</p>
-</li>
-<li><p>建立公共溢出区<br>建立公共溢出区是指将所有冲突的元素都存储在同一个溢出区，并通过某种方式来确定元素在该区域中的位置。</p>
-</li>
-</ul>
-<h1 id="5-String-StringBulider-，StringBuffer"><a href="#5-String-StringBulider-，StringBuffer" class="headerlink" title="5.String,StringBulider ，StringBuffer"></a>5.String,StringBulider ，StringBuffer</h1><p>先看后两者：<br>共同点：</p>
-<ul>
-<li><code>StringBulider</code>和<code>StringBuffer</code>都继承了<code>AbstractStringBuilder</code>  <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">AbstractStringBuilder</span> <span class="keyword">implements</span> <span class="title class_">Appendable</span>, CharSequence &#123;</span><br><span class="line"><span class="type">byte</span>[] value;</span><br></pre></td></tr></table></figure>
-区别：</li>
-<li>StringBuffer线程安全，StringBulider非线程安全。</li>
-</ul>
-<p><code>String</code>不可变的真正原因：</p>
-<ul>
-<li>整个类被final修饰，确保不会被继承，防止被子类修改byte数组。</li>
-<li>byte数组的修饰符为<code>private final</code> ，同时没有提供修改的方法。</li>
-</ul>
-<h1 id="6-Java对象的创建过程"><a href="#6-Java对象的创建过程" class="headerlink" title="6.Java对象的创建过程"></a>6.Java对象的创建过程</h1><ol>
-<li><p>类加载：<br> 检查能否在常量池中定位到一个类的符号引用，并检查这个符号引用代表的类是否被加载、解析、初始化过、如果没有，必须先执行相应的类加载过程</p>
-</li>
-<li><p>在堆中分配内存：</p>
-<ul>
-<li>划分可用空间：<br>  指针碰撞：Serial,ParNew等带Compact过程的收集器时<br>  空闲列表：CMS基于Mark-Sweep算法的收集器</li>
-<li>线程安全：<br>  CAS + 失败重试的方法<br>  TLAB: 每个线程预先分配一小块内存</li>
-</ul>
-</li>
-<li><p>将分配的内存初始化为0：</p>
-</li>
-<li><p>设置对象头的必要设置：<br> GC年代，对象的Hash码等</p>
-</li>
-<li><p>执行init方法：<br> 按程序员意愿初始化</p>
-</li>
-</ol>
-<h1 id="7-红黑树"><a href="#7-红黑树" class="headerlink" title="7.红黑树"></a>7.红黑树</h1><h2 id="性质"><a href="#性质" class="headerlink" title="性质"></a>性质</h2><ol>
-<li>结点是红色或黑色；</li>
-<li>根结点是黑色。</li>
-<li>叶子结点（也叫外部结点、NULL结点、失败结点）是黑色。</li>
-<li>不存在两个相邻的红结点。（即红结点的父结点和子结点都是黑色的）</li>
-<li>从任意结点到可达的叶子结点的每个路径包含相同数目的黑色节点。</li>
-</ol>
-<p>速记：左根右，根叶黑，不红红，黑路同。（源自王道）</p>
-<h2 id="插入操作"><a href="#插入操作" class="headerlink" title="插入操作"></a>插入操作</h2><ol>
-<li>先查找，确定插入位置，原理同二叉查找树，</li>
-<li>新结点是根，则是黑色<br> 新结点非根，则是红色</li>
-<li>若不满足要求，则进行调整<br> 黑叔：旋转 + 染色<br> LL型：右单旋，父换爷，染色<br> RR型：左单旋，父换爷，染色<br> LR型： 左右双旋，儿换爷，染色<br> RL型：右，左双旋，儿换爷，染色<br> 红叔：染色 + 变新<br> 叔父爷染色，爷变为新结点</li>
-</ol>
-<h1 id="8-线程和进程的区别？"><a href="#8-线程和进程的区别？" class="headerlink" title="8.线程和进程的区别？"></a>8.线程和进程的区别？</h1><p>（1）进程在执行时拥有独立的内存单元，多个线程共享进程的内存，如代码段、数据段、扩展段；但每个线程拥有自己的栈段和寄存器组。</p>
-<p>（2）进程切换时需要刷新TLB并获取新的地址空间，然后切换硬件上下文和内核栈，线程切换时只需要切换硬件上下文和内核栈。<br>注意：TLB,MMU将虚拟地址转换成物理地址，虚拟地址和物理地址的映射存储在页表中，根据时间局部性和空间局部性，专门设置了TLB将经常使用的映射存储在TLB中。</p>
-<h1 id="9-死锁的解决办法"><a href="#9-死锁的解决办法" class="headerlink" title="9. 死锁的解决办法"></a>9. 死锁的解决办法</h1><p>破坏四个必要条件：互斥、占有等待、不可抢占、循环等待</p>
-<ul>
-<li>占有等待条件，死锁预防：<br>  进程开始前，必须一次性获得所有资源，否则不许执行</li>
-<li>不可抢占，</li>
-<li>循环等待：<br>  将资源编号，只能申请序号更大的资源</li>
-</ul>
-<p>银行家算法，分配举证，最大需求矩阵，需求矩阵。</p>
-]]></content>
-      <categories>
-        <category>Other</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>Testing</title>
-    <url>/2023/05/16/Testing/</url>
-    <content><![CDATA[<h1 id="Objectives"><a href="#Objectives" class="headerlink" title="Objectives"></a>Objectives</h1><p>这是学习完该章节后需要达到的目标：</p>
-<ul>
-<li>understand the value of testing ,and know the process of test-first programming;</li>
-<li>be able to jude a test suite for correctness,thoroughness,and size;</li>
-<li>be able to design a test suite for a method by partitioning its input space and choosing good test cases;</li>
-<li>be able to judge a test suite by measuring its code coverage; </li>
-<li>understand and know when to use black box vs. glass box testing, unit tests vs. integration tests, and automated regression testing.</li>
-</ul>
-<span id="more"></span>
-<h1 id="Validation"><a href="#Validation" class="headerlink" title="Validation"></a>Validation</h1><p>Validation includes:</p>
-<ul>
-<li>Formal reasoning about a program, usually called verification.<br>指的是程序正确性的逻辑推理，</li>
-<li>Code review. </li>
-<li>Testing.</li>
-</ul>
-<h1 id="Test-first-programming"><a href="#Test-first-programming" class="headerlink" title="Test-first programming"></a>Test-first programming</h1><p>some terms:</p>
-<ul>
-<li><p>A module is a part of a software system that can be designed, implemented, tested, and reasoned about separately from the rest of the system.<br>此处指的是Java方法，或者在将来探讨更大的模块，如有多种交互方法的类。</p>
-</li>
-<li><p>specification (or spec) describes the behavior of a module.<br>对一个方法来说，spec给出了参数的类型以及对它们的额外要求，同时给出了返回值的类型和输入值之间的关系。在Java代码中spec包括方法签名以及描述其功能的注释。</p>
-</li>
-<li><p>A module has an implementation that provides its behavior, and clients that use the module.<br>对于一个方法来说，implementation是方法的方法体，client指调用该方法的函数的代码。同时一个模块的spec对impletation和client两者进行了限制。</p>
-</li>
-<li><p>A test case is a particular choice of inputs, along with the<br>expected output behavior required by the specification.</p>
-</li>
-<li><p>A test suite is a set of test cases for a module.</p>
-</li>
-</ul>
-<p>the development of a single function proceeds in this order:</p>
-<ol>
-<li>Spec: Write a specification for the function.</li>
-<li>Test: Write tests that exercise the specification.</li>
-<li>Implement: Write the implementation.</li>
-</ol>
-<h1 id="Systematic-testing"><a href="#Systematic-testing" class="headerlink" title="Systematic testing"></a>Systematic testing</h1><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="http://web.mit.edu/6.031/www/sp21/classes/03-testing/">http://web.mit.edu/6.031/www/sp21/classes/03-testing/</a></p>
-]]></content>
-      <categories>
-        <category>MIT6.031 Software Construction</category>
-      </categories>
-      <tags>
-        <tag>软件测试</tag>
       </tags>
   </entry>
 </search>
