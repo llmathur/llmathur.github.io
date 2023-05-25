@@ -107,7 +107,7 @@
     
     
     
-    <category term="Redis" scheme="http://llmathur.github.io/categories/Redis/"/>
+    <category term="Redis" scheme="http://llmathur.github.io/categories/redis/"/>
     
     
   </entry>
@@ -117,14 +117,14 @@
     <link href="http://llmathur.github.io/2023/05/16/JVMLearning/"/>
     <id>http://llmathur.github.io/2023/05/16/JVMLearning/</id>
     <published>2023-05-16T11:33:58.000Z</published>
-    <updated>2023-05-25T08:11:20.082Z</updated>
+    <updated>2023-05-25T08:17:51.835Z</updated>
     
     
     <summary type="html">&lt;p&gt;编译器可以分为：前端编译器、JIT 编译器和AOT编译器。&lt;/p&gt;</summary>
     
     
     
-    <category term="JVM" scheme="http://llmathur.github.io/categories/JVM/"/>
+    <category term="JVM" scheme="http://llmathur.github.io/categories/jvm/"/>
     
     
   </entry>
@@ -148,7 +148,7 @@
     
     
     
-    <category term="MIT6.031 Software Construction" scheme="http://llmathur.github.io/categories/MIT6-031-Software-Construction/"/>
+    <category term="MIT6.031 Software Construction" scheme="http://llmathur.github.io/categories/mit6-031-software-construction/"/>
     
     
   </entry>
@@ -172,7 +172,7 @@
     
     
     
-    <category term="OAuth2.0" scheme="http://llmathur.github.io/categories/OAuth2-0/"/>
+    <category term="OAuth2.0" scheme="http://llmathur.github.io/categories/oauth2-0/"/>
     
     
   </entry>
@@ -182,7 +182,7 @@
     <link href="http://llmathur.github.io/2023/04/07/ProtoTypeDesignPattern/"/>
     <id>http://llmathur.github.io/2023/04/07/ProtoTypeDesignPattern/</id>
     <published>2023-04-07T06:00:02.000Z</published>
-    <updated>2023-05-25T08:11:43.521Z</updated>
+    <updated>2023-05-25T08:14:51.629Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h2&gt;&lt;blockquote&gt;
@@ -209,7 +209,7 @@
     
     
     
-    <category term="TCP/IP" scheme="http://llmathur.github.io/categories/TCP-IP/"/>
+    <category term="TCP/IP" scheme="http://llmathur.github.io/categories/tcp-ip/"/>
     
     
   </entry>
@@ -219,7 +219,7 @@
     <link href="http://llmathur.github.io/2023/04/01/SingletonDesignPattern/"/>
     <id>http://llmathur.github.io/2023/04/01/SingletonDesignPattern/</id>
     <published>2023-04-01T12:56:49.000Z</published>
-    <updated>2023-05-25T08:12:48.420Z</updated>
+    <updated>2023-05-25T08:14:51.631Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h2&gt;&lt;p&gt;单例即单实例，指在系统(程序)中，&lt;b&gt;某个类只存在一个实例&lt;/b&gt;，同时提供集中、统一的访问接口。&lt;/p&gt;
@@ -240,7 +240,7 @@
     <link href="http://llmathur.github.io/2023/04/01/InterpreterDesignPattern/"/>
     <id>http://llmathur.github.io/2023/04/01/InterpreterDesignPattern/</id>
     <published>2023-04-01T06:56:02.000Z</published>
-    <updated>2023-05-25T08:11:43.522Z</updated>
+    <updated>2023-05-25T08:14:51.631Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h2&gt;&lt;blockquote&gt;
