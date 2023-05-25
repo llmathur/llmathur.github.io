@@ -6,7 +6,7 @@
   <link href="http://llmathur.github.io/atom.xml" rel="self"/>
   
   <link href="http://llmathur.github.io/"/>
-  <updated>2023-05-25T02:09:19.177Z</updated>
+  <updated>2023-05-25T02:18:56.182Z</updated>
   <id>http://llmathur.github.io/</id>
   
   <author>
@@ -21,10 +21,20 @@
     <link href="http://llmathur.github.io/2023/05/25/Factory-Design-Pattern/"/>
     <id>http://llmathur.github.io/2023/05/25/Factory-Design-Pattern/</id>
     <published>2023-05-25T02:09:19.000Z</published>
-    <updated>2023-05-25T02:09:19.177Z</updated>
+    <updated>2023-05-25T02:18:56.182Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;span</summary>
+        
+      
     
     
     
+    <category term="设计模式" scheme="http://llmathur.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
     
     
   </entry>
@@ -34,7 +44,7 @@
     <link href="http://llmathur.github.io/2023/05/24/ArrayList-source-code/"/>
     <id>http://llmathur.github.io/2023/05/24/ArrayList-source-code/</id>
     <published>2023-05-24T13:22:33.000Z</published>
-    <updated>2023-05-25T02:14:57.769Z</updated>
+    <updated>2023-05-25T02:18:40.432Z</updated>
     
     
       
@@ -42,7 +52,7 @@
         
         
     <summary type="html">&lt;span id=&quot;more&quot;&gt;&lt;/span&gt;
-&lt;h1 id=&quot;构造器&quot;&gt;&lt;a href=&quot;#构造器&quot; class=&quot;headerlink&quot; title=&quot;构造器&quot;&gt;&lt;/a&gt;构造器&lt;/h1&gt;&lt;figure class=&quot;highlight</summary>
+&lt;p&gt;JDK版本:&lt;br&gt;    openjdk 20.0.1 2023-04-18&lt;br&gt;    OpenJDK Runtime Environment (build 20.0.1+9-29)&lt;br&gt;    OpenJDK</summary>
         
       
     
@@ -58,15 +68,18 @@
     <link href="http://llmathur.github.io/2023/05/19/SomeQuestions/"/>
     <id>http://llmathur.github.io/2023/05/19/SomeQuestions/</id>
     <published>2023-05-19T13:49:31.000Z</published>
-    <updated>2023-05-24T12:30:06.572Z</updated>
+    <updated>2023-05-25T02:20:07.862Z</updated>
     
     
-    <summary type="html">&lt;p&gt;记录一些想到的问题&lt;/p&gt;
-&lt;h1 id=&quot;1-什么是Java方法重写&quot;&gt;&lt;a href=&quot;#1-什么是Java方法重写&quot; class=&quot;headerlink&quot; title=&quot;1.什么是Java方法重写&quot;&gt;&lt;/a&gt;1.什么是Java方法重写&lt;/h1&gt;&lt;p&gt;要求遵循“两同两大一小”&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;“两同” 指方法名相同，形参列表相同&lt;/li&gt;
-&lt;li&gt;“两小” 指子类方法返回值类型应该比父类返回值类型更小，子类方法声明抛出的异常类应该比父类方法抛出的更小或者相等&lt;/li&gt;
-&lt;li&gt;“一大” 指子类方法的访问权限应该比父类方法的访问权限更大或者相等。&lt;/li&gt;&lt;/ul&gt;</summary>
+      
+      
+        
+        
+    <summary type="html">&lt;span id=&quot;more&quot;&gt;&lt;/span&gt;
+&lt;p&gt;记录一些想到的问题&lt;/p&gt;
+&lt;h1 id=&quot;1-什么是Java方法重写&quot;&gt;&lt;a href=&quot;#1-什么是Java方法重写&quot; class=&quot;headerlink&quot;</summary>
+        
+      
     
     
     
@@ -80,10 +93,18 @@
     <link href="http://llmathur.github.io/2023/05/18/RedisLearning/"/>
     <id>http://llmathur.github.io/2023/05/18/RedisLearning/</id>
     <published>2023-05-18T06:35:26.000Z</published>
-    <updated>2023-05-20T02:24:06.881Z</updated>
+    <updated>2023-05-25T02:19:40.541Z</updated>
     
     
-    <summary type="html">&lt;h1 id=&quot;持久化&quot;&gt;&lt;a href=&quot;#持久化&quot; class=&quot;headerlink&quot; title=&quot;持久化&quot;&gt;&lt;/a&gt;持久化&lt;/h1&gt;&lt;p&gt;RDB持久化、AOF持久化，RDB-AOF混合持久化&lt;/p&gt;</summary>
+      
+      
+        
+        
+    <summary type="html">&lt;span id=&quot;more&quot;&gt;&lt;/span&gt;
+&lt;h1 id=&quot;持久化&quot;&gt;&lt;a href=&quot;#持久化&quot; class=&quot;headerlink&quot; title=&quot;持久化&quot;&gt;&lt;/a&gt;持久化&lt;/h1&gt;&lt;p&gt;RDB持久化、AOF持久化，RDB-AOF混合持久化&lt;/p&gt;
+&lt;h2</summary>
+        
+      
     
     
     
@@ -97,11 +118,18 @@
     <link href="http://llmathur.github.io/2023/05/16/JVMLearning/"/>
     <id>http://llmathur.github.io/2023/05/16/JVMLearning/</id>
     <published>2023-05-16T11:33:58.000Z</published>
-    <updated>2023-05-25T02:15:16.173Z</updated>
+    <updated>2023-05-25T02:19:26.994Z</updated>
     
     
-    <summary type="html">&lt;p&gt;编译器可以分为：前端编译器、JIT 编译器和AOT编译器。&lt;/p&gt;
-&lt;h1 id=&quot;源代码到机器码&quot;&gt;&lt;a href=&quot;#源代码到机器码&quot; class=&quot;headerlink&quot; title=&quot;源代码到机器码&quot;&gt;&lt;/a&gt;源代码到机器码&lt;/h1&gt;&lt;h2 id=&quot;前端编译器：源代码到字节码&quot;&gt;&lt;a href=&quot;#前端编译器：源代码到字节码&quot; class=&quot;headerlink&quot; title=&quot;前端编译器：源代码到字节码&quot;&gt;&lt;/a&gt;前端编译器：源代码到字节码&lt;/h2&gt;&lt;h2 id=&quot;JIT-编译器：从字节码到机器码&quot;&gt;&lt;a href=&quot;#JIT-编译器：从字节码到机器码&quot; class=&quot;headerlink&quot; title=&quot;JIT 编译器：从字节码到机器码&quot;&gt;&lt;/a&gt;JIT 编译器：从字节码到机器码&lt;/h2&gt;&lt;h2 id=&quot;AOT-编译器：源代码到机器码&quot;&gt;&lt;a href=&quot;#AOT-编译器：源代码到机器码&quot; class=&quot;headerlink&quot; title=&quot;AOT 编译器：源代码到机器码&quot;&gt;&lt;/a&gt;AOT 编译器：源代码到机器码&lt;/h2&gt;</summary>
+      
+      
+        
+        
+    <summary type="html">&lt;span id=&quot;more&quot;&gt;&lt;/span&gt;
+&lt;p&gt;编译器可以分为：前端编译器、JIT 编译器和AOT编译器。&lt;/p&gt;
+&lt;h1 id=&quot;源代码到机器码&quot;&gt;&lt;a href=&quot;#源代码到机器码&quot; class=&quot;headerlink&quot;</summary>
+        
+      
     
     
     
@@ -115,16 +143,17 @@
     <link href="http://llmathur.github.io/2023/05/16/Testing/"/>
     <id>http://llmathur.github.io/2023/05/16/Testing/</id>
     <published>2023-05-16T06:10:42.000Z</published>
-    <updated>2023-05-25T02:15:14.571Z</updated>
+    <updated>2023-05-25T02:19:59.627Z</updated>
     
     
-    <summary type="html">&lt;h1 id=&quot;Objectives&quot;&gt;&lt;a href=&quot;#Objectives&quot; class=&quot;headerlink&quot; title=&quot;Objectives&quot;&gt;&lt;/a&gt;Objectives&lt;/h1&gt;&lt;p&gt;这是学习完该章节后需要达到的目标：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;understand the value of testing ,and know the process of test-first programming;&lt;/li&gt;
-&lt;li&gt;be able to jude a test suite for correctness,thoroughness,and size;&lt;/li&gt;
-&lt;li&gt;be able to design a test suite for a method by partitioning its input space and choosing good test cases;&lt;/li&gt;
-&lt;li&gt;be able to judge a test suite by measuring its code coverage; &lt;/li&gt;
-&lt;li&gt;understand and know when to use black box vs. glass box testing, unit tests vs. integration tests, and automated regression testing.&lt;/li&gt;&lt;/ul&gt;</summary>
+      
+      
+        
+        
+    <summary type="html">&lt;span id=&quot;more&quot;&gt;&lt;/span&gt;
+&lt;h1 id=&quot;Objectives&quot;&gt;&lt;a href=&quot;#Objectives&quot; class=&quot;headerlink&quot;</summary>
+        
+      
     
     
     
@@ -140,17 +169,17 @@
     <link href="http://llmathur.github.io/2023/05/09/OAuth-2-0/"/>
     <id>http://llmathur.github.io/2023/05/09/OAuth-2-0/</id>
     <published>2023-05-09T11:01:43.000Z</published>
-    <updated>2023-05-20T02:21:05.616Z</updated>
+    <updated>2023-05-25T02:20:07.863Z</updated>
     
     
-    <summary type="html">&lt;p&gt;OAuth 的核心就是向第三方应用颁发令牌&lt;br&gt;四种授权方式&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;（授权码）authorization-code&lt;/li&gt;
-&lt;li&gt;（隐藏式）implicit&lt;/li&gt;
-&lt;li&gt;（密码式）password&lt;/li&gt;
-&lt;li&gt;（客户端凭证）client credentials&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;注：任何一种方式，第三方应用都必须到系统备案，以获取客户端ID（client ID）和客户端密钥（client secret）&lt;/p&gt;</summary>
+      
+      
+        
+        
+    <summary type="html">&lt;span id=&quot;more&quot;&gt;&lt;/span&gt;
+&lt;p&gt;OAuth</summary>
+        
+      
     
     
     
@@ -166,12 +195,18 @@
     <link href="http://llmathur.github.io/2023/04/07/ProtoTypeDesignPattern/"/>
     <id>http://llmathur.github.io/2023/04/07/ProtoTypeDesignPattern/</id>
     <published>2023-04-07T06:00:02.000Z</published>
-    <updated>2023-05-20T02:20:36.854Z</updated>
+    <updated>2023-05-25T02:19:36.728Z</updated>
     
     
-    <summary type="html">&lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h2&gt;&lt;blockquote&gt;
-&lt;p&gt;原型模式达到以原型实例创建副本实例的目的即可，并不需要知道其他原始类，也就是说，原型模式可以用对象创建对象，而不是用类创建对象，以此达到效率的提升。&lt;/p&gt;
-&lt;/blockquote&gt;</summary>
+      
+      
+        
+        
+    <summary type="html">&lt;span id=&quot;more&quot;&gt;&lt;/span&gt;
+
+&lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot;</summary>
+        
+      
     
     
     
@@ -189,11 +224,19 @@
     <link href="http://llmathur.github.io/2023/04/05/TCPIPLearning/"/>
     <id>http://llmathur.github.io/2023/04/05/TCPIPLearning/</id>
     <published>2023-04-05T05:32:11.000Z</published>
-    <updated>2023-05-21T10:23:57.016Z</updated>
+    <updated>2023-05-25T02:20:07.844Z</updated>
     
     
-    <summary type="html">&lt;p&gt;目前绝大多数网络都采用TCP&amp;#x2F;IP协议，TCP&amp;#x2F;IP是目前最完整的、被普遍接受的通信协议标准&lt;/p&gt;
-&lt;h2 id=&quot;第一章-TCP-x2F-IP协议基础&quot;&gt;&lt;a href=&quot;#第一章-TCP-x2F-IP协议基础&quot; class=&quot;headerlink&quot; title=&quot;第一章 TCP&amp;#x2F;IP协议基础&quot;&gt;&lt;/a&gt;第一章 TCP&amp;#x2F;IP协议基础&lt;/h2&gt;&lt;h3 id=&quot;网络通信协议&quot;&gt;&lt;a href=&quot;#网络通信协议&quot; class=&quot;headerlink&quot; title=&quot;网络通信协议&quot;&gt;&lt;/a&gt;网络通信协议&lt;/h3&gt;&lt;p&gt;指计算机在网络中实现通信必须遵守的规则和约定，主要是对信息传输的&lt;b&gt;速率、传输代码、代码结构、传输控制步骤、差错控制&lt;/b&gt;等做出规定并制定出标准。&lt;/p&gt;</summary>
+      
+      
+        
+        
+    <summary type="html">&lt;span id=&quot;more&quot;&gt;&lt;/span&gt;
+
+&lt;p&gt;目前绝大多数网络都采用TCP&amp;#x2F;IP协议，TCP&amp;#x2F;IP是目前最完整的、被普遍接受的通信协议标准&lt;/p&gt;
+&lt;h2 id=&quot;第一章-TCP-x2F-IP协议基础&quot;&gt;&lt;a</summary>
+        
+      
     
     
     
@@ -209,20 +252,17 @@
     <link href="http://llmathur.github.io/2023/04/01/SingletonDesignPattern/"/>
     <id>http://llmathur.github.io/2023/04/01/SingletonDesignPattern/</id>
     <published>2023-04-01T12:56:49.000Z</published>
-    <updated>2023-05-25T02:09:38.634Z</updated>
+    <updated>2023-05-25T02:19:46.008Z</updated>
     
     
-    <summary type="html">&lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h2&gt;&lt;p&gt;单例即单实例，指在系统(程序)中，&lt;b&gt;某个类只存在一个实例&lt;/b&gt;，同时提供集中、统一的访问接口。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;如果一个对象有可能贯穿整个应用程序，而且起到了全局统一管理控制的作用，那么单例模式也许是一个值得考虑的选择。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;例如：&lt;br&gt;&lt;code&gt;Spring&lt;/code&gt;中&lt;code&gt;bean&lt;/code&gt;的定义可以被定义为两种：&lt;code&gt;prototype(原型)&lt;/code&gt;,&lt;code&gt;singleton(单例)&lt;/code&gt;&lt;br&gt;&lt;code&gt;线程池（threadpool）&lt;/code&gt;, &lt;code&gt;缓存（cache）&lt;/code&gt;等比较适合设计为单例模式。&lt;/p&gt;
-&lt;h2 id=&quot;单例模式的实现&quot;&gt;&lt;a href=&quot;#单例模式的实现&quot; class=&quot;headerlink&quot; title=&quot;单例模式的实现&quot;&gt;&lt;/a&gt;单例模式的实现&lt;/h2&gt;&lt;ol&gt;
-&lt;li&gt;饿汉模式&lt;/li&gt;
-&lt;li&gt;懒汉模式&lt;/li&gt;
-&lt;li&gt;双重校验锁&lt;/li&gt;
-&lt;li&gt;静态内部类&lt;/li&gt;
-&lt;li&gt;枚举&lt;/li&gt;&lt;/ol&gt;</summary>
+      
+      
+        
+        
+    <summary type="html">&lt;span id=&quot;more&quot;&gt;&lt;/span&gt;
+&lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot;</summary>
+        
+      
     
     
     
@@ -240,13 +280,17 @@
     <link href="http://llmathur.github.io/2023/04/01/InterpreterDesignPattern/"/>
     <id>http://llmathur.github.io/2023/04/01/InterpreterDesignPattern/</id>
     <published>2023-04-01T06:56:02.000Z</published>
-    <updated>2023-05-20T02:24:16.202Z</updated>
+    <updated>2023-05-25T02:19:07.746Z</updated>
     
     
-    <summary type="html">&lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h2&gt;&lt;blockquote&gt;
-&lt;p&gt;解释器模式(Interpreter)会针对某种语言并基于其语法特征创建一系列的表达式类（包括终极表达式与非终极表达式），利用树结构模式将表达式对象组装起来，最终将其翻译成计算机能够识别并执行的语义树。&lt;/p&gt;
-&lt;p&gt;例如结构型数据库对查询语言SQL的解析，浏览器对HTML语言的解析，以及操作系统Shell对命令的解析。不同的语言有着不同的语法和翻译方式，这都依靠解释器完成.&lt;/p&gt;
-&lt;/blockquote&gt;</summary>
+      
+      
+        
+        
+    <summary type="html">&lt;span id=&quot;more&quot;&gt;&lt;/span&gt;
+&lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot;</summary>
+        
+      
     
     
     

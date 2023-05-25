@@ -4,6 +4,7 @@
     <title>ArrayList source code</title>
     <url>/2023/05/24/ArrayList-source-code/</url>
     <content><![CDATA[<span id="more"></span>
+<p>JDK版本:<br>    openjdk 20.0.1 2023-04-18<br>    OpenJDK Runtime Environment (build 20.0.1+9-29)<br>    OpenJDK 64-Bit Server VM (build 20.0.1+9-29, mixed mode, sharing)</p>
 <h1 id="构造器"><a href="#构造器" class="headerlink" title="构造器"></a>构造器</h1><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ArrayList</span>&lt;E&gt; <span class="keyword">extends</span> <span class="title class_">AbstractList</span>&lt;E&gt; <span class="keyword">implements</span> <span class="title class_">List</span>&lt;E&gt;, RandomAccess, Cloneable, Serializable &#123;</span><br></pre></td></tr></table></figure>
 <h1 id="1-扩容机制分析"><a href="#1-扩容机制分析" class="headerlink" title="1. 扩容机制分析"></a>1. 扩容机制分析</h1><h2 id="添加一个元素：3个add方法"><a href="#添加一个元素：3个add方法" class="headerlink" title="添加一个元素：3个add方法"></a>添加一个元素：3个add方法</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">add</span><span class="params">(E e, Object[] elementData, <span class="type">int</span> s)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (s == elementData.length) &#123;</span><br><span class="line">        <span class="comment">// 如果s(list的长度)等于数组的长度时，即存储空间已满</span></span><br><span class="line">        <span class="comment">// 进行扩容</span></span><br><span class="line">        elementData = <span class="built_in">this</span>.grow();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    elementData[s] = e;</span><br><span class="line">    <span class="built_in">this</span>.size = s + <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">add</span><span class="params">(E e)</span> &#123;</span><br><span class="line">    ++<span class="built_in">this</span>.modCount;</span><br><span class="line">    <span class="built_in">this</span>.add(e, <span class="built_in">this</span>.elementData, <span class="built_in">this</span>.size);</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">add</span><span class="params">(<span class="type">int</span> index, E element)</span> &#123;</span><br><span class="line">    <span class="comment">// 检查下标是否合法</span></span><br><span class="line">    <span class="built_in">this</span>.rangeCheckForAdd(index);</span><br><span class="line">    ++<span class="built_in">this</span>.modCount;</span><br><span class="line">    <span class="type">int</span> s;</span><br><span class="line">    Object[] elementData;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 看起来很复杂，功能也是判断数组长度和元素个数是否相等</span></span><br><span class="line">    <span class="comment">// 如果相等则进行扩容</span></span><br><span class="line">    <span class="comment">// 疑问: 为什么以这样的方式判断是否已满，而不是直接</span></span><br><span class="line">    <span class="comment">// this.size === this.elementDate.length的方式判断</span></span><br><span class="line">    <span class="keyword">if</span> ((s = <span class="built_in">this</span>.size) == (elementData = <span class="built_in">this</span>.elementData).length) &#123;</span><br><span class="line">        elementData = <span class="built_in">this</span>.grow();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 将elementDate 中以index为起始位置的内容拷贝到elementDate以index +1 的位置，拷贝长度为 s-index</span></span><br><span class="line">    System.arraycopy(elementData, index, elementData, index + <span class="number">1</span>, s - index);</span><br><span class="line">    elementData[index] = element;</span><br><span class="line">    <span class="built_in">this</span>.size = s + <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="grow-方法"><a href="#grow-方法" class="headerlink" title="grow()方法"></a>grow()方法</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> Object[] grow(<span class="type">int</span> minCapacity) &#123;</span><br><span class="line">    <span class="comment">// 原来的容量</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">oldCapacity</span> <span class="operator">=</span> <span class="built_in">this</span>.elementData.length;</span><br><span class="line">    <span class="comment">// 如果容量&lt;=0且，该list没有添加任何元素时候</span></span><br><span class="line">    <span class="comment">// 扩容，最小的容量为10，超过10的时候为minCapacity</span></span><br><span class="line">    <span class="keyword">if</span> (oldCapacity &lt;= <span class="number">0</span> &amp;&amp; <span class="built_in">this</span>.elementData == DEFAULTCAPACITY_EMPTY_ELEMENTDATA) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>.elementData = <span class="keyword">new</span> <span class="title class_">Object</span>[Math.max(<span class="number">10</span>, minCapacity)];</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 不是第一次添加元素</span></span><br><span class="line">        <span class="comment">// 确定新的容量，在添加一个元素的add方法中，扩容为原来的1.5倍</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">newCapacity</span> <span class="operator">=</span> ArraysSupport.newLength(oldCapacity, minCapacity - oldCapacity, oldCapacity &gt;&gt; <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 创建新数组并复制元素，并返回新数组</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>.elementData = Arrays.copyOf(<span class="built_in">this</span>.elementData, newCapacity);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> Object[] grow() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>.grow(<span class="built_in">this</span>.size + <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -26,17 +27,131 @@
   <entry>
     <title>Factory Design Pattern</title>
     <url>/2023/05/25/Factory-Design-Pattern/</url>
-    <content><![CDATA[]]></content>
+    <content><![CDATA[<span id="more"></span>
+]]></content>
+      <categories>
+        <category>设计模式</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>JVM概览</title>
+    <url>/2023/05/16/JVMLearning/</url>
+    <content><![CDATA[<span id="more"></span>
+<p>编译器可以分为：前端编译器、JIT 编译器和AOT编译器。</p>
+<h1 id="源代码到机器码"><a href="#源代码到机器码" class="headerlink" title="源代码到机器码"></a>源代码到机器码</h1><h2 id="前端编译器：源代码到字节码"><a href="#前端编译器：源代码到字节码" class="headerlink" title="前端编译器：源代码到字节码"></a>前端编译器：源代码到字节码</h2><h2 id="JIT-编译器：从字节码到机器码"><a href="#JIT-编译器：从字节码到机器码" class="headerlink" title="JIT 编译器：从字节码到机器码"></a>JIT 编译器：从字节码到机器码</h2><h2 id="AOT-编译器：源代码到机器码"><a href="#AOT-编译器：源代码到机器码" class="headerlink" title="AOT 编译器：源代码到机器码"></a>AOT 编译器：源代码到机器码</h2><h1 id="字节码文件结构"><a href="#字节码文件结构" class="headerlink" title="字节码文件结构"></a>字节码文件结构</h1><h1 id="JVM-类加载机制"><a href="#JVM-类加载机制" class="headerlink" title="JVM 类加载机制"></a>JVM 类加载机制</h1><p>当编译器将 Java 源码编译为字节码之后，虚拟机便可以将字节码读取进内存，从而进行解析、运行等整个过程。</p>
+<p>JVM 虚拟机执行 class 字节码的过程可以分为七个阶段：<br>加载、验证、准备、解析、初始化、使用、卸载。</p>
+<h2 id="加载"><a href="#加载" class="headerlink" title="加载"></a>加载</h2><p>加载阶段是类加载过程的第一个阶段。在这个阶段，JVM 的主要目的是将字节码从各个位置（网络、磁盘等）转化为二进制字节流加载到内存中，接着会为这个类在 JVM 的方法区创建一个对应的 Class 对象，这个 Class 对象就是这个类各种数据的访问入口。</p>
+<h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><p>当 JVM 加载完 Class 字节码文件并在方法区创建对应的 Class 对象之后，JVM 便会启动对该字节码流的校验，只有符合 JVM 字节码规范的文件才能被 JVM 正确执行。<br>因为Class文件并不要求一定要从Java源代码编译而来，可以从其他地方加载，如网络，甚至包括十六进制编辑器。</p>
+<ul>
+<li><p>文件格式验证<br>字节流格式，是否以0xcafebabe开头，主次版本号是否在当前虚拟机处理范围内等</p>
+</li>
+<li><p>元数据验证<br>Java语言规范验证，是否有父类，父类是否继承了不允许的类等</p>
+</li>
+<li><p>字节码验证</p>
+</li>
+<li><p>符号引用验证 —- 链接的第三阶段：解析阶段发生</p>
+</li>
+</ul>
+<h2 id="准备（重点）"><a href="#准备（重点）" class="headerlink" title="准备（重点）"></a>准备（重点）</h2><p>当完成字节码文件的校验之后，JVM 便会开始为类变量分配内存并初始化。</p>
+<ul>
+<li>内存分配的对象。<br>Java 中的变量有「类变量」和「类成员变量」两种类型，「类变量」指的是被 static 修饰的变量，而其他所有类型的变量都属于「类成员变量」。在准备阶段，JVM 只会为「类变量」分配内存，而不会为「类成员变量」分配内存。「类成员变量」的内存分配需要等到初始化阶段才开始。</li>
+<li>初始化的类型。<br>在准备阶段，JVM 会为类变量分配内存，并为其初始化。但是这里的初始化指的是为变量赋予 Java 语言中该数据类型的零值，而不是用户代码里初始化的值。<br>但如果一个变量是常量（被 static final 修饰）的话，那么在准备阶段，属性便会被赋予用户希望的值。</li>
+</ul>
+<h2 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h2><p>通过准备阶段之后，JVM 针对类或接口、字段、类方法、接口方法、方法类型、方法句柄和调用点限定符 7 类引用进行解析。这个阶段的主要任务是将其在常量池中的符号引用替换成直接其在内存中的直接引用。</p>
+<h2 id="初始化（重点）"><a href="#初始化（重点）" class="headerlink" title="初始化（重点）"></a>初始化（重点）</h2><p>在这个阶段，JVM 会根据语句执行顺序对类对象进行初始化，一般来说当 JVM 遇到下面 5 种情况的时候会触发初始化：</p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h2 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h2><h1 id="JVM-垃圾回收机制"><a href="#JVM-垃圾回收机制" class="headerlink" title="JVM 垃圾回收机制"></a>JVM 垃圾回收机制</h1><p>所以很多时候不同的虚拟机有不同的实现方式，下面所说的垃圾回收都是以 HotSpot 虚拟机为例。</p>
+<h2 id="判断垃圾方法"><a href="#判断垃圾方法" class="headerlink" title="判断垃圾方法"></a>判断垃圾方法</h2><ol>
+<li><p>引用计数法 — 循环引用问题</p>
+</li>
+<li><p>GC Root Tracing 算法<br>从 GC Root 出发，所有可达的对象都是存活的对象，而所有不可达的对象都是垃圾。GC ROOT通常包括</p>
+</li>
+</ol>
+<ul>
+<li>所有当前被加载的 Java 类</li>
+<li>Java 类的引用类型静态变量</li>
+<li>Java类的运行时常量池里的引用类型常量</li>
+<li>JVM的一些静态数据结构里指向GC堆里的对象的引用</li>
+<li>等等</li>
+</ul>
+<h2 id="如何进行垃圾回收"><a href="#如何进行垃圾回收" class="headerlink" title="如何进行垃圾回收"></a>如何进行垃圾回收</h2><p>三种算法：标记清除算法、复制算法、标记压缩算法。</p>
+<h3 id="标记清除算法"><a href="#标记清除算法" class="headerlink" title="标记清除算法"></a>标记清除算法</h3><p>从名字可以看到其分为两个阶段：标记阶段和清除阶段。一种可行的实现方式是，在标记阶段，标记所有由 GC Root 触发的可达对象。此时，所有未被标记的对象就是垃圾对象。之后在清除阶段，清除所有未被标记的对象。标记清除算法最大的问题就是空间碎片问题。如果空间碎片过多，则会导致内存空间的不连续。虽说大对象也可以分配在不连续的空间中，但是效率要低于连续的内存空间。</p>
+<h3 id="复制算法"><a href="#复制算法" class="headerlink" title="复制算法"></a>复制算法</h3><p>复制算法的核心思想是将原有的内存空间分为两块，每次只使用一块，在垃圾回收时，将正在使用的内存中的存活对象复制到未使用的内存块中。之后清除正在使用的内存块中的所有对象，之后交换两个内存块的角色，完成垃圾回收。该算法的缺点是要将内存空间折半，极大地浪费了内存空间。</p>
+<h3 id="标记压缩算法"><a href="#标记压缩算法" class="headerlink" title="标记压缩算法"></a>标记压缩算法</h3><p>标记压缩算法可以说是标记清除算法的优化版，其同样需要经历两个阶段，分别是：标记结算、压缩阶段。在标记阶段，从 GC Root 引用集合触发去标记所有对象。在压缩阶段，其则是将所有存活的对象压缩在内存的一边，之后清理边界外的所有空间。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>对比一下这三种算法，可以发现他们都有各自的优点和缺点。</p>
+<p>标记清除算法虽然会产生内存碎片，但是不需要移动太多对象，比较适合在存活对象比较多的情况。而复制算法虽然需要将内存空间折半，并且需要移动存活对象，但是其清理后不会有空间碎片，比较适合存活对象比较少的情况。而标记压缩算法，则是标记清除算法的优化版，减少了空间碎片。</p>
+<h2 id="分代思想"><a href="#分代思想" class="headerlink" title="分代思想"></a>分代思想</h2><p>分代思想按照对象的生命周期长短将其分为了两个部分（新生代、老年代）</p>
+<p>分代算法，就是根据 JVM 内存的不同内存区域，采用不同的垃圾回收算法。</p>
+<p>例如对于存活对象少的新生代区域，比较适合采用复制算法。这样只需要复制少量对象，便可完成垃圾回收，并且还不会有内存碎片。而对于老年代这种存活对象多的区域，比较适合采用标记压缩算法或标记清除算法，这样不需要移动太多的内存对象。</p>
+<h2 id="分区思想"><a href="#分区思想" class="headerlink" title="分区思想"></a>分区思想</h2><p>但 JVM 中其实还有一个分区思想，即将整个堆空间划分成连续的不同小区间。<br>分代思想按照对象的生命周期长短将其分为了两个部分（新生代、老年代）</p>
+<h1 id="JVM垃圾回收器"><a href="#JVM垃圾回收器" class="headerlink" title="JVM垃圾回收器"></a>JVM垃圾回收器</h1><p>四大类别：串行回收器、并行回收器、CMS 回收器、G1 回收器。</p>
+<h2 id="串行回收器"><a href="#串行回收器" class="headerlink" title="串行回收器"></a>串行回收器</h2><p>串行回收器是指使用单线程进行垃圾回收的回收器。</p>
+<h2 id="并行回收器"><a href="#并行回收器" class="headerlink" title="并行回收器"></a>并行回收器</h2><p>并行回收器在串行回收器的基础上做了改进，其使用多线程进行垃圾回收。</p>
+<h2 id="CMS-回收器"><a href="#CMS-回收器" class="headerlink" title="CMS 回收器"></a>CMS 回收器</h2><p>与 ParallelGC 和 ParallelOldGC 不同，CMS 回收器主要关注系统停顿时间。CMS 回收器全称为 Concurrent Mark Sweep，意为标记清除算法，其是一个使用多线程并行回收的垃圾回收器。</p>
+<h2 id="G1-回收器"><a href="#G1-回收器" class="headerlink" title="G1 回收器"></a>G1 回收器</h2><p>G1 回收器是 JDK 1.7 中使用的全新垃圾回收器，从长期目标来看，其是为了取代 CMS 回收器。</p>
+<p>G1 回收器拥有独特的垃圾回收策略，和之前所有垃圾回收器采用的垃圾回收策略不同。从分代看，G1 依然属于分代垃圾回收器。但它最大的改变是使用了分区算法，从而使得 Eden 区、From 区、Survivor 区和老年代等各块内存不必连续。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://www.cnblogs.com/chanshuyi/p/jvm_serial_04_from_source_code_to_machine_code.html">https://www.cnblogs.com/chanshuyi/p/jvm_serial_04_from_source_code_to_machine_code.html</a></p>
+]]></content>
+      <categories>
+        <category>JVM</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>OAuth 2.0</title>
+    <url>/2023/05/09/OAuth-2-0/</url>
+    <content><![CDATA[<span id="more"></span>
+<p>OAuth 的核心就是向第三方应用颁发令牌<br>四种授权方式</p>
+<ol>
+<li>（授权码）authorization-code</li>
+<li>（隐藏式）implicit</li>
+<li>（密码式）password</li>
+<li>（客户端凭证）client credentials</li>
+</ol>
+<p>注：任何一种方式，第三方应用都必须到系统备案，以获取客户端ID（client ID）和客户端密钥（client secret）</p>
+<h1 id="第一种方式：授权码"><a href="#第一种方式：授权码" class="headerlink" title="第一种方式：授权码"></a>第一种方式：授权码</h1><p>最常用、最安全，适用于有后端的应用。<br>授权码通过前端发送，令牌存储在后端，而且所有与资源服务器的通信都在后端完成。</p>
+<p>授权过程：</p>
+<p><img src="process.png" alt="流程图" title="流程图"></p>
+<p>（1）请求授权码<br>A网站提供一个链接，用户点击后会跳转到B网站，授权用户数据给A网站使用<br>链接示意：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://b.com/oauth/authorize?</span><br><span class="line">    response_type=code&amp;     // 表示要求返回授权码</span><br><span class="line">    client_id=CLIENT_ID&amp;    // 让B知道谁在请求</span><br><span class="line">    redirect_uri=CALLLBACK_URL&amp; // B接受或者拒绝请求后的跳转网址</span><br><span class="line">    scope=read      // 要求的授权范围</span><br></pre></td></tr></table></figure>
+<p>（2）返回授权码<br>用户跳转后，B网站要求用户登录， 然后询问是否给A网站授权。用户同意后，B网站返回<code>redirect_uri</code>参数指定的网址，同时携带一个授权码</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://a.com/callback?code=AUTHORIZATION_CODE  // code为授权码</span><br></pre></td></tr></table></figure>
+<p>（3）请求令牌<br>A网站拿到授权码后，可以在后端向B网站请求令牌</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://b.com/oauth/token?</span><br><span class="line"> client_id=CLIENT_ID&amp;   </span><br><span class="line"> client_secret=CLIENT_SECRET&amp;       // client_id 和client_secret参数确定A的身份</span><br><span class="line"> grant_type=authorization_code&amp;     // 参数值为authorization_code，表示采用的授权方式为授权码</span><br><span class="line"> code=AUTHORIZATION_CODE&amp;           // 上一步拿到的授权码</span><br><span class="line"> redirect_uri=CALLBACK_URL          // 令牌颁发后的回调网址</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>（4）返回令牌<br>B 网站收到请求以后，就会颁发令牌。具体做法是向redirect_uri指定的网址，发送一段 JSON 数据。</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="punctuation">&#123;</span>    </span><br><span class="line">  <span class="attr">&quot;access_token&quot;</span><span class="punctuation">:</span><span class="string">&quot;ACCESS_TOKEN&quot;</span><span class="punctuation">,</span>    <span class="comment">//令牌</span></span><br><span class="line">  <span class="attr">&quot;token_type&quot;</span><span class="punctuation">:</span><span class="string">&quot;bearer&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;expires_in&quot;</span><span class="punctuation">:</span><span class="number">2592000</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;refresh_token&quot;</span><span class="punctuation">:</span><span class="string">&quot;REFRESH_TOKEN&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;scope&quot;</span><span class="punctuation">:</span><span class="string">&quot;read&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;uid&quot;</span><span class="punctuation">:</span><span class="number">100101</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;info&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span>...<span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="第二种方式：隐藏式"><a href="#第二种方式：隐藏式" class="headerlink" title="第二种方式：隐藏式"></a>第二种方式：隐藏式</h1><ol>
+<li>令牌的有效期必须非常短，通常就是会话期间（session）有效，浏览器关掉，令牌就失效了。</li>
+<li>纯前端应用，没有后端。</li>
+<li>直接向前端颁发令牌。无授权码中间步骤。<br>（1）第一步，A网站提供链接，用户点击链接跳转B网站，授权用户数据<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://b.com/oauth/authorize?</span><br><span class="line">  response_type=token&amp;  //要求直接返回令牌</span><br><span class="line">  client_id=CLIENT_ID&amp;</span><br><span class="line">  redirect_uri=CALLBACK_URL&amp;</span><br><span class="line">  scope=read</span><br></pre></td></tr></table></figure>
+（2）第二步，B网站授权成功，跳转到A网站（通过<code>redirect_uri</code>）并以参数的形式返回令牌。<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://a.com/callback#token=ACCESS_TOKEN</span><br></pre></td></tr></table></figure>
+注意：令牌的位置是 URL 锚点（fragment），而不是查询字符串（querystring），这是因为 OAuth 2.0 允许跳转网址是 HTTP 协议，因此存在”中间人攻击”的风险，而浏览器跳转时，锚点不会发到服务器，就减少了泄漏令牌的风险。</li>
+</ol>
+<h1 id="第三种方式：密码式"><a href="#第三种方式：密码式" class="headerlink" title="第三种方式：密码式"></a>第三种方式：密码式</h1><p>用户把用户名和密码，直接告诉该应用。<br>该应用就使用你的密码，申请令牌。<br>（1）第一步，A网站要求用户提供用户名和密码，向B网站请求令牌</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://oauth.b.com/token?</span><br><span class="line">  grant_type=password&amp;</span><br><span class="line">  username=USERNAME&amp;</span><br><span class="line">  password=PASSWORD&amp;</span><br><span class="line">  client_id=CLIENT_ID</span><br></pre></td></tr></table></figure>
+<p>（2） 第二步，B 网站验证身份通过后，直接给出令牌。<br>注意，这时不需要跳转，而是把令牌放在 JSON 数据里面，作为 HTTP 回应，A 因此拿到令牌。</p>
+<h1 id="第四种方式：凭证式（client-credentials）"><a href="#第四种方式：凭证式（client-credentials）" class="headerlink" title="第四种方式：凭证式（client credentials）"></a>第四种方式：凭证式（client credentials）</h1><p>适用于没有前端的命令行应用，即在命令行下请求令牌。<br>这种方式给出的令牌，是针对第三方应用的，而不是针对用户的，即有可能多个用户共享同一个令牌。<br>（1）第一步，A 应用在命令行向 B 发出请求。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://oauth.b.com/token?</span><br><span class="line">  grant_type=client_credentials&amp;</span><br><span class="line">  client_id=CLIENT_ID&amp;</span><br><span class="line">  client_secret=CLIENT_SECRET</span><br></pre></td></tr></table></figure>
+<p>第二步，B 网站验证通过以后，直接返回令牌。</p>
+<h1 id="更新令牌"><a href="#更新令牌" class="headerlink" title="更新令牌"></a>更新令牌</h1><p>令牌的有效期到了，OAuth 2.0 允许用户自动更新令牌<br>具体方法是，B 网站颁发令牌的时候，一次性颁发两个令牌，一个用于获取数据，另一个用于获取新的令牌（refresh token 字段）。令牌到期前，用户使用 refresh token 发一个请求，去更新令牌。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://b.com/oauth/token?</span><br><span class="line">  grant_type=refresh_token&amp;</span><br><span class="line">  client_id=CLIENT_ID&amp;</span><br><span class="line">  client_secret=CLIENT_SECRET&amp;</span><br><span class="line">  refresh_token=REFRESH_TOKEN</span><br></pre></td></tr></table></figure>
+<p>B 网站验证通过以后，就会颁发新的令牌。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://www.ruanyifeng.com/blog/2019/04/oauth-grant-types.html">https://www.ruanyifeng.com/blog/2019/04/oauth-grant-types.html</a></p>
+]]></content>
+      <categories>
+        <category>第三方授权 OAuth2.0</category>
+      </categories>
+      <tags>
+        <tag>authorization</tag>
+      </tags>
   </entry>
   <entry>
     <title>设计模式-解释器</title>
     <url>/2023/04/01/InterpreterDesignPattern/</url>
-    <content><![CDATA[<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><blockquote>
+    <content><![CDATA[<span id="more"></span>
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><blockquote>
 <p>解释器模式(Interpreter)会针对某种语言并基于其语法特征创建一系列的表达式类（包括终极表达式与非终极表达式），利用树结构模式将表达式对象组装起来，最终将其翻译成计算机能够识别并执行的语义树。</p>
 <p>例如结构型数据库对查询语言SQL的解析，浏览器对HTML语言的解析，以及操作系统Shell对命令的解析。不同的语言有着不同的语法和翻译方式，这都依靠解释器完成.</p>
 </blockquote>
-<span id="more"></span>
-
 <h3 id="解释器模式中的角色划分"><a href="#解释器模式中的角色划分" class="headerlink" title="解释器模式中的角色划分"></a>解释器模式中的角色划分</h3><hr>
 <p><img src="2023-04-01-20-07-17.png"></p>
 <hr>
@@ -108,75 +223,13 @@
       </tags>
   </entry>
   <entry>
-    <title>JVM概览</title>
-    <url>/2023/05/16/JVMLearning/</url>
-    <content><![CDATA[<p>编译器可以分为：前端编译器、JIT 编译器和AOT编译器。</p>
-<h1 id="源代码到机器码"><a href="#源代码到机器码" class="headerlink" title="源代码到机器码"></a>源代码到机器码</h1><h2 id="前端编译器：源代码到字节码"><a href="#前端编译器：源代码到字节码" class="headerlink" title="前端编译器：源代码到字节码"></a>前端编译器：源代码到字节码</h2><h2 id="JIT-编译器：从字节码到机器码"><a href="#JIT-编译器：从字节码到机器码" class="headerlink" title="JIT 编译器：从字节码到机器码"></a>JIT 编译器：从字节码到机器码</h2><h2 id="AOT-编译器：源代码到机器码"><a href="#AOT-编译器：源代码到机器码" class="headerlink" title="AOT 编译器：源代码到机器码"></a>AOT 编译器：源代码到机器码</h2><span id="more"></span>
-
-<h1 id="字节码文件结构"><a href="#字节码文件结构" class="headerlink" title="字节码文件结构"></a>字节码文件结构</h1><h1 id="JVM-类加载机制"><a href="#JVM-类加载机制" class="headerlink" title="JVM 类加载机制"></a>JVM 类加载机制</h1><p>当编译器将 Java 源码编译为字节码之后，虚拟机便可以将字节码读取进内存，从而进行解析、运行等整个过程。</p>
-<p>JVM 虚拟机执行 class 字节码的过程可以分为七个阶段：<br>加载、验证、准备、解析、初始化、使用、卸载。</p>
-<h2 id="加载"><a href="#加载" class="headerlink" title="加载"></a>加载</h2><p>加载阶段是类加载过程的第一个阶段。在这个阶段，JVM 的主要目的是将字节码从各个位置（网络、磁盘等）转化为二进制字节流加载到内存中，接着会为这个类在 JVM 的方法区创建一个对应的 Class 对象，这个 Class 对象就是这个类各种数据的访问入口。</p>
-<h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><p>当 JVM 加载完 Class 字节码文件并在方法区创建对应的 Class 对象之后，JVM 便会启动对该字节码流的校验，只有符合 JVM 字节码规范的文件才能被 JVM 正确执行。<br>因为Class文件并不要求一定要从Java源代码编译而来，可以从其他地方加载，如网络，甚至包括十六进制编辑器。</p>
-<ul>
-<li><p>文件格式验证<br>字节流格式，是否以0xcafebabe开头，主次版本号是否在当前虚拟机处理范围内等</p>
-</li>
-<li><p>元数据验证<br>Java语言规范验证，是否有父类，父类是否继承了不允许的类等</p>
-</li>
-<li><p>字节码验证</p>
-</li>
-<li><p>符号引用验证 —- 链接的第三阶段：解析阶段发生</p>
-</li>
-</ul>
-<h2 id="准备（重点）"><a href="#准备（重点）" class="headerlink" title="准备（重点）"></a>准备（重点）</h2><p>当完成字节码文件的校验之后，JVM 便会开始为类变量分配内存并初始化。</p>
-<ul>
-<li>内存分配的对象。<br>Java 中的变量有「类变量」和「类成员变量」两种类型，「类变量」指的是被 static 修饰的变量，而其他所有类型的变量都属于「类成员变量」。在准备阶段，JVM 只会为「类变量」分配内存，而不会为「类成员变量」分配内存。「类成员变量」的内存分配需要等到初始化阶段才开始。</li>
-<li>初始化的类型。<br>在准备阶段，JVM 会为类变量分配内存，并为其初始化。但是这里的初始化指的是为变量赋予 Java 语言中该数据类型的零值，而不是用户代码里初始化的值。<br>但如果一个变量是常量（被 static final 修饰）的话，那么在准备阶段，属性便会被赋予用户希望的值。</li>
-</ul>
-<h2 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h2><p>通过准备阶段之后，JVM 针对类或接口、字段、类方法、接口方法、方法类型、方法句柄和调用点限定符 7 类引用进行解析。这个阶段的主要任务是将其在常量池中的符号引用替换成直接其在内存中的直接引用。</p>
-<h2 id="初始化（重点）"><a href="#初始化（重点）" class="headerlink" title="初始化（重点）"></a>初始化（重点）</h2><p>在这个阶段，JVM 会根据语句执行顺序对类对象进行初始化，一般来说当 JVM 遇到下面 5 种情况的时候会触发初始化：</p>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h2 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h2><h1 id="JVM-垃圾回收机制"><a href="#JVM-垃圾回收机制" class="headerlink" title="JVM 垃圾回收机制"></a>JVM 垃圾回收机制</h1><p>所以很多时候不同的虚拟机有不同的实现方式，下面所说的垃圾回收都是以 HotSpot 虚拟机为例。</p>
-<h2 id="判断垃圾方法"><a href="#判断垃圾方法" class="headerlink" title="判断垃圾方法"></a>判断垃圾方法</h2><ol>
-<li><p>引用计数法 — 循环引用问题</p>
-</li>
-<li><p>GC Root Tracing 算法<br>从 GC Root 出发，所有可达的对象都是存活的对象，而所有不可达的对象都是垃圾。GC ROOT通常包括</p>
-</li>
-</ol>
-<ul>
-<li>所有当前被加载的 Java 类</li>
-<li>Java 类的引用类型静态变量</li>
-<li>Java类的运行时常量池里的引用类型常量</li>
-<li>JVM的一些静态数据结构里指向GC堆里的对象的引用</li>
-<li>等等</li>
-</ul>
-<h2 id="如何进行垃圾回收"><a href="#如何进行垃圾回收" class="headerlink" title="如何进行垃圾回收"></a>如何进行垃圾回收</h2><p>三种算法：标记清除算法、复制算法、标记压缩算法。</p>
-<h3 id="标记清除算法"><a href="#标记清除算法" class="headerlink" title="标记清除算法"></a>标记清除算法</h3><p>从名字可以看到其分为两个阶段：标记阶段和清除阶段。一种可行的实现方式是，在标记阶段，标记所有由 GC Root 触发的可达对象。此时，所有未被标记的对象就是垃圾对象。之后在清除阶段，清除所有未被标记的对象。标记清除算法最大的问题就是空间碎片问题。如果空间碎片过多，则会导致内存空间的不连续。虽说大对象也可以分配在不连续的空间中，但是效率要低于连续的内存空间。</p>
-<h3 id="复制算法"><a href="#复制算法" class="headerlink" title="复制算法"></a>复制算法</h3><p>复制算法的核心思想是将原有的内存空间分为两块，每次只使用一块，在垃圾回收时，将正在使用的内存中的存活对象复制到未使用的内存块中。之后清除正在使用的内存块中的所有对象，之后交换两个内存块的角色，完成垃圾回收。该算法的缺点是要将内存空间折半，极大地浪费了内存空间。</p>
-<h3 id="标记压缩算法"><a href="#标记压缩算法" class="headerlink" title="标记压缩算法"></a>标记压缩算法</h3><p>标记压缩算法可以说是标记清除算法的优化版，其同样需要经历两个阶段，分别是：标记结算、压缩阶段。在标记阶段，从 GC Root 引用集合触发去标记所有对象。在压缩阶段，其则是将所有存活的对象压缩在内存的一边，之后清理边界外的所有空间。</p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>对比一下这三种算法，可以发现他们都有各自的优点和缺点。</p>
-<p>标记清除算法虽然会产生内存碎片，但是不需要移动太多对象，比较适合在存活对象比较多的情况。而复制算法虽然需要将内存空间折半，并且需要移动存活对象，但是其清理后不会有空间碎片，比较适合存活对象比较少的情况。而标记压缩算法，则是标记清除算法的优化版，减少了空间碎片。</p>
-<h2 id="分代思想"><a href="#分代思想" class="headerlink" title="分代思想"></a>分代思想</h2><p>分代思想按照对象的生命周期长短将其分为了两个部分（新生代、老年代）</p>
-<p>分代算法，就是根据 JVM 内存的不同内存区域，采用不同的垃圾回收算法。</p>
-<p>例如对于存活对象少的新生代区域，比较适合采用复制算法。这样只需要复制少量对象，便可完成垃圾回收，并且还不会有内存碎片。而对于老年代这种存活对象多的区域，比较适合采用标记压缩算法或标记清除算法，这样不需要移动太多的内存对象。</p>
-<h2 id="分区思想"><a href="#分区思想" class="headerlink" title="分区思想"></a>分区思想</h2><p>但 JVM 中其实还有一个分区思想，即将整个堆空间划分成连续的不同小区间。<br>分代思想按照对象的生命周期长短将其分为了两个部分（新生代、老年代）</p>
-<h1 id="JVM垃圾回收器"><a href="#JVM垃圾回收器" class="headerlink" title="JVM垃圾回收器"></a>JVM垃圾回收器</h1><p>四大类别：串行回收器、并行回收器、CMS 回收器、G1 回收器。</p>
-<h2 id="串行回收器"><a href="#串行回收器" class="headerlink" title="串行回收器"></a>串行回收器</h2><p>串行回收器是指使用单线程进行垃圾回收的回收器。</p>
-<h2 id="并行回收器"><a href="#并行回收器" class="headerlink" title="并行回收器"></a>并行回收器</h2><p>并行回收器在串行回收器的基础上做了改进，其使用多线程进行垃圾回收。</p>
-<h2 id="CMS-回收器"><a href="#CMS-回收器" class="headerlink" title="CMS 回收器"></a>CMS 回收器</h2><p>与 ParallelGC 和 ParallelOldGC 不同，CMS 回收器主要关注系统停顿时间。CMS 回收器全称为 Concurrent Mark Sweep，意为标记清除算法，其是一个使用多线程并行回收的垃圾回收器。</p>
-<h2 id="G1-回收器"><a href="#G1-回收器" class="headerlink" title="G1 回收器"></a>G1 回收器</h2><p>G1 回收器是 JDK 1.7 中使用的全新垃圾回收器，从长期目标来看，其是为了取代 CMS 回收器。</p>
-<p>G1 回收器拥有独特的垃圾回收策略，和之前所有垃圾回收器采用的垃圾回收策略不同。从分代看，G1 依然属于分代垃圾回收器。但它最大的改变是使用了分区算法，从而使得 Eden 区、From 区、Survivor 区和老年代等各块内存不必连续。</p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://www.cnblogs.com/chanshuyi/p/jvm_serial_04_from_source_code_to_machine_code.html">https://www.cnblogs.com/chanshuyi/p/jvm_serial_04_from_source_code_to_machine_code.html</a></p>
-]]></content>
-      <categories>
-        <category>JVM</category>
-      </categories>
-  </entry>
-  <entry>
     <title>设计模式-原型</title>
     <url>/2023/04/07/ProtoTypeDesignPattern/</url>
-    <content><![CDATA[<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><blockquote>
+    <content><![CDATA[<span id="more"></span>
+
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><blockquote>
 <p>原型模式达到以原型实例创建副本实例的目的即可，并不需要知道其他原始类，也就是说，原型模式可以用对象创建对象，而不是用类创建对象，以此达到效率的提升。</p>
 </blockquote>
-<span id="more"></span>
 <p>对那些非常复杂的初始化过程的对象或者是需要耗费大量资源的情况，原型模式是更好的选择。</p>
 <h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p>我们正准备设计一个空战游戏</p>
 <p>设定：<br>设置游戏为单打即主角飞机只有一架，而敌机有很多架，而且可以在屏幕上垂直下移来撞击主角飞机。</p>
@@ -224,61 +277,10 @@
       </tags>
   </entry>
   <entry>
-    <title>OAuth 2.0</title>
-    <url>/2023/05/09/OAuth-2-0/</url>
-    <content><![CDATA[<p>OAuth 的核心就是向第三方应用颁发令牌<br>四种授权方式</p>
-<ol>
-<li>（授权码）authorization-code</li>
-<li>（隐藏式）implicit</li>
-<li>（密码式）password</li>
-<li>（客户端凭证）client credentials</li>
-</ol>
-<p>注：任何一种方式，第三方应用都必须到系统备案，以获取客户端ID（client ID）和客户端密钥（client secret）</p>
-<span id="more"></span>
-
-
-<h1 id="第一种方式：授权码"><a href="#第一种方式：授权码" class="headerlink" title="第一种方式：授权码"></a>第一种方式：授权码</h1><p>最常用、最安全，适用于有后端的应用。<br>授权码通过前端发送，令牌存储在后端，而且所有与资源服务器的通信都在后端完成。</p>
-<p>授权过程：</p>
-<p><img src="process.png" alt="流程图" title="流程图"></p>
-<p>（1）请求授权码<br>A网站提供一个链接，用户点击后会跳转到B网站，授权用户数据给A网站使用<br>链接示意：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://b.com/oauth/authorize?</span><br><span class="line">    response_type=code&amp;     // 表示要求返回授权码</span><br><span class="line">    client_id=CLIENT_ID&amp;    // 让B知道谁在请求</span><br><span class="line">    redirect_uri=CALLLBACK_URL&amp; // B接受或者拒绝请求后的跳转网址</span><br><span class="line">    scope=read      // 要求的授权范围</span><br></pre></td></tr></table></figure>
-<p>（2）返回授权码<br>用户跳转后，B网站要求用户登录， 然后询问是否给A网站授权。用户同意后，B网站返回<code>redirect_uri</code>参数指定的网址，同时携带一个授权码</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://a.com/callback?code=AUTHORIZATION_CODE  // code为授权码</span><br></pre></td></tr></table></figure>
-<p>（3）请求令牌<br>A网站拿到授权码后，可以在后端向B网站请求令牌</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://b.com/oauth/token?</span><br><span class="line"> client_id=CLIENT_ID&amp;   </span><br><span class="line"> client_secret=CLIENT_SECRET&amp;       // client_id 和client_secret参数确定A的身份</span><br><span class="line"> grant_type=authorization_code&amp;     // 参数值为authorization_code，表示采用的授权方式为授权码</span><br><span class="line"> code=AUTHORIZATION_CODE&amp;           // 上一步拿到的授权码</span><br><span class="line"> redirect_uri=CALLBACK_URL          // 令牌颁发后的回调网址</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>（4）返回令牌<br>B 网站收到请求以后，就会颁发令牌。具体做法是向redirect_uri指定的网址，发送一段 JSON 数据。</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="punctuation">&#123;</span>    </span><br><span class="line">  <span class="attr">&quot;access_token&quot;</span><span class="punctuation">:</span><span class="string">&quot;ACCESS_TOKEN&quot;</span><span class="punctuation">,</span>    <span class="comment">//令牌</span></span><br><span class="line">  <span class="attr">&quot;token_type&quot;</span><span class="punctuation">:</span><span class="string">&quot;bearer&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;expires_in&quot;</span><span class="punctuation">:</span><span class="number">2592000</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;refresh_token&quot;</span><span class="punctuation">:</span><span class="string">&quot;REFRESH_TOKEN&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;scope&quot;</span><span class="punctuation">:</span><span class="string">&quot;read&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;uid&quot;</span><span class="punctuation">:</span><span class="number">100101</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;info&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span>...<span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-
-<h1 id="第二种方式：隐藏式"><a href="#第二种方式：隐藏式" class="headerlink" title="第二种方式：隐藏式"></a>第二种方式：隐藏式</h1><ol>
-<li>令牌的有效期必须非常短，通常就是会话期间（session）有效，浏览器关掉，令牌就失效了。</li>
-<li>纯前端应用，没有后端。</li>
-<li>直接向前端颁发令牌。无授权码中间步骤。<br>（1）第一步，A网站提供链接，用户点击链接跳转B网站，授权用户数据<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://b.com/oauth/authorize?</span><br><span class="line">  response_type=token&amp;  //要求直接返回令牌</span><br><span class="line">  client_id=CLIENT_ID&amp;</span><br><span class="line">  redirect_uri=CALLBACK_URL&amp;</span><br><span class="line">  scope=read</span><br></pre></td></tr></table></figure>
-（2）第二步，B网站授权成功，跳转到A网站（通过<code>redirect_uri</code>）并以参数的形式返回令牌。<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://a.com/callback#token=ACCESS_TOKEN</span><br></pre></td></tr></table></figure>
-注意：令牌的位置是 URL 锚点（fragment），而不是查询字符串（querystring），这是因为 OAuth 2.0 允许跳转网址是 HTTP 协议，因此存在”中间人攻击”的风险，而浏览器跳转时，锚点不会发到服务器，就减少了泄漏令牌的风险。</li>
-</ol>
-<h1 id="第三种方式：密码式"><a href="#第三种方式：密码式" class="headerlink" title="第三种方式：密码式"></a>第三种方式：密码式</h1><p>用户把用户名和密码，直接告诉该应用。<br>该应用就使用你的密码，申请令牌。<br>（1）第一步，A网站要求用户提供用户名和密码，向B网站请求令牌</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://oauth.b.com/token?</span><br><span class="line">  grant_type=password&amp;</span><br><span class="line">  username=USERNAME&amp;</span><br><span class="line">  password=PASSWORD&amp;</span><br><span class="line">  client_id=CLIENT_ID</span><br></pre></td></tr></table></figure>
-<p>（2） 第二步，B 网站验证身份通过后，直接给出令牌。<br>注意，这时不需要跳转，而是把令牌放在 JSON 数据里面，作为 HTTP 回应，A 因此拿到令牌。</p>
-<h1 id="第四种方式：凭证式（client-credentials）"><a href="#第四种方式：凭证式（client-credentials）" class="headerlink" title="第四种方式：凭证式（client credentials）"></a>第四种方式：凭证式（client credentials）</h1><p>适用于没有前端的命令行应用，即在命令行下请求令牌。<br>这种方式给出的令牌，是针对第三方应用的，而不是针对用户的，即有可能多个用户共享同一个令牌。<br>（1）第一步，A 应用在命令行向 B 发出请求。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://oauth.b.com/token?</span><br><span class="line">  grant_type=client_credentials&amp;</span><br><span class="line">  client_id=CLIENT_ID&amp;</span><br><span class="line">  client_secret=CLIENT_SECRET</span><br></pre></td></tr></table></figure>
-<p>第二步，B 网站验证通过以后，直接返回令牌。</p>
-<h1 id="更新令牌"><a href="#更新令牌" class="headerlink" title="更新令牌"></a>更新令牌</h1><p>令牌的有效期到了，OAuth 2.0 允许用户自动更新令牌<br>具体方法是，B 网站颁发令牌的时候，一次性颁发两个令牌，一个用于获取数据，另一个用于获取新的令牌（refresh token 字段）。令牌到期前，用户使用 refresh token 发一个请求，去更新令牌。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://b.com/oauth/token?</span><br><span class="line">  grant_type=refresh_token&amp;</span><br><span class="line">  client_id=CLIENT_ID&amp;</span><br><span class="line">  client_secret=CLIENT_SECRET&amp;</span><br><span class="line">  refresh_token=REFRESH_TOKEN</span><br></pre></td></tr></table></figure>
-<p>B 网站验证通过以后，就会颁发新的令牌。</p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://www.ruanyifeng.com/blog/2019/04/oauth-grant-types.html">https://www.ruanyifeng.com/blog/2019/04/oauth-grant-types.html</a></p>
-]]></content>
-      <categories>
-        <category>第三方授权 OAuth2.0</category>
-      </categories>
-      <tags>
-        <tag>authorization</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>redis-learning</title>
     <url>/2023/05/18/RedisLearning/</url>
-    <content><![CDATA[<h1 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h1><p>RDB持久化、AOF持久化，RDB-AOF混合持久化</p>
-<span id="more"></span>
+    <content><![CDATA[<span id="more"></span>
+<h1 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h1><p>RDB持久化、AOF持久化，RDB-AOF混合持久化</p>
 <h2 id="RDB持久化"><a href="#RDB持久化" class="headerlink" title="RDB持久化"></a>RDB持久化</h2><p>全面持久化操作，</p>
 <h3 id="载入RDB文件过程"><a href="#载入RDB文件过程" class="headerlink" title="载入RDB文件过程"></a>载入RDB文件过程</h3><ol>
 <li>打开RDB文件</li>
@@ -301,16 +303,83 @@
       </categories>
   </entry>
   <entry>
+    <title>设计模式-单例</title>
+    <url>/2023/04/01/SingletonDesignPattern/</url>
+    <content><![CDATA[<span id="more"></span>
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>单例即单实例，指在系统(程序)中，<b>某个类只存在一个实例</b>，同时提供集中、统一的访问接口。</p>
+<blockquote>
+<p>如果一个对象有可能贯穿整个应用程序，而且起到了全局统一管理控制的作用，那么单例模式也许是一个值得考虑的选择。</p>
+</blockquote>
+<p>例如：<br><code>Spring</code>中<code>bean</code>的定义可以被定义为两种：<code>prototype(原型)</code>,<code>singleton(单例)</code><br><code>线程池（threadpool）</code>, <code>缓存（cache）</code>等比较适合设计为单例模式。</p>
+<h2 id="单例模式的实现"><a href="#单例模式的实现" class="headerlink" title="单例模式的实现"></a>单例模式的实现</h2><ol>
+<li>饿汉模式</li>
+<li>懒汉模式</li>
+<li>双重校验锁</li>
+<li>静态内部类</li>
+<li>枚举</li>
+</ol>
+<h3 id="饿汉模式"><a href="#饿汉模式" class="headerlink" title="饿汉模式"></a>饿汉模式</h3><p>类加载时，创建实例。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Sun</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Sun</span> <span class="variable">sun</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Sun</span>();</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Sun</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Sun <span class="title function_">getInstance</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> sun;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>私有化的构造方法保证了该类的实例化工作完全属于内部事务，任何外部内无法干预。</li>
+<li><code>private</code>该实例的私有性，不可见性，不可访问性。</li>
+<li><code>static</code> 确保了实例的<code>静态性</code>，当类加载时候进行初始化。</li>
+<li><code>final</code> 确保该实例是个常量，一旦被赋值就不能再修改</li>
+<li><code>getInstance()</code>提供对外获取该实例的接口。</li>
+</ol>
+<p>缺点：该实例如果没用到也会被创建，浪费了内存。<br>因此该模式适合单例占用内存比较小，创建成功后立即被使用的情况。如果单例占用内存较大，使用<b>懒汉模式</b>进行延迟加载就更合适。</p>
+<h3 id="懒汉模式"><a href="#懒汉模式" class="headerlink" title="懒汉模式"></a>懒汉模式</h3><p>第一次使用时，创建实例</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Sun</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Sun sun;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Sun</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Sun1 <span class="title function_">getInstance</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (sun == <span class="literal">null</span>)&#123;</span><br><span class="line">            sun = <span class="keyword">new</span> <span class="title class_">Sun</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sun;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>只有当某线程第一次调用<code>getInstance()</code>方法时，该实例才创建实例。</p>
+<h4 id="存在的问题"><a href="#存在的问题" class="headerlink" title="存在的问题"></a>存在的问题</h4><p>在多线程的情况下，很多线程并发的进行 <code>if (sun == null)</code>判断，程序就会多次实例化太阳，对sun进行多次赋值。<br>解决办法：<code>getInstance</code> 添加 <code>synchronized</code>关键字。</p>
+<p>改造：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Sun</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Sun sun;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Sun</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span>  <span class="keyword">static</span> <span class="keyword">synchronized</span> Sun <span class="title function_">getInstance</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (sun == <span class="literal">null</span>)&#123;</span><br><span class="line">            sun = <span class="keyword">new</span> <span class="title class_">Sun</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sun;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是这种方法依然存在问题:<br><code>synchronized</code>修饰的同步方法比一般方法要慢很多，如果多次调用<code>getInstance()</code>，累积的性能损耗就比较大了。</p>
+<h3 id="双重校验锁"><a href="#双重校验锁" class="headerlink" title="双重校验锁"></a>双重校验锁</h3><p>这种模式是懒汉模式的变种，利用<b>双验锁</b>解决<code>synchronized</code>修饰同步方法开销过大的问题。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Sun</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">static</span> Sun sun;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Sun</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Sun <span class="title function_">getInstance</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (sun == <span class="literal">null</span>)&#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (Sun.class)&#123;</span><br><span class="line">                <span class="keyword">if</span> (sun == <span class="literal">null</span>)&#123;</span><br><span class="line">                    sun = <span class="keyword">new</span> <span class="title class_">Sun</span>();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sun;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li><code>volatile</code> 禁止指令重排</li>
+<li>第一次校验，即第一个 <code>if (sun == null)</code>判断，程序执行的过程中，大部分线程并不需要进入到同步代码块，保证了线程并发的高效性</li>
+<li>第二次校验，防止二次创建实例。在某情况下，线程A和线程B都通过了第一次校验，实例会被重新赋值。</li>
+</ol>
+<h3 id="静态内部类"><a href="#静态内部类" class="headerlink" title="静态内部类"></a>静态内部类</h3><p>利用了类加载机制来保证只创建一个instance实例</p>
+<blockquote>
+<p>它是在内部类里面去创建对象实例。这样的话，只要应用中不使用内部类，JVM就不会去加载这个单例类，也就不会创建单例对象，从而实现懒汉式的延迟加载。也就是说这种方式可以同时保证延迟加载和线程安全。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Sun</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">SingletonHolder</span> &#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Sun</span> <span class="variable">sun</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Sun</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Sun</span> <span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Sun <span class="title function_">getInstance</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> SingletonHolder.sun;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="枚举"><a href="#枚举" class="headerlink" title="枚举"></a>枚举</h3><p>既可以避免多线程同步问题；还可以防止通过反射和反序列化来重新创建新的对象</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> <span class="title class_">Singleton</span>&#123;</span><br><span class="line">    INSTANCE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li>刘韬《秒懂设计模式》</li>
+<li><a href="https://www.runoob.com/design-pattern/singleton-pattern.html">https://www.runoob.com/design-pattern/singleton-pattern.html</a></li>
+<li><a href="https://blog.csdn.net/goodlixueyong/article/details/51935526">https://blog.csdn.net/goodlixueyong/article/details/51935526</a></li>
+<li><a href="https://cloud.tencent.com/developer/article/1497592">https://cloud.tencent.com/developer/article/1497592</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>设计模式</category>
+      </categories>
+      <tags>
+        <tag>设计模式</tag>
+        <tag>单例</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>someQuestions</title>
     <url>/2023/05/19/SomeQuestions/</url>
-    <content><![CDATA[<p>记录一些想到的问题</p>
+    <content><![CDATA[<span id="more"></span>
+<p>记录一些想到的问题</p>
 <h1 id="1-什么是Java方法重写"><a href="#1-什么是Java方法重写" class="headerlink" title="1.什么是Java方法重写"></a>1.什么是Java方法重写</h1><p>要求遵循“两同两大一小”</p>
 <ul>
 <li>“两同” 指方法名相同，形参列表相同</li>
 <li>“两小” 指子类方法返回值类型应该比父类返回值类型更小，子类方法声明抛出的异常类应该比父类方法抛出的更小或者相等</li>
-<li>“一大” 指子类方法的访问权限应该比父类方法的访问权限更大或者相等。<span id="more"></span>
-这是因为如果返回值类型更大，则可能会造成父类对象无法完全转换为子类对象，从而导致编译错误和运行时异常。<br>重写还有一条规则是访问控制符必须高于父类？那是因为为了多态的实现。有时候父类需要上转型引用子类的方法实现多态，这就导致子类方法的访问控制符必须高于父类，否则子类里写成了private，父类还怎么访问？</li>
+<li>“一大” 指子类方法的访问权限应该比父类方法的访问权限更大或者相等。</li>
 </ul>
+<p>这是因为如果返回值类型更大，则可能会造成父类对象无法完全转换为子类对象，从而导致编译错误和运行时异常。<br>重写还有一条规则是访问控制符必须高于父类？那是因为为了多态的实现。有时候父类需要上转型引用子类的方法实现多态，这就导致子类方法的访问控制符必须高于父类，否则子类里写成了private，父类还怎么访问？</p>
 <h1 id="2-对象实例都在Java堆中吗？"><a href="#2-对象实例都在Java堆中吗？" class="headerlink" title="2.对象实例都在Java堆中吗？"></a>2.对象实例都在Java堆中吗？</h1><p>不一定，是几乎所有的实例都在堆中。<br>JIT编译除了具有缓存的功能外，还会对代码做各种优化，其中有逃逸分析功能。<br>如果逃逸分析发现一个对象不会逃逸出当前方法或线程，则可以将该对象存储在栈上而不是堆上。由于栈是局部的，存储在栈上的对象只能由当前方法或线程访问，这样就减少了对内存的分配和垃圾回收的工作量，从而提高了程序的性能。<br>可以通过 -XX:+DoEscapeAnalysis 指定是否进行逃逸分析。</p>
 <p>参考：<br><a href="http://www.hollischuang.com/archives/2398">http://www.hollischuang.com/archives/2398</a></p>
 <h1 id="3-接口和抽象类的共同点和区别"><a href="#3-接口和抽象类的共同点和区别" class="headerlink" title="3.接口和抽象类的共同点和区别"></a>3.接口和抽象类的共同点和区别</h1><p>共同点:</p>
@@ -390,76 +459,12 @@
       </categories>
   </entry>
   <entry>
-    <title>设计模式-单例</title>
-    <url>/2023/04/01/SingletonDesignPattern/</url>
-    <content><![CDATA[<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>单例即单实例，指在系统(程序)中，<b>某个类只存在一个实例</b>，同时提供集中、统一的访问接口。</p>
-<blockquote>
-<p>如果一个对象有可能贯穿整个应用程序，而且起到了全局统一管理控制的作用，那么单例模式也许是一个值得考虑的选择。</p>
-</blockquote>
-<p>例如：<br><code>Spring</code>中<code>bean</code>的定义可以被定义为两种：<code>prototype(原型)</code>,<code>singleton(单例)</code><br><code>线程池（threadpool）</code>, <code>缓存（cache）</code>等比较适合设计为单例模式。</p>
-<h2 id="单例模式的实现"><a href="#单例模式的实现" class="headerlink" title="单例模式的实现"></a>单例模式的实现</h2><ol>
-<li>饿汉模式</li>
-<li>懒汉模式</li>
-<li>双重校验锁</li>
-<li>静态内部类</li>
-<li>枚举<span id="more"></span></li>
-</ol>
-<h3 id="饿汉模式"><a href="#饿汉模式" class="headerlink" title="饿汉模式"></a>饿汉模式</h3><p>类加载时，创建实例。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Sun</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Sun</span> <span class="variable">sun</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Sun</span>();</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Sun</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Sun <span class="title function_">getInstance</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> sun;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ol>
-<li>私有化的构造方法保证了该类的实例化工作完全属于内部事务，任何外部内无法干预。</li>
-<li><code>private</code>该实例的私有性，不可见性，不可访问性。</li>
-<li><code>static</code> 确保了实例的<code>静态性</code>，当类加载时候进行初始化。</li>
-<li><code>final</code> 确保该实例是个常量，一旦被赋值就不能再修改</li>
-<li><code>getInstance()</code>提供对外获取该实例的接口。</li>
-</ol>
-<p>缺点：该实例如果没用到也会被创建，浪费了内存。<br>因此该模式适合单例占用内存比较小，创建成功后立即被使用的情况。如果单例占用内存较大，使用<b>懒汉模式</b>进行延迟加载就更合适。</p>
-<h3 id="懒汉模式"><a href="#懒汉模式" class="headerlink" title="懒汉模式"></a>懒汉模式</h3><p>第一次使用时，创建实例</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Sun</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Sun sun;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Sun</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Sun1 <span class="title function_">getInstance</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (sun == <span class="literal">null</span>)&#123;</span><br><span class="line">            sun = <span class="keyword">new</span> <span class="title class_">Sun</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sun;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>只有当某线程第一次调用<code>getInstance()</code>方法时，该实例才创建实例。</p>
-<h4 id="存在的问题"><a href="#存在的问题" class="headerlink" title="存在的问题"></a>存在的问题</h4><p>在多线程的情况下，很多线程并发的进行 <code>if (sun == null)</code>判断，程序就会多次实例化太阳，对sun进行多次赋值。<br>解决办法：<code>getInstance</code> 添加 <code>synchronized</code>关键字。</p>
-<p>改造：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Sun</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Sun sun;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Sun</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span>  <span class="keyword">static</span> <span class="keyword">synchronized</span> Sun <span class="title function_">getInstance</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (sun == <span class="literal">null</span>)&#123;</span><br><span class="line">            sun = <span class="keyword">new</span> <span class="title class_">Sun</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sun;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>但是这种方法依然存在问题:<br><code>synchronized</code>修饰的同步方法比一般方法要慢很多，如果多次调用<code>getInstance()</code>，累积的性能损耗就比较大了。</p>
-<h3 id="双重校验锁"><a href="#双重校验锁" class="headerlink" title="双重校验锁"></a>双重校验锁</h3><p>这种模式是懒汉模式的变种，利用<b>双验锁</b>解决<code>synchronized</code>修饰同步方法开销过大的问题。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Sun</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">static</span> Sun sun;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Sun</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Sun <span class="title function_">getInstance</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (sun == <span class="literal">null</span>)&#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (Sun.class)&#123;</span><br><span class="line">                <span class="keyword">if</span> (sun == <span class="literal">null</span>)&#123;</span><br><span class="line">                    sun = <span class="keyword">new</span> <span class="title class_">Sun</span>();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sun;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ol>
-<li><code>volatile</code> 禁止指令重排</li>
-<li>第一次校验，即第一个 <code>if (sun == null)</code>判断，程序执行的过程中，大部分线程并不需要进入到同步代码块，保证了线程并发的高效性</li>
-<li>第二次校验，防止二次创建实例。在某情况下，线程A和线程B都通过了第一次校验，实例会被重新赋值。</li>
-</ol>
-<h3 id="静态内部类"><a href="#静态内部类" class="headerlink" title="静态内部类"></a>静态内部类</h3><p>利用了类加载机制来保证只创建一个instance实例</p>
-<blockquote>
-<p>它是在内部类里面去创建对象实例。这样的话，只要应用中不使用内部类，JVM就不会去加载这个单例类，也就不会创建单例对象，从而实现懒汉式的延迟加载。也就是说这种方式可以同时保证延迟加载和线程安全。</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Sun</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">SingletonHolder</span> &#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Sun</span> <span class="variable">sun</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Sun</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Sun</span> <span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Sun <span class="title function_">getInstance</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> SingletonHolder.sun;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="枚举"><a href="#枚举" class="headerlink" title="枚举"></a>枚举</h3><p>既可以避免多线程同步问题；还可以防止通过反射和反序列化来重新创建新的对象</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> <span class="title class_">Singleton</span>&#123;</span><br><span class="line">    INSTANCE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li>刘韬《秒懂设计模式》</li>
-<li><a href="https://www.runoob.com/design-pattern/singleton-pattern.html">https://www.runoob.com/design-pattern/singleton-pattern.html</a></li>
-<li><a href="https://blog.csdn.net/goodlixueyong/article/details/51935526">https://blog.csdn.net/goodlixueyong/article/details/51935526</a></li>
-<li><a href="https://cloud.tencent.com/developer/article/1497592">https://cloud.tencent.com/developer/article/1497592</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>设计模式</category>
-      </categories>
-      <tags>
-        <tag>设计模式</tag>
-        <tag>单例</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>TCP/IPLearning</title>
     <url>/2023/04/05/TCPIPLearning/</url>
-    <content><![CDATA[<p>目前绝大多数网络都采用TCP&#x2F;IP协议，TCP&#x2F;IP是目前最完整的、被普遍接受的通信协议标准</p>
+    <content><![CDATA[<span id="more"></span>
+
+<p>目前绝大多数网络都采用TCP&#x2F;IP协议，TCP&#x2F;IP是目前最完整的、被普遍接受的通信协议标准</p>
 <h2 id="第一章-TCP-x2F-IP协议基础"><a href="#第一章-TCP-x2F-IP协议基础" class="headerlink" title="第一章 TCP&#x2F;IP协议基础"></a>第一章 TCP&#x2F;IP协议基础</h2><h3 id="网络通信协议"><a href="#网络通信协议" class="headerlink" title="网络通信协议"></a>网络通信协议</h3><p>指计算机在网络中实现通信必须遵守的规则和约定，主要是对信息传输的<b>速率、传输代码、代码结构、传输控制步骤、差错控制</b>等做出规定并制定出标准。</p>
-<span id="more"></span>
 <h4 id="协议的组成成分"><a href="#协议的组成成分" class="headerlink" title="协议的组成成分:"></a>协议的组成成分:</h4><p>语义:规定双方完成通信需要的控制信息及执行的动作<br>语法:规定通信双方交换的数据或控制信息的格式和结构<br>时序:规定通信双方彼此的应答关系，包括速度的匹配和顺序</p>
 <h4 id="OSI参考模型"><a href="#OSI参考模型" class="headerlink" title="OSI参考模型"></a>OSI参考模型</h4><p>顺口溜： “物联网淑慧适用”</p>
 <ol>
@@ -551,13 +556,14 @@
   <entry>
     <title>Testing</title>
     <url>/2023/05/16/Testing/</url>
-    <content><![CDATA[<h1 id="Objectives"><a href="#Objectives" class="headerlink" title="Objectives"></a>Objectives</h1><p>这是学习完该章节后需要达到的目标：</p>
+    <content><![CDATA[<span id="more"></span>
+<h1 id="Objectives"><a href="#Objectives" class="headerlink" title="Objectives"></a>Objectives</h1><p>这是学习完该章节后需要达到的目标：</p>
 <ul>
 <li>understand the value of testing ,and know the process of test-first programming;</li>
 <li>be able to jude a test suite for correctness,thoroughness,and size;</li>
 <li>be able to design a test suite for a method by partitioning its input space and choosing good test cases;</li>
 <li>be able to judge a test suite by measuring its code coverage; </li>
-<li>understand and know when to use black box vs. glass box testing, unit tests vs. integration tests, and automated regression testing.<span id="more"></span></li>
+<li>understand and know when to use black box vs. glass box testing, unit tests vs. integration tests, and automated regression testing.</li>
 </ul>
 <h1 id="Validation"><a href="#Validation" class="headerlink" title="Validation"></a>Validation</h1><p>Validation includes:</p>
 <ul>
