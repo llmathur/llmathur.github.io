@@ -6,7 +6,7 @@
   <link href="http://llmathur.github.io/atom.xml" rel="self"/>
   
   <link href="http://llmathur.github.io/"/>
-  <updated>2023-05-25T07:42:06.693Z</updated>
+  <updated>2023-05-25T08:11:43.521Z</updated>
   <id>http://llmathur.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="http://llmathur.github.io/2023/05/25/Questions-1/"/>
     <id>http://llmathur.github.io/2023/05/25/Questions-1/</id>
     <published>2023-05-25T06:47:07.000Z</published>
-    <updated>2023-05-25T07:42:06.693Z</updated>
+    <updated>2023-05-25T08:11:43.521Z</updated>
     
     
       
@@ -34,7 +34,7 @@
     
     
     
-    <category term="题" scheme="http://llmathur.github.io/categories/%E9%A2%98/"/>
+    <category term="question" scheme="http://llmathur.github.io/categories/question/"/>
     
     
   </entry>
@@ -44,14 +44,14 @@
     <link href="http://llmathur.github.io/2023/05/25/Factory-Design-Pattern/"/>
     <id>http://llmathur.github.io/2023/05/25/Factory-Design-Pattern/</id>
     <published>2023-05-25T02:09:19.000Z</published>
-    <updated>2023-05-25T08:10:11.392Z</updated>
+    <updated>2023-05-25T08:11:43.530Z</updated>
     
     
     <summary type="html">&lt;p&gt;程序设计中的工厂类是对对象构造、实例化、初始化的封装，&lt;br&gt;而工厂方法对工厂构造方法进行接口规范化，以允许子类工厂决定具体制造那类产品的实例。&lt;/p&gt;</summary>
     
     
     
-    <category term="design pattarn" scheme="http://llmathur.github.io/categories/design-pattarn/"/>
+    <category term="design pattern" scheme="http://llmathur.github.io/categories/design-pattern/"/>
     
     
   </entry>
@@ -61,7 +61,7 @@
     <link href="http://llmathur.github.io/2023/05/24/ArrayList-source-code/"/>
     <id>http://llmathur.github.io/2023/05/24/ArrayList-source-code/</id>
     <published>2023-05-24T13:22:33.000Z</published>
-    <updated>2023-05-25T08:09:16.457Z</updated>
+    <updated>2023-05-25T08:12:59.801Z</updated>
     
     
     <summary type="html">&lt;p&gt;JDK版本:&lt;br&gt;    openjdk 20.0.1 2023-04-18&lt;br&gt;    OpenJDK Runtime Environment (build 20.0.1+9-29)&lt;br&gt;    OpenJDK 64-Bit Server VM (build 20.0.1+9-29, mixed mode, sharing)&lt;/p&gt;</summary>
@@ -78,7 +78,7 @@
     <link href="http://llmathur.github.io/2023/05/19/Questions-0/"/>
     <id>http://llmathur.github.io/2023/05/19/Questions-0/</id>
     <published>2023-05-19T13:49:31.000Z</published>
-    <updated>2023-05-25T07:42:06.693Z</updated>
+    <updated>2023-05-25T08:11:43.521Z</updated>
     
     
     <summary type="html">&lt;p&gt;记录一些想到的问题&lt;/p&gt;
@@ -90,7 +90,7 @@
     
     
     
-    <category term="题" scheme="http://llmathur.github.io/categories/%E9%A2%98/"/>
+    <category term="question" scheme="http://llmathur.github.io/categories/question/"/>
     
     
   </entry>
@@ -158,7 +158,7 @@
     <link href="http://llmathur.github.io/2023/05/09/OAuth-2-0/"/>
     <id>http://llmathur.github.io/2023/05/09/OAuth-2-0/</id>
     <published>2023-05-09T11:01:43.000Z</published>
-    <updated>2023-05-25T08:10:11.377Z</updated>
+    <updated>2023-05-25T08:11:43.506Z</updated>
     
     
     <summary type="html">&lt;p&gt;OAuth 的核心就是向第三方应用颁发令牌&lt;br&gt;四种授权方式&lt;/p&gt;
@@ -175,8 +175,6 @@
     <category term="OAuth2.0" scheme="http://llmathur.github.io/categories/OAuth2-0/"/>
     
     
-    <category term="authorization" scheme="http://llmathur.github.io/tags/authorization/"/>
-    
   </entry>
   
   <entry>
@@ -184,7 +182,7 @@
     <link href="http://llmathur.github.io/2023/04/07/ProtoTypeDesignPattern/"/>
     <id>http://llmathur.github.io/2023/04/07/ProtoTypeDesignPattern/</id>
     <published>2023-04-07T06:00:02.000Z</published>
-    <updated>2023-05-25T08:10:11.377Z</updated>
+    <updated>2023-05-25T08:11:43.521Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h2&gt;&lt;blockquote&gt;
@@ -197,10 +195,6 @@
     <category term="design pattern" scheme="http://llmathur.github.io/categories/design-pattern/"/>
     
     
-    <category term="设计模式" scheme="http://llmathur.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
-    <category term="单例" scheme="http://llmathur.github.io/tags/%E5%8D%95%E4%BE%8B/"/>
-    
   </entry>
   
   <entry>
@@ -208,7 +202,7 @@
     <link href="http://llmathur.github.io/2023/04/05/TCPIPLearning/"/>
     <id>http://llmathur.github.io/2023/04/05/TCPIPLearning/</id>
     <published>2023-04-05T05:32:11.000Z</published>
-    <updated>2023-05-25T08:11:01.257Z</updated>
+    <updated>2023-05-25T08:14:04.313Z</updated>
     
     
     <summary type="html">&lt;p&gt;目前绝大多数网络都采用TCP&amp;#x2F;IP协议，TCP&amp;#x2F;IP是目前最完整的、被普遍接受的通信协议标准&lt;/p&gt;</summary>
@@ -225,7 +219,7 @@
     <link href="http://llmathur.github.io/2023/04/01/SingletonDesignPattern/"/>
     <id>http://llmathur.github.io/2023/04/01/SingletonDesignPattern/</id>
     <published>2023-04-01T12:56:49.000Z</published>
-    <updated>2023-05-25T03:04:46.082Z</updated>
+    <updated>2023-05-25T08:12:48.420Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h2&gt;&lt;p&gt;单例即单实例，指在系统(程序)中，&lt;b&gt;某个类只存在一个实例&lt;/b&gt;，同时提供集中、统一的访问接口。&lt;/p&gt;
@@ -236,12 +230,8 @@
     
     
     
-    <category term="设计模式" scheme="http://llmathur.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    <category term="design pattern" scheme="http://llmathur.github.io/categories/design-pattern/"/>
     
-    
-    <category term="设计模式" scheme="http://llmathur.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
-    <category term="单例" scheme="http://llmathur.github.io/tags/%E5%8D%95%E4%BE%8B/"/>
     
   </entry>
   
@@ -250,7 +240,7 @@
     <link href="http://llmathur.github.io/2023/04/01/InterpreterDesignPattern/"/>
     <id>http://llmathur.github.io/2023/04/01/InterpreterDesignPattern/</id>
     <published>2023-04-01T06:56:02.000Z</published>
-    <updated>2023-05-25T08:10:11.377Z</updated>
+    <updated>2023-05-25T08:11:43.522Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h2&gt;&lt;blockquote&gt;
@@ -260,7 +250,7 @@
     
     
     
-    <category term="design pattarn" scheme="http://llmathur.github.io/categories/design-pattarn/"/>
+    <category term="design pattern" scheme="http://llmathur.github.io/categories/design-pattern/"/>
     
     
     <category term="解释器" scheme="http://llmathur.github.io/tags/%E8%A7%A3%E9%87%8A%E5%99%A8/"/>
