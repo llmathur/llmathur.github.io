@@ -6,7 +6,7 @@
   <link href="http://llmathur.github.io/atom.xml" rel="self"/>
   
   <link href="http://llmathur.github.io/"/>
-  <updated>2023-05-25T08:11:43.521Z</updated>
+  <updated>2023-05-26T09:15:14.559Z</updated>
   <id>http://llmathur.github.io/</id>
   
   <author>
@@ -15,6 +15,46 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Java多线程学习（一）</title>
+    <link href="http://llmathur.github.io/2023/05/26/Java-multithread-0/"/>
+    <id>http://llmathur.github.io/2023/05/26/Java-multithread-0/</id>
+    <published>2023-05-26T07:26:47.000Z</published>
+    <updated>2023-05-26T09:15:14.559Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;进程和线程&quot;&gt;&lt;a href=&quot;#进程和线程&quot; class=&quot;headerlink&quot; title=&quot;进程和线程&quot;&gt;&lt;/a&gt;进程和线程&lt;/h2&gt;&lt;h3 id=&quot;进程的原理&quot;&gt;&lt;a href=&quot;#进程的原理&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="Java multithread" scheme="http://llmathur.github.io/categories/Java-multithread/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>HashMap source code</title>
+    <link href="http://llmathur.github.io/2023/05/25/HashMap-source-code/"/>
+    <id>http://llmathur.github.io/2023/05/25/HashMap-source-code/</id>
+    <published>2023-05-25T11:58:20.000Z</published>
+    <updated>2023-05-26T08:20:58.580Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;（需要修改）&lt;br&gt;JDK版本:&lt;br&gt;        openjdk 20.0.1 2023-04-18&lt;br&gt;        OpenJDK Runtime Environment (build 20.0.1+9-29)&lt;br&gt;        OpenJDK 64-Bit Server VM (build 20.0.1+9-29, mixed mode, sharing)&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="source code analysis" scheme="http://llmathur.github.io/categories/source-code-analysis/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>Questions-1</title>
@@ -61,10 +101,10 @@
     <link href="http://llmathur.github.io/2023/05/24/ArrayList-source-code/"/>
     <id>http://llmathur.github.io/2023/05/24/ArrayList-source-code/</id>
     <published>2023-05-24T13:22:33.000Z</published>
-    <updated>2023-05-25T08:12:59.801Z</updated>
+    <updated>2023-05-26T08:21:02.862Z</updated>
     
     
-    <summary type="html">&lt;p&gt;JDK版本:&lt;br&gt;    openjdk 20.0.1 2023-04-18&lt;br&gt;    OpenJDK Runtime Environment (build 20.0.1+9-29)&lt;br&gt;    OpenJDK 64-Bit Server VM (build 20.0.1+9-29, mixed mode, sharing)&lt;/p&gt;</summary>
+    <summary type="html">&lt;p&gt;（需要修改）&lt;br&gt;JDK版本:&lt;br&gt;    openjdk 17.0.7 2023-04-18 LTS&lt;br&gt;    OpenJDK Runtime Environment Corretto-17.0.7.7.1 (build 17.0.7+7-LTS)&lt;br&gt;    OpenJDK 64-Bit Server VM Corretto-17.0.7.7.1 (build 17.0.7+7-LTS, mixed mode, sharing)&lt;/p&gt;</summary>
     
     
     
@@ -100,10 +140,10 @@
     <link href="http://llmathur.github.io/2023/05/18/RedisLearning/"/>
     <id>http://llmathur.github.io/2023/05/18/RedisLearning/</id>
     <published>2023-05-18T06:35:26.000Z</published>
-    <updated>2023-05-25T03:04:46.087Z</updated>
+    <updated>2023-05-26T07:18:50.091Z</updated>
     
     
-    <summary type="html">&lt;h1 id=&quot;持久化&quot;&gt;&lt;a href=&quot;#持久化&quot; class=&quot;headerlink&quot; title=&quot;持久化&quot;&gt;&lt;/a&gt;持久化&lt;/h1&gt;&lt;p&gt;RDB持久化、AOF持久化，RDB-AOF混合持久化&lt;/p&gt;</summary>
+    <summary type="html">&lt;p&gt;从整体上概览Redis的功能。&lt;/p&gt;</summary>
     
     
     
@@ -113,11 +153,11 @@
   </entry>
   
   <entry>
-    <title>JVM概览</title>
+    <title>JVM学习（一）</title>
     <link href="http://llmathur.github.io/2023/05/16/JVMLearning/"/>
     <id>http://llmathur.github.io/2023/05/16/JVMLearning/</id>
     <published>2023-05-16T11:33:58.000Z</published>
-    <updated>2023-05-25T08:39:46.095Z</updated>
+    <updated>2023-05-26T07:41:23.681Z</updated>
     
     
     <summary type="html">&lt;p&gt;编译器可以分为：前端编译器、JIT 编译器和AOT编译器。&lt;/p&gt;</summary>
@@ -198,11 +238,11 @@
   </entry>
   
   <entry>
-    <title>TCP/IP概览</title>
+    <title>TCP/IP学习（一）</title>
     <link href="http://llmathur.github.io/2023/04/05/TCPIPLearning/"/>
     <id>http://llmathur.github.io/2023/04/05/TCPIPLearning/</id>
     <published>2023-04-05T05:32:11.000Z</published>
-    <updated>2023-05-25T08:40:08.423Z</updated>
+    <updated>2023-05-26T07:41:50.508Z</updated>
     
     
     <summary type="html">&lt;p&gt;目前绝大多数网络都采用TCP&amp;#x2F;IP协议，TCP&amp;#x2F;IP是目前最完整的、被普遍接受的通信协议标准&lt;/p&gt;</summary>
@@ -240,7 +280,7 @@
     <link href="http://llmathur.github.io/2023/04/01/InterpreterDesignPattern/"/>
     <id>http://llmathur.github.io/2023/04/01/InterpreterDesignPattern/</id>
     <published>2023-04-01T06:56:02.000Z</published>
-    <updated>2023-05-25T08:14:51.631Z</updated>
+    <updated>2023-05-26T01:34:45.663Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h2&gt;&lt;blockquote&gt;

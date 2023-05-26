@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"llmathur.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="持久化RDB持久化、AOF持久化，RDB-AOF混合持久化">
+  <meta name="description" content="从整体上概览Redis的功能。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="redis概览">
 <meta property="og:url" content="http://llmathur.github.io/2023/05/18/RedisLearning/index.html">
 <meta property="og:site_name" content="唯见青山">
-<meta property="og:description" content="持久化RDB持久化、AOF持久化，RDB-AOF混合持久化">
+<meta property="og:description" content="从整体上概览Redis的功能。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-05-18T06:35:26.000Z">
-<meta property="article:modified_time" content="2023-05-25T03:04:46.087Z">
+<meta property="article:modified_time" content="2023-05-26T07:18:50.091Z">
 <meta property="article:author" content="llmathur">
 <meta property="article:tag" content="改变需要莫大的勇气">
 <meta name="twitter:card" content="summary">
@@ -238,7 +238,7 @@
                 修改于
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-05-25 11:04:46" itemprop="dateModified" datetime="2023-05-25T11:04:46+08:00">2023-05-25</time>
+                <time title="修改时间：2023-05-26 15:18:50" itemprop="dateModified" datetime="2023-05-26T15:18:50+08:00">2023-05-26</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -280,7 +280,7 @@
                 本文字数 :
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>165</span>
+              <span>1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -300,10 +300,195 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h1><p>RDB持久化、AOF持久化，RDB-AOF混合持久化</p>
+        <p>从整体上概览Redis的功能。</p>
 <span id="more"></span>
-<h2 id="RDB持久化"><a href="#RDB持久化" class="headerlink" title="RDB持久化"></a>RDB持久化</h2><p>全面持久化操作，</p>
-<h3 id="载入RDB文件过程"><a href="#载入RDB文件过程" class="headerlink" title="载入RDB文件过程"></a>载入RDB文件过程</h3><ol>
+
+<h2 id="数据结构与应用"><a href="#数据结构与应用" class="headerlink" title="数据结构与应用"></a>数据结构与应用</h2><p>Redis中的5种基本数据类型：<br>    字符串、散列、列表、集合、有序集合<br>4种特殊数据结构:<br>    位图、地理坐标、HyperLogLog、流</p>
+<h3 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h3><ol>
+<li>实现分布式锁：<ul>
+<li>获取锁：set lock “locked” NX</li>
+<li>释放锁：DEL lock</li>
+<li>判断锁是否已经获取：判断SET操作是否成功</li>
+<li>判断锁是否已经释放：判断DEL操作的返回值是否为1<br>（DEL:接受一个或多个数据库键作为参数，尝试删除这些键以及与之相关联的值，并返回被删除键的数量作为结果）</li>
+</ul>
+</li>
+</ol>
+<h2 id="数据库命令"><a href="#数据库命令" class="headerlink" title="数据库命令"></a>数据库命令</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>描述</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SELECT</td>
+<td>切换到指定数据库</td>
+<td></td>
+</tr>
+<tr>
+<td>KEYS</td>
+<td>返回与匹配符相匹配的键</td>
+<td></td>
+</tr>
+<tr>
+<td>SCAN</td>
+<td>以渐进方式迭代数据库中的键</td>
+<td></td>
+</tr>
+<tr>
+<td>RANDOMKEY</td>
+<td>随机返回一个键</td>
+<td></td>
+</tr>
+<tr>
+<td>SORT</td>
+<td>对键的值进行排序</td>
+<td></td>
+</tr>
+<tr>
+<td>EXISTS</td>
+<td>检查给定键是否存在</td>
+<td></td>
+</tr>
+<tr>
+<td>DBSIZE</td>
+<td>获取数据中包含键值对的数量</td>
+<td></td>
+</tr>
+<tr>
+<td>TYPE</td>
+<td>查看键的类型</td>
+<td></td>
+</tr>
+<tr>
+<td>RENAME</td>
+<td>修改键名</td>
+<td></td>
+</tr>
+<tr>
+<td>RENAMENX</td>
+<td>只有当新键名未被占用的情况下修改键名</td>
+<td></td>
+</tr>
+<tr>
+<td>MOVE</td>
+<td>将给定的键移动到另一个数据库</td>
+<td></td>
+</tr>
+<tr>
+<td>DEL</td>
+<td>移除指定的键，同步方式</td>
+<td></td>
+</tr>
+<tr>
+<td>UNLINK</td>
+<td>移除指定的键，异步方式</td>
+<td></td>
+</tr>
+<tr>
+<td>FLUSHDB</td>
+<td>清空当前数据库</td>
+<td></td>
+</tr>
+<tr>
+<td>FLUSHALL</td>
+<td>清空所有数据库</td>
+<td></td>
+</tr>
+<tr>
+<td>SWAPDB</td>
+<td>互换数据库</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="自动过期"><a href="#自动过期" class="headerlink" title="自动过期"></a>自动过期</h2><h3 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h3><ul>
+<li>网页缓存</li>
+<li>用户会话信息</li>
+<li>聚合计算时大量的临时数据</li>
+</ul>
+<h3 id="相关命令"><a href="#相关命令" class="headerlink" title="相关命令"></a>相关命令</h3><ul>
+<li><p>设置生存时间的命令</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>描述</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>EXPIRE</td>
+<td>设置秒级精度的生存时间</td>
+<td></td>
+</tr>
+<tr>
+<td>PEXPIRE</td>
+<td>设置毫秒级别的生存时间</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>  或者使用SET命令的EX和PX选项</p>
+  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span> key <span class="keyword">value</span> [EX seconds] [PX milliseconds]</span><br></pre></td></tr></table></figure>
+
+<p>  这两个选项更重要的是保证了操作的原子性，使得“为键设置值”和“为键设置生存时间”这两个操作可以一起执行。</p>
+</li>
+<li><p>设置过期时间的命令</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>描述</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>EXPIREAT</td>
+<td>当系统的当前UNIX时间超过命令指定的UNIX时间时，给定的键就会被移除，秒级精度</td>
+<td></td>
+</tr>
+<tr>
+<td>PEXPIREAT</td>
+<td>毫秒级精度</td>
+<td></td>
+</tr>
+</tbody></table>
+</li>
+<li><p>获取键的生存时间的命令</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>描述</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>TTL</td>
+<td>以秒为单位返回键的生存时间</td>
+<td></td>
+</tr>
+<tr>
+<td>PTTL</td>
+<td>以毫秒为单位返回键的生存时间</td>
+<td></td>
+</tr>
+<tr>
+<td>如果给定的键存在，但是没有设置生存时间或者过期时间，这两个命令将返回-1</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>如果给定的键不存在，这两个命令将返回-2</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h2 id="流水线和事务"><a href="#流水线和事务" class="headerlink" title="流水线和事务"></a>流水线和事务</h2><h2 id="Lua脚本"><a href="#Lua脚本" class="headerlink" title="Lua脚本"></a>Lua脚本</h2><h2 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h2><p>RDB持久化、AOF持久化，RDB-AOF混合持久化</p>
+<h3 id="RDB持久化"><a href="#RDB持久化" class="headerlink" title="RDB持久化"></a>RDB持久化</h3><p>全面持久化操作，</p>
+<h4 id="载入RDB文件过程"><a href="#载入RDB文件过程" class="headerlink" title="载入RDB文件过程"></a>载入RDB文件过程</h4><ol>
 <li>打开RDB文件</li>
 <li>检查文件头</li>
 <li>检查版本号</li>
@@ -313,12 +498,14 @@
 <li>对比校验和</li>
 <li>数据载入完毕</li>
 </ol>
-<h2 id="AOF持久化"><a href="#AOF持久化" class="headerlink" title="AOF持久化"></a>AOF持久化</h2><p>增量持久化操作，服务器每次执行完命令后，都会以【协议文本】的方式将被执行的命令追加到AOF文件末尾。</p>
-<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><ol>
-<li>体积大</li>
-<li>数据恢复速度慢</li>
+<h3 id="AOF持久化"><a href="#AOF持久化" class="headerlink" title="AOF持久化"></a>AOF持久化</h3><p>增量持久化操作，服务器每次执行完命令后，都会以【协议文本】的方式将被执行的命令追加到AOF文件末尾。</p>
+<h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h4><ol>
+<li><p>体积大</p>
+</li>
+<li><p>数据恢复速度慢</p>
+</li>
 </ol>
-
+<h2 id="发布与订阅"><a href="#发布与订阅" class="headerlink" title="发布与订阅"></a>发布与订阅</h2><h2 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h2><h2 id="复制"><a href="#复制" class="headerlink" title="复制"></a>复制</h2><h2 id="Sentinel"><a href="#Sentinel" class="headerlink" title="Sentinel"></a>Sentinel</h2><h2 id="集群"><a href="#集群" class="headerlink" title="集群"></a>集群</h2>
     </div>
 
     
@@ -350,8 +537,8 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2023/05/16/JVMLearning/" rel="prev" title="JVM概览">
-      <i class="fa fa-chevron-left"></i> JVM概览
+    <a href="/2023/05/16/JVMLearning/" rel="prev" title="JVM学习（一）">
+      <i class="fa fa-chevron-left"></i> JVM学习（一）
     </a></div>
       <div class="post-nav-item">
     <a href="/2023/05/19/Questions-0/" rel="next" title="一些问题">
@@ -416,7 +603,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8C%81%E4%B9%85%E5%8C%96"><span class="nav-text">持久化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#RDB%E6%8C%81%E4%B9%85%E5%8C%96"><span class="nav-text">RDB持久化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BD%BD%E5%85%A5RDB%E6%96%87%E4%BB%B6%E8%BF%87%E7%A8%8B"><span class="nav-text">载入RDB文件过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AOF%E6%8C%81%E4%B9%85%E5%8C%96"><span class="nav-text">AOF持久化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%BA%E7%82%B9"><span class="nav-text">缺点</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E5%BA%94%E7%94%A8"><span class="nav-text">数据结构与应用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E7%94%A8"><span class="nav-text">应用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E5%91%BD%E4%BB%A4"><span class="nav-text">数据库命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E8%BF%87%E6%9C%9F"><span class="nav-text">自动过期</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%BA%E6%99%AF"><span class="nav-text">场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4"><span class="nav-text">相关命令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%92%8C%E4%BA%8B%E5%8A%A1"><span class="nav-text">流水线和事务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Lua%E8%84%9A%E6%9C%AC"><span class="nav-text">Lua脚本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%81%E4%B9%85%E5%8C%96"><span class="nav-text">持久化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RDB%E6%8C%81%E4%B9%85%E5%8C%96"><span class="nav-text">RDB持久化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BD%BD%E5%85%A5RDB%E6%96%87%E4%BB%B6%E8%BF%87%E7%A8%8B"><span class="nav-text">载入RDB文件过程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AOF%E6%8C%81%E4%B9%85%E5%8C%96"><span class="nav-text">AOF持久化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%BA%E7%82%B9"><span class="nav-text">缺点</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%91%E5%B8%83%E4%B8%8E%E8%AE%A2%E9%98%85"><span class="nav-text">发布与订阅</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E5%9D%97"><span class="nav-text">模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%8D%E5%88%B6"><span class="nav-text">复制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sentinel"><span class="nav-text">Sentinel</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9B%86%E7%BE%A4"><span class="nav-text">集群</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -432,14 +619,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-count">14</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -482,13 +669,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">26k</span>
+    <span title="站点总字数">37k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">24 分钟</span>
+    <span title="站点阅读时长">33 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
   </div>
