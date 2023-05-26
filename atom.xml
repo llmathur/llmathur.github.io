@@ -6,7 +6,7 @@
   <link href="http://llmathur.github.io/atom.xml" rel="self"/>
   
   <link href="http://llmathur.github.io/"/>
-  <updated>2023-05-26T09:18:25.302Z</updated>
+  <updated>2023-05-26T11:02:55.961Z</updated>
   <id>http://llmathur.github.io/</id>
   
   <author>
@@ -21,22 +21,16 @@
     <link href="http://llmathur.github.io/2023/05/26/Java-multithread/Java-multithread-0/"/>
     <id>http://llmathur.github.io/2023/05/26/Java-multithread/Java-multithread-0/</id>
     <published>2023-05-26T07:26:47.000Z</published>
-    <updated>2023-05-26T09:18:25.302Z</updated>
+    <updated>2023-05-26T11:02:55.961Z</updated>
     
     
-    <summary type="html">&lt;h2 id=&quot;进程和线程&quot;&gt;进程和线程&lt;/h2&gt;
-&lt;h3 id=&quot;进程的原理&quot;&gt;进程的原理&lt;/h3&gt;
-&lt;p&gt;进程指程序的一次执行过程，具有动态性，有状态间的相互切换。&lt;br&gt;
-一般来说一个进程包括以下内容：&lt;/p&gt;
+    <summary type="html">&lt;h2 id=&quot;进程和线程&quot;&gt;&lt;a href=&quot;#进程和线程&quot; class=&quot;headerlink&quot; title=&quot;进程和线程&quot;&gt;&lt;/a&gt;进程和线程&lt;/h2&gt;&lt;h3 id=&quot;进程的原理&quot;&gt;&lt;a href=&quot;#进程的原理&quot; class=&quot;headerlink&quot; title=&quot;进程的原理&quot;&gt;&lt;/a&gt;进程的原理&lt;/h3&gt;&lt;p&gt;进程指程序的一次执行过程，具有动态性，有状态间的相互切换。&lt;br&gt;一般来说一个进程包括以下内容：&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;程序段：进程的程序指令在内存中的位置，包含所有需要执行的指令集合&lt;/p&gt;
+&lt;li&gt;&lt;p&gt;程序段：进程的程序指令在内存中的位置，包含所有需要执行的指令集合&lt;/p&gt;
 &lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;数据段：存放进程所需要的各种数据&lt;/p&gt;
+&lt;li&gt;&lt;p&gt;数据段：存放进程所需要的各种数据&lt;/p&gt;
 &lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;PCB:包含程序的描述信息和和控制信息，是进程存在的唯一标识&lt;/p&gt;
+&lt;li&gt;&lt;p&gt;PCB:包含程序的描述信息和和控制信息，是进程存在的唯一标识&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;其中PCB中包含以下信息：&lt;/p&gt;
@@ -46,22 +40,17 @@
 &lt;li&gt;进程的资源信息&lt;/li&gt;
 &lt;li&gt;进程上下文&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&quot;线程的原理&quot;&gt;线程的原理&lt;/h3&gt;
-&lt;p&gt;线程指“进程代码段”的一次顺序执行过程。是CPU调度的基本单位，一个进程可以有多个线程。&lt;br&gt;
-各个线程之间共享进行的内存空间、系统资源。&lt;br&gt;
-一个线程有以下三个部分：&lt;/p&gt;
+&lt;h3 id=&quot;线程的原理&quot;&gt;&lt;a href=&quot;#线程的原理&quot; class=&quot;headerlink&quot; title=&quot;线程的原理&quot;&gt;&lt;/a&gt;线程的原理&lt;/h3&gt;&lt;p&gt;线程指“进程代码段”的一次顺序执行过程。是CPU调度的基本单位，一个进程可以有多个线程。&lt;br&gt;各个线程之间共享进行的内存空间、系统资源。&lt;br&gt;一个线程有以下三个部分：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;线程描述信息&lt;/li&gt;
 &lt;li&gt;程序计数器&lt;/li&gt;
 &lt;li&gt;栈内存&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&quot;进程和线程的区别&quot;&gt;进程和线程的区别&lt;/h3&gt;
-&lt;ul&gt;
+&lt;h3 id=&quot;进程和线程的区别&quot;&gt;&lt;a href=&quot;#进程和线程的区别&quot; class=&quot;headerlink&quot; title=&quot;进程和线程的区别&quot;&gt;&lt;/a&gt;进程和线程的区别&lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;进程包含线程&lt;/li&gt;
 &lt;li&gt;分配资源：进程，执行单位：线程&lt;/li&gt;
 &lt;li&gt;进程之间相互独立，线程之间不一定相互独立，共享资源：堆，方法区等&lt;/li&gt;
-&lt;li&gt;切换速度不同，进程切换TLB,页表等都可能替换。&lt;/li&gt;
-&lt;/ul&gt;</summary>
+&lt;li&gt;切换速度不同，进程切换TLB,页表等都可能替换。</summary>
     
     
     
@@ -184,7 +173,7 @@ OpenJDK 64-Bit Server VM Corretto-17.0.7.7.1 (build 17.0.7+7-LTS, mixed mode, sh
     <link href="http://llmathur.github.io/2023/05/18/redis/RedisLearning-0/"/>
     <id>http://llmathur.github.io/2023/05/18/redis/RedisLearning-0/</id>
     <published>2023-05-18T06:35:26.000Z</published>
-    <updated>2023-05-26T07:18:50.091Z</updated>
+    <updated>2023-05-26T11:04:47.579Z</updated>
     
     
     <summary type="html">&lt;p&gt;从整体上概览Redis的功能。&lt;/p&gt;</summary>
