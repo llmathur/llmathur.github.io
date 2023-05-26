@@ -6,7 +6,7 @@
   <link href="http://llmathur.github.io/atom.xml" rel="self"/>
   
   <link href="http://llmathur.github.io/"/>
-  <updated>2023-05-26T11:44:51.603Z</updated>
+  <updated>2023-05-26T14:23:43.733Z</updated>
   <id>http://llmathur.github.io/</id>
   
   <author>
@@ -18,10 +18,33 @@
   
   <entry>
     <title>Java多线程学习（一）</title>
+    <link href="http://llmathur.github.io/2023/05/26/Java-multithread/Java-multithread-1/"/>
+    <id>http://llmathur.github.io/2023/05/26/Java-multithread/Java-multithread-1/</id>
+    <published>2023-05-26T13:11:50.000Z</published>
+    <updated>2023-05-26T14:23:43.733Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;线程的核心原理&quot;&gt;&lt;a href=&quot;#线程的核心原理&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="Java multithread" scheme="http://llmathur.github.io/categories/Java-multithread/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Java多线程学习（一）</title>
     <link href="http://llmathur.github.io/2023/05/26/Java-multithread/Java-multithread-0/"/>
     <id>http://llmathur.github.io/2023/05/26/Java-multithread/Java-multithread-0/</id>
     <published>2023-05-26T07:26:47.000Z</published>
-    <updated>2023-05-26T11:44:51.603Z</updated>
+    <updated>2023-05-26T13:12:00.948Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;进程和线程&quot;&gt;&lt;a href=&quot;#进程和线程&quot; class=&quot;headerlink&quot; title=&quot;进程和线程&quot;&gt;&lt;/a&gt;进程和线程&lt;/h2&gt;&lt;h3 id=&quot;进程的原理&quot;&gt;&lt;a href=&quot;#进程的原理&quot; class=&quot;headerlink&quot; title=&quot;进程的原理&quot;&gt;&lt;/a&gt;进程的原理&lt;/h3&gt;&lt;p&gt;进程指程序的一次执行过程，具有动态性，有状态间的相互切换。&lt;br&gt;一般来说一个进程包括以下内容：&lt;/p&gt;
