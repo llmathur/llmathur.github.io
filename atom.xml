@@ -6,7 +6,7 @@
   <link href="http://llmathur.github.io/atom.xml" rel="self"/>
   
   <link href="http://llmathur.github.io/"/>
-  <updated>2023-05-26T14:28:33.998Z</updated>
+  <updated>2023-05-27T03:33:12.014Z</updated>
   <id>http://llmathur.github.io/</id>
   
   <author>
@@ -17,20 +17,39 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Java多线程学习（三）</title>
+    <link href="http://llmathur.github.io/2023/05/27/Java-multithread/Java-multithread-2/"/>
+    <id>http://llmathur.github.io/2023/05/27/Java-multithread/Java-multithread-2/</id>
+    <published>2023-05-27T01:44:34.000Z</published>
+    <updated>2023-05-27T03:33:12.014Z</updated>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;线程池架构&quot;&gt;&lt;a href=&quot;#线程池架构&quot; class=&quot;headerlink&quot; title=&quot;线程池架构&quot;&gt;&lt;/a&gt;线程池架构&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;/Snipaste_2023-05-27_09-54-21.png&quot; alt=&quot;类和接口架构图&quot;&gt;&lt;/p&gt;
+&lt;h3 id=&quot;Executor-接口&quot;&gt;&lt;a href=&quot;#Executor-接口&quot; class=&quot;headerlink&quot; title=&quot;Executor 接口&quot;&gt;&lt;/a&gt;Executor 接口&lt;/h3&gt;&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;title class_&quot;&gt;Executor&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;title function_&quot;&gt;execute&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(Runnable var1)&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;Executor是Java异步目标任务的“执行者”接口，其目标是执行目标任务。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="Java multithread" scheme="http://llmathur.github.io/categories/Java-multithread/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>Java多线程学习（二）</title>
     <link href="http://llmathur.github.io/2023/05/26/Java-multithread/Java-multithread-1/"/>
     <id>http://llmathur.github.io/2023/05/26/Java-multithread/Java-multithread-1/</id>
     <published>2023-05-26T13:11:50.000Z</published>
-    <updated>2023-05-26T14:28:33.998Z</updated>
+    <updated>2023-05-27T01:24:33.700Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;线程的核心原理&quot;&gt;&lt;a href=&quot;#线程的核心原理&quot; class=&quot;headerlink&quot;</summary>
-        
-      
+    <summary type="html">&lt;h2 id=&quot;线程的核心原理&quot;&gt;&lt;a href=&quot;#线程的核心原理&quot; class=&quot;headerlink&quot; title=&quot;线程的核心原理&quot;&gt;&lt;/a&gt;线程的核心原理&lt;/h2&gt;&lt;p&gt;JVM甚至将每个Java线程一对一地对应到操作系统的本地线程，彻底将线程调度委托给操作系统。&lt;/p&gt;
+&lt;h3 id=&quot;线程的调度与时间片&quot;&gt;&lt;a href=&quot;#线程的调度与时间片&quot; class=&quot;headerlink&quot; title=&quot;线程的调度与时间片&quot;&gt;&lt;/a&gt;线程的调度与时间片&lt;/h3&gt;&lt;p&gt;目前主流的线程调度方式：基于CPU时间片方式进行线程调度&lt;/p&gt;
+&lt;p&gt;线程的调度模式：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;分时调度模型：系统平均分配CPU的时间片，所有线程轮流占用时间片&lt;/li&gt;
+&lt;li&gt;抢占式调度：系统按优先级分配时间片，优先级高的先分配，如果所有线程的优先级相同，随机选择一个。</summary>
     
     
     
