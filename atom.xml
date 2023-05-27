@@ -6,7 +6,7 @@
   <link href="http://llmathur.github.io/atom.xml" rel="self"/>
   
   <link href="http://llmathur.github.io/"/>
-  <updated>2023-05-27T03:33:12.014Z</updated>
+  <updated>2023-05-27T03:36:51.697Z</updated>
   <id>http://llmathur.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="http://llmathur.github.io/2023/05/27/Java-multithread/Java-multithread-2/"/>
     <id>http://llmathur.github.io/2023/05/27/Java-multithread/Java-multithread-2/</id>
     <published>2023-05-27T01:44:34.000Z</published>
-    <updated>2023-05-27T03:33:12.014Z</updated>
+    <updated>2023-05-27T03:36:51.697Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;线程池架构&quot;&gt;&lt;a href=&quot;#线程池架构&quot; class=&quot;headerlink&quot; title=&quot;线程池架构&quot;&gt;&lt;/a&gt;线程池架构&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;/Snipaste_2023-05-27_09-54-21.png&quot; alt=&quot;类和接口架构图&quot;&gt;&lt;/p&gt;
@@ -41,7 +41,7 @@
     <link href="http://llmathur.github.io/2023/05/26/Java-multithread/Java-multithread-1/"/>
     <id>http://llmathur.github.io/2023/05/26/Java-multithread/Java-multithread-1/</id>
     <published>2023-05-26T13:11:50.000Z</published>
-    <updated>2023-05-27T01:24:33.700Z</updated>
+    <updated>2023-05-27T03:36:48.735Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;线程的核心原理&quot;&gt;&lt;a href=&quot;#线程的核心原理&quot; class=&quot;headerlink&quot; title=&quot;线程的核心原理&quot;&gt;&lt;/a&gt;线程的核心原理&lt;/h2&gt;&lt;p&gt;JVM甚至将每个Java线程一对一地对应到操作系统的本地线程，彻底将线程调度委托给操作系统。&lt;/p&gt;
