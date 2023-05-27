@@ -302,32 +302,61 @@
       
         <p>编译器可以分为：前端编译器、JIT 编译器和AOT编译器。</p>
 <span id="more"></span>
-<h2 id="源代码到机器码"><a href="#源代码到机器码" class="headerlink" title="源代码到机器码"></a>源代码到机器码</h2><h3 id="前端编译器：源代码到字节码"><a href="#前端编译器：源代码到字节码" class="headerlink" title="前端编译器：源代码到字节码"></a>前端编译器：源代码到字节码</h3><h3 id="JIT-编译器：从字节码到机器码"><a href="#JIT-编译器：从字节码到机器码" class="headerlink" title="JIT 编译器：从字节码到机器码"></a>JIT 编译器：从字节码到机器码</h3><h3 id="AOT-编译器：源代码到机器码"><a href="#AOT-编译器：源代码到机器码" class="headerlink" title="AOT 编译器：源代码到机器码"></a>AOT 编译器：源代码到机器码</h3><h2 id="字节码文件结构"><a href="#字节码文件结构" class="headerlink" title="字节码文件结构"></a>字节码文件结构</h2><h2 id="JVM-类加载机制"><a href="#JVM-类加载机制" class="headerlink" title="JVM 类加载机制"></a>JVM 类加载机制</h2><p>当编译器将 Java 源码编译为字节码之后，虚拟机便可以将字节码读取进内存，从而进行解析、运行等整个过程。</p>
-<p>JVM 虚拟机执行 class 字节码的过程可以分为七个阶段：<br>加载、验证、准备、解析、初始化、使用、卸载。</p>
-<h2 id="加载"><a href="#加载" class="headerlink" title="加载"></a>加载</h2><p>加载阶段是类加载过程的第一个阶段。在这个阶段，JVM 的主要目的是将字节码从各个位置（网络、磁盘等）转化为二进制字节流加载到内存中，接着会为这个类在 JVM 的方法区创建一个对应的 Class 对象，这个 Class 对象就是这个类各种数据的访问入口。</p>
-<h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><p>当 JVM 加载完 Class 字节码文件并在方法区创建对应的 Class 对象之后，JVM 便会启动对该字节码流的校验，只有符合 JVM 字节码规范的文件才能被 JVM 正确执行。<br>因为Class文件并不要求一定要从Java源代码编译而来，可以从其他地方加载，如网络，甚至包括十六进制编辑器。</p>
+<h2 id="源代码到机器码">源代码到机器码</h2>
+<h3 id="前端编译器：源代码到字节码">前端编译器：源代码到字节码</h3>
+<h3 id="JIT-编译器：从字节码到机器码">JIT 编译器：从字节码到机器码</h3>
+<h3 id="AOT-编译器：源代码到机器码">AOT 编译器：源代码到机器码</h3>
+<h2 id="字节码文件结构">字节码文件结构</h2>
+<h2 id="JVM-类加载机制">JVM 类加载机制</h2>
+<p>当编译器将 Java 源码编译为字节码之后，虚拟机便可以将字节码读取进内存，从而进行解析、运行等整个过程。</p>
+<p>JVM 虚拟机执行 class 字节码的过程可以分为七个阶段：<br>
+加载、验证、准备、解析、初始化、使用、卸载。</p>
+<h2 id="加载">加载</h2>
+<p>加载阶段是类加载过程的第一个阶段。在这个阶段，JVM 的主要目的是将字节码从各个位置（网络、磁盘等）转化为二进制字节流加载到内存中，接着会为这个类在 JVM 的方法区创建一个对应的 Class 对象，这个 Class 对象就是这个类各种数据的访问入口。</p>
+<h2 id="验证">验证</h2>
+<p>当 JVM 加载完 Class 字节码文件并在方法区创建对应的 Class 对象之后，JVM 便会启动对该字节码流的校验，只有符合 JVM 字节码规范的文件才能被 JVM 正确执行。<br>
+因为Class文件并不要求一定要从Java源代码编译而来，可以从其他地方加载，如网络，甚至包括十六进制编辑器。</p>
 <ul>
-<li><p>文件格式验证<br>字节流格式，是否以0xcafebabe开头，主次版本号是否在当前虚拟机处理范围内等</p>
+<li>
+<p>文件格式验证<br>
+字节流格式，是否以0xcafebabe开头，主次版本号是否在当前虚拟机处理范围内等</p>
 </li>
-<li><p>元数据验证<br>Java语言规范验证，是否有父类，父类是否继承了不允许的类等</p>
+<li>
+<p>元数据验证<br>
+Java语言规范验证，是否有父类，父类是否继承了不允许的类等</p>
 </li>
-<li><p>字节码验证</p>
+<li>
+<p>字节码验证</p>
 </li>
-<li><p>符号引用验证 —- 链接的第三阶段：解析阶段发生</p>
+<li>
+<p>符号引用验证 ---- 链接的第三阶段：解析阶段发生</p>
 </li>
 </ul>
-<h2 id="准备（重点）"><a href="#准备（重点）" class="headerlink" title="准备（重点）"></a>准备（重点）</h2><p>当完成字节码文件的校验之后，JVM 便会开始为类变量分配内存并初始化。</p>
+<h2 id="准备（重点）">准备（重点）</h2>
+<p>当完成字节码文件的校验之后，JVM 便会开始为类变量分配内存并初始化。</p>
 <ul>
-<li>内存分配的对象。<br>Java 中的变量有「类变量」和「类成员变量」两种类型，「类变量」指的是被 static 修饰的变量，而其他所有类型的变量都属于「类成员变量」。在准备阶段，JVM 只会为「类变量」分配内存，而不会为「类成员变量」分配内存。「类成员变量」的内存分配需要等到初始化阶段才开始。</li>
-<li>初始化的类型。<br>在准备阶段，JVM 会为类变量分配内存，并为其初始化。但是这里的初始化指的是为变量赋予 Java 语言中该数据类型的零值，而不是用户代码里初始化的值。<br>但如果一个变量是常量（被 static final 修饰）的话，那么在准备阶段，属性便会被赋予用户希望的值。</li>
+<li>内存分配的对象。<br>
+Java 中的变量有「类变量」和「类成员变量」两种类型，「类变量」指的是被 static 修饰的变量，而其他所有类型的变量都属于「类成员变量」。在准备阶段，JVM 只会为「类变量」分配内存，而不会为「类成员变量」分配内存。「类成员变量」的内存分配需要等到初始化阶段才开始。</li>
+<li>初始化的类型。<br>
+在准备阶段，JVM 会为类变量分配内存，并为其初始化。但是这里的初始化指的是为变量赋予 Java 语言中该数据类型的零值，而不是用户代码里初始化的值。<br>
+但如果一个变量是常量（被 static final 修饰）的话，那么在准备阶段，属性便会被赋予用户希望的值。</li>
 </ul>
-<h2 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h2><p>通过准备阶段之后，JVM 针对类或接口、字段、类方法、接口方法、方法类型、方法句柄和调用点限定符 7 类引用进行解析。这个阶段的主要任务是将其在常量池中的符号引用替换成直接其在内存中的直接引用。</p>
-<h2 id="初始化（重点）"><a href="#初始化（重点）" class="headerlink" title="初始化（重点）"></a>初始化（重点）</h2><p>在这个阶段，JVM 会根据语句执行顺序对类对象进行初始化，一般来说当 JVM 遇到下面 5 种情况的时候会触发初始化：</p>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h2 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h2><h1 id="JVM-垃圾回收机制"><a href="#JVM-垃圾回收机制" class="headerlink" title="JVM 垃圾回收机制"></a>JVM 垃圾回收机制</h1><p>所以很多时候不同的虚拟机有不同的实现方式，下面所说的垃圾回收都是以 HotSpot 虚拟机为例。</p>
-<h2 id="判断垃圾方法"><a href="#判断垃圾方法" class="headerlink" title="判断垃圾方法"></a>判断垃圾方法</h2><ol>
-<li><p>引用计数法 — 循环引用问题</p>
+<h2 id="解析">解析</h2>
+<p>通过准备阶段之后，JVM 针对类或接口、字段、类方法、接口方法、方法类型、方法句柄和调用点限定符 7 类引用进行解析。这个阶段的主要任务是将其在常量池中的符号引用替换成直接其在内存中的直接引用。</p>
+<h2 id="初始化（重点）">初始化（重点）</h2>
+<p>在这个阶段，JVM 会根据语句执行顺序对类对象进行初始化，一般来说当 JVM 遇到下面 5 种情况的时候会触发初始化：</p>
+<h2 id="使用">使用</h2>
+<h2 id="卸载">卸载</h2>
+<h1>JVM 垃圾回收机制</h1>
+<p>所以很多时候不同的虚拟机有不同的实现方式，下面所说的垃圾回收都是以 HotSpot 虚拟机为例。</p>
+<h2 id="判断垃圾方法">判断垃圾方法</h2>
+<ol>
+<li>
+<p>引用计数法 — 循环引用问题</p>
 </li>
-<li><p>GC Root Tracing 算法<br>从 GC Root 出发，所有可达的对象都是存活的对象，而所有不可达的对象都是垃圾。GC ROOT通常包括</p>
+<li>
+<p>GC Root Tracing 算法<br>
+从 GC Root 出发，所有可达的对象都是存活的对象，而所有不可达的对象都是垃圾。GC ROOT通常包括</p>
 </li>
 </ol>
 <ul>
@@ -337,23 +366,37 @@
 <li>JVM的一些静态数据结构里指向GC堆里的对象的引用</li>
 <li>等等</li>
 </ul>
-<h2 id="如何进行垃圾回收"><a href="#如何进行垃圾回收" class="headerlink" title="如何进行垃圾回收"></a>如何进行垃圾回收</h2><p>三种算法：标记清除算法、复制算法、标记压缩算法。</p>
-<h3 id="标记清除算法"><a href="#标记清除算法" class="headerlink" title="标记清除算法"></a>标记清除算法</h3><p>从名字可以看到其分为两个阶段：标记阶段和清除阶段。一种可行的实现方式是，在标记阶段，标记所有由 GC Root 触发的可达对象。此时，所有未被标记的对象就是垃圾对象。之后在清除阶段，清除所有未被标记的对象。标记清除算法最大的问题就是空间碎片问题。如果空间碎片过多，则会导致内存空间的不连续。虽说大对象也可以分配在不连续的空间中，但是效率要低于连续的内存空间。</p>
-<h3 id="复制算法"><a href="#复制算法" class="headerlink" title="复制算法"></a>复制算法</h3><p>复制算法的核心思想是将原有的内存空间分为两块，每次只使用一块，在垃圾回收时，将正在使用的内存中的存活对象复制到未使用的内存块中。之后清除正在使用的内存块中的所有对象，之后交换两个内存块的角色，完成垃圾回收。该算法的缺点是要将内存空间折半，极大地浪费了内存空间。</p>
-<h3 id="标记压缩算法"><a href="#标记压缩算法" class="headerlink" title="标记压缩算法"></a>标记压缩算法</h3><p>标记压缩算法可以说是标记清除算法的优化版，其同样需要经历两个阶段，分别是：标记结算、压缩阶段。在标记阶段，从 GC Root 引用集合触发去标记所有对象。在压缩阶段，其则是将所有存活的对象压缩在内存的一边，之后清理边界外的所有空间。</p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>对比一下这三种算法，可以发现他们都有各自的优点和缺点。</p>
+<h2 id="如何进行垃圾回收">如何进行垃圾回收</h2>
+<p>三种算法：标记清除算法、复制算法、标记压缩算法。</p>
+<h3 id="标记清除算法">标记清除算法</h3>
+<p>从名字可以看到其分为两个阶段：标记阶段和清除阶段。一种可行的实现方式是，在标记阶段，标记所有由 GC Root 触发的可达对象。此时，所有未被标记的对象就是垃圾对象。之后在清除阶段，清除所有未被标记的对象。标记清除算法最大的问题就是空间碎片问题。如果空间碎片过多，则会导致内存空间的不连续。虽说大对象也可以分配在不连续的空间中，但是效率要低于连续的内存空间。</p>
+<h3 id="复制算法">复制算法</h3>
+<p>复制算法的核心思想是将原有的内存空间分为两块，每次只使用一块，在垃圾回收时，将正在使用的内存中的存活对象复制到未使用的内存块中。之后清除正在使用的内存块中的所有对象，之后交换两个内存块的角色，完成垃圾回收。该算法的缺点是要将内存空间折半，极大地浪费了内存空间。</p>
+<h3 id="标记压缩算法">标记压缩算法</h3>
+<p>标记压缩算法可以说是标记清除算法的优化版，其同样需要经历两个阶段，分别是：标记结算、压缩阶段。在标记阶段，从 GC Root 引用集合触发去标记所有对象。在压缩阶段，其则是将所有存活的对象压缩在内存的一边，之后清理边界外的所有空间。</p>
+<h3 id="总结">总结</h3>
+<p>对比一下这三种算法，可以发现他们都有各自的优点和缺点。</p>
 <p>标记清除算法虽然会产生内存碎片，但是不需要移动太多对象，比较适合在存活对象比较多的情况。而复制算法虽然需要将内存空间折半，并且需要移动存活对象，但是其清理后不会有空间碎片，比较适合存活对象比较少的情况。而标记压缩算法，则是标记清除算法的优化版，减少了空间碎片。</p>
-<h2 id="分代思想"><a href="#分代思想" class="headerlink" title="分代思想"></a>分代思想</h2><p>分代思想按照对象的生命周期长短将其分为了两个部分（新生代、老年代）</p>
+<h2 id="分代思想">分代思想</h2>
+<p>分代思想按照对象的生命周期长短将其分为了两个部分（新生代、老年代）</p>
 <p>分代算法，就是根据 JVM 内存的不同内存区域，采用不同的垃圾回收算法。</p>
 <p>例如对于存活对象少的新生代区域，比较适合采用复制算法。这样只需要复制少量对象，便可完成垃圾回收，并且还不会有内存碎片。而对于老年代这种存活对象多的区域，比较适合采用标记压缩算法或标记清除算法，这样不需要移动太多的内存对象。</p>
-<h2 id="分区思想"><a href="#分区思想" class="headerlink" title="分区思想"></a>分区思想</h2><p>但 JVM 中其实还有一个分区思想，即将整个堆空间划分成连续的不同小区间。<br>分代思想按照对象的生命周期长短将其分为了两个部分（新生代、老年代）</p>
-<h1 id="JVM垃圾回收器"><a href="#JVM垃圾回收器" class="headerlink" title="JVM垃圾回收器"></a>JVM垃圾回收器</h1><p>四大类别：串行回收器、并行回收器、CMS 回收器、G1 回收器。</p>
-<h2 id="串行回收器"><a href="#串行回收器" class="headerlink" title="串行回收器"></a>串行回收器</h2><p>串行回收器是指使用单线程进行垃圾回收的回收器。</p>
-<h2 id="并行回收器"><a href="#并行回收器" class="headerlink" title="并行回收器"></a>并行回收器</h2><p>并行回收器在串行回收器的基础上做了改进，其使用多线程进行垃圾回收。</p>
-<h2 id="CMS-回收器"><a href="#CMS-回收器" class="headerlink" title="CMS 回收器"></a>CMS 回收器</h2><p>与 ParallelGC 和 ParallelOldGC 不同，CMS 回收器主要关注系统停顿时间。CMS 回收器全称为 Concurrent Mark Sweep，意为标记清除算法，其是一个使用多线程并行回收的垃圾回收器。</p>
-<h2 id="G1-回收器"><a href="#G1-回收器" class="headerlink" title="G1 回收器"></a>G1 回收器</h2><p>G1 回收器是 JDK 1.7 中使用的全新垃圾回收器，从长期目标来看，其是为了取代 CMS 回收器。</p>
+<h2 id="分区思想">分区思想</h2>
+<p>但 JVM 中其实还有一个分区思想，即将整个堆空间划分成连续的不同小区间。<br>
+分代思想按照对象的生命周期长短将其分为了两个部分（新生代、老年代）</p>
+<h1>JVM垃圾回收器</h1>
+<p>四大类别：串行回收器、并行回收器、CMS 回收器、G1 回收器。</p>
+<h2 id="串行回收器">串行回收器</h2>
+<p>串行回收器是指使用单线程进行垃圾回收的回收器。</p>
+<h2 id="并行回收器">并行回收器</h2>
+<p>并行回收器在串行回收器的基础上做了改进，其使用多线程进行垃圾回收。</p>
+<h2 id="CMS-回收器">CMS 回收器</h2>
+<p>与 ParallelGC 和 ParallelOldGC 不同，CMS 回收器主要关注系统停顿时间。CMS 回收器全称为 Concurrent Mark Sweep，意为标记清除算法，其是一个使用多线程并行回收的垃圾回收器。</p>
+<h2 id="G1-回收器">G1 回收器</h2>
+<p>G1 回收器是 JDK 1.7 中使用的全新垃圾回收器，从长期目标来看，其是为了取代 CMS 回收器。</p>
 <p>G1 回收器拥有独特的垃圾回收策略，和之前所有垃圾回收器采用的垃圾回收策略不同。从分代看，G1 依然属于分代垃圾回收器。但它最大的改变是使用了分区算法，从而使得 Eden 区、From 区、Survivor 区和老年代等各块内存不必连续。</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/chanshuyi/p/jvm_serial_04_from_source_code_to_machine_code.html">https://www.cnblogs.com/chanshuyi/p/jvm_serial_04_from_source_code_to_machine_code.html</a></p>
+<h2 id="参考">参考</h2>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/chanshuyi/p/jvm_serial_04_from_source_code_to_machine_code.html">https://www.cnblogs.com/chanshuyi/p/jvm_serial_04_from_source_code_to_machine_code.html</a></p>
 
     </div>
 
@@ -452,7 +495,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BA%90%E4%BB%A3%E7%A0%81%E5%88%B0%E6%9C%BA%E5%99%A8%E7%A0%81"><span class="nav-text">源代码到机器码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E7%AB%AF%E7%BC%96%E8%AF%91%E5%99%A8%EF%BC%9A%E6%BA%90%E4%BB%A3%E7%A0%81%E5%88%B0%E5%AD%97%E8%8A%82%E7%A0%81"><span class="nav-text">前端编译器：源代码到字节码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JIT-%E7%BC%96%E8%AF%91%E5%99%A8%EF%BC%9A%E4%BB%8E%E5%AD%97%E8%8A%82%E7%A0%81%E5%88%B0%E6%9C%BA%E5%99%A8%E7%A0%81"><span class="nav-text">JIT 编译器：从字节码到机器码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AOT-%E7%BC%96%E8%AF%91%E5%99%A8%EF%BC%9A%E6%BA%90%E4%BB%A3%E7%A0%81%E5%88%B0%E6%9C%BA%E5%99%A8%E7%A0%81"><span class="nav-text">AOT 编译器：源代码到机器码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E8%8A%82%E7%A0%81%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84"><span class="nav-text">字节码文件结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6"><span class="nav-text">JVM 类加载机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A0%E8%BD%BD"><span class="nav-text">加载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AA%8C%E8%AF%81"><span class="nav-text">验证</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%86%E5%A4%87%EF%BC%88%E9%87%8D%E7%82%B9%EF%BC%89"><span class="nav-text">准备（重点）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E6%9E%90"><span class="nav-text">解析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%88%E9%87%8D%E7%82%B9%EF%BC%89"><span class="nav-text">初始化（重点）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8"><span class="nav-text">使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%B8%E8%BD%BD"><span class="nav-text">卸载</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JVM-%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6"><span class="nav-text">JVM 垃圾回收机制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A4%E6%96%AD%E5%9E%83%E5%9C%BE%E6%96%B9%E6%B3%95"><span class="nav-text">判断垃圾方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6"><span class="nav-text">如何进行垃圾回收</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%87%E8%AE%B0%E6%B8%85%E9%99%A4%E7%AE%97%E6%B3%95"><span class="nav-text">标记清除算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%8D%E5%88%B6%E7%AE%97%E6%B3%95"><span class="nav-text">复制算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%87%E8%AE%B0%E5%8E%8B%E7%BC%A9%E7%AE%97%E6%B3%95"><span class="nav-text">标记压缩算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E4%BB%A3%E6%80%9D%E6%83%B3"><span class="nav-text">分代思想</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E5%8C%BA%E6%80%9D%E6%83%B3"><span class="nav-text">分区思想</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JVM%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8"><span class="nav-text">JVM垃圾回收器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%B2%E8%A1%8C%E5%9B%9E%E6%94%B6%E5%99%A8"><span class="nav-text">串行回收器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B9%B6%E8%A1%8C%E5%9B%9E%E6%94%B6%E5%99%A8"><span class="nav-text">并行回收器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CMS-%E5%9B%9E%E6%94%B6%E5%99%A8"><span class="nav-text">CMS 回收器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#G1-%E5%9B%9E%E6%94%B6%E5%99%A8"><span class="nav-text">G1 回收器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-text">参考</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BA%90%E4%BB%A3%E7%A0%81%E5%88%B0%E6%9C%BA%E5%99%A8%E7%A0%81"><span class="nav-text">源代码到机器码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E7%AB%AF%E7%BC%96%E8%AF%91%E5%99%A8%EF%BC%9A%E6%BA%90%E4%BB%A3%E7%A0%81%E5%88%B0%E5%AD%97%E8%8A%82%E7%A0%81"><span class="nav-text">前端编译器：源代码到字节码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JIT-%E7%BC%96%E8%AF%91%E5%99%A8%EF%BC%9A%E4%BB%8E%E5%AD%97%E8%8A%82%E7%A0%81%E5%88%B0%E6%9C%BA%E5%99%A8%E7%A0%81"><span class="nav-text">JIT 编译器：从字节码到机器码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AOT-%E7%BC%96%E8%AF%91%E5%99%A8%EF%BC%9A%E6%BA%90%E4%BB%A3%E7%A0%81%E5%88%B0%E6%9C%BA%E5%99%A8%E7%A0%81"><span class="nav-text">AOT 编译器：源代码到机器码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E8%8A%82%E7%A0%81%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84"><span class="nav-text">字节码文件结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6"><span class="nav-text">JVM 类加载机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A0%E8%BD%BD"><span class="nav-text">加载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AA%8C%E8%AF%81"><span class="nav-text">验证</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%86%E5%A4%87%EF%BC%88%E9%87%8D%E7%82%B9%EF%BC%89"><span class="nav-text">准备（重点）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E6%9E%90"><span class="nav-text">解析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%88%E9%87%8D%E7%82%B9%EF%BC%89"><span class="nav-text">初始化（重点）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8"><span class="nav-text">使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%B8%E8%BD%BD"><span class="nav-text">卸载</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-text">JVM 垃圾回收机制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A4%E6%96%AD%E5%9E%83%E5%9C%BE%E6%96%B9%E6%B3%95"><span class="nav-text">判断垃圾方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6"><span class="nav-text">如何进行垃圾回收</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%87%E8%AE%B0%E6%B8%85%E9%99%A4%E7%AE%97%E6%B3%95"><span class="nav-text">标记清除算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%8D%E5%88%B6%E7%AE%97%E6%B3%95"><span class="nav-text">复制算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%87%E8%AE%B0%E5%8E%8B%E7%BC%A9%E7%AE%97%E6%B3%95"><span class="nav-text">标记压缩算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E4%BB%A3%E6%80%9D%E6%83%B3"><span class="nav-text">分代思想</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E5%8C%BA%E6%80%9D%E6%83%B3"><span class="nav-text">分区思想</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-text">JVM垃圾回收器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%B2%E8%A1%8C%E5%9B%9E%E6%94%B6%E5%99%A8"><span class="nav-text">串行回收器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B9%B6%E8%A1%8C%E5%9B%9E%E6%94%B6%E5%99%A8"><span class="nav-text">并行回收器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CMS-%E5%9B%9E%E6%94%B6%E5%99%A8"><span class="nav-text">CMS 回收器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#G1-%E5%9B%9E%E6%94%B6%E5%99%A8"><span class="nav-text">G1 回收器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-text">参考</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -518,13 +561,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">52k</span>
+    <span title="站点总字数">53k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">47 分钟</span>
+    <span title="站点阅读时长">48 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
   </div>
