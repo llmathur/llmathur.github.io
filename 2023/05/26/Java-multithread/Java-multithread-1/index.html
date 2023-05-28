@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"llmathur.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="进程和线程进程的原理进程指程序的一次执行过程，具有动态性，有状态间的相互切换。一般来说一个进程包括以下内容：  程序段：进程的程序指令在内存中的位置，包含所有需要执行的指令集合  数据段：存放进程所需要的各种数据  PCB:包含程序的描述信息和和控制信息，是进程存在的唯一标识   其中PCB中包含以下信息：  进程描述信息 进程调度信息 进程的资源信息 进程上下文  线程的原理线程指“进程代码段”">
+  <meta name="description" content="内容总结 进程和线程 线程的相关类和接口 实现线程的四种方法">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java多线程学习（一）">
 <meta property="og:url" content="http://llmathur.github.io/2023/05/26/Java-multithread/Java-multithread-1/index.html">
 <meta property="og:site_name" content="唯见青山">
-<meta property="og:description" content="进程和线程进程的原理进程指程序的一次执行过程，具有动态性，有状态间的相互切换。一般来说一个进程包括以下内容：  程序段：进程的程序指令在内存中的位置，包含所有需要执行的指令集合  数据段：存放进程所需要的各种数据  PCB:包含程序的描述信息和和控制信息，是进程存在的唯一标识   其中PCB中包含以下信息：  进程描述信息 进程调度信息 进程的资源信息 进程上下文  线程的原理线程指“进程代码段”">
+<meta property="og:description" content="内容总结 进程和线程 线程的相关类和接口 实现线程的四种方法">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-05-26T07:26:47.000Z">
-<meta property="article:modified_time" content="2023-05-26T13:12:00.948Z">
+<meta property="article:modified_time" content="2023-05-28T03:06:41.383Z">
 <meta property="article:author" content="llmathur">
 <meta property="article:tag" content="改变需要莫大的勇气">
 <meta name="twitter:card" content="summary">
@@ -229,10 +229,17 @@
                 发布于
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2023-05-26 15:26:47 / 修改时间：21:12:00" itemprop="dateCreated datePublished" datetime="2023-05-26T15:26:47+08:00">2023-05-26</time>
+              <time title="创建时间：2023-05-26 15:26:47" itemprop="dateCreated datePublished" datetime="2023-05-26T15:26:47+08:00">2023-05-26</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                修改于
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-05-28 11:06:41" itemprop="dateModified" datetime="2023-05-28T11:06:41+08:00">2023-05-28</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -293,7 +300,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="进程和线程"><a href="#进程和线程" class="headerlink" title="进程和线程"></a>进程和线程</h2><h3 id="进程的原理"><a href="#进程的原理" class="headerlink" title="进程的原理"></a>进程的原理</h3><p>进程指程序的一次执行过程，具有动态性，有状态间的相互切换。<br>一般来说一个进程包括以下内容：</p>
+        <h2 id="内容总结"><a href="#内容总结" class="headerlink" title="内容总结"></a>内容总结</h2><ol>
+<li>进程和线程</li>
+<li>线程的相关类和接口</li>
+<li>实现线程的四种方法</li>
+</ol>
+<span id="more"></span>
+
+<h2 id="进程和线程"><a href="#进程和线程" class="headerlink" title="进程和线程"></a>进程和线程</h2><h3 id="进程的原理"><a href="#进程的原理" class="headerlink" title="进程的原理"></a>进程的原理</h3><p>进程指程序的一次执行过程，具有动态性，有状态间的相互切换。<br>一般来说一个进程包括以下内容：</p>
 <ul>
 <li><p>程序段：进程的程序指令在内存中的位置，包含所有需要执行的指令集合</p>
 </li>
@@ -319,9 +333,9 @@
 <li>进程包含线程</li>
 <li>分配资源：进程，执行单位：线程</li>
 <li>进程之间相互独立，线程之间不一定相互独立，共享资源：堆，方法区等</li>
-<li>切换速度不同，进程切换TLB,页表等都可能替换。<span id="more"></span></li>
+<li>切换速度不同，进程切换TLB,页表等都可能替换。</li>
 </ul>
-<h2 id="线程的相关类和接口-未完成"><a href="#线程的相关类和接口-未完成" class="headerlink" title="线程的相关类和接口(未完成)"></a>线程的相关类和接口(未完成)</h2><h3 id="线程的状态"><a href="#线程的状态" class="headerlink" title="线程的状态"></a>线程的状态</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">enum</span> <span class="title class_">State</span> &#123;</span><br><span class="line">        NEW,</span><br><span class="line">        RUNNABLE,</span><br><span class="line">        BLOCKED,</span><br><span class="line">        WAITING,</span><br><span class="line">        TIMED_WAITING,</span><br><span class="line">        TERMINATED;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="线程的相关类和接口"><a href="#线程的相关类和接口" class="headerlink" title="线程的相关类和接口"></a>线程的相关类和接口</h2><h3 id="线程的状态"><a href="#线程的状态" class="headerlink" title="线程的状态"></a>线程的状态</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">enum</span> <span class="title class_">State</span> &#123;</span><br><span class="line">        NEW,</span><br><span class="line">        RUNNABLE,</span><br><span class="line">        BLOCKED,</span><br><span class="line">        WAITING,</span><br><span class="line">        TIMED_WAITING,</span><br><span class="line">        TERMINATED;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
 <h3 id="Runnable-接口"><a href="#Runnable-接口" class="headerlink" title="Runnable 接口"></a>Runnable 接口</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@FunctionalInterface</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Runnable</span> &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span>; <span class="comment">// 无返回值</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -488,7 +502,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B"><span class="nav-text">进程和线程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E7%9A%84%E5%8E%9F%E7%90%86"><span class="nav-text">进程的原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%8E%9F%E7%90%86"><span class="nav-text">线程的原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-text">进程和线程的区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%9B%B8%E5%85%B3%E7%B1%BB%E5%92%8C%E6%8E%A5%E5%8F%A3-%E6%9C%AA%E5%AE%8C%E6%88%90"><span class="nav-text">线程的相关类和接口(未完成)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%8A%B6%E6%80%81"><span class="nav-text">线程的状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Runnable-%E6%8E%A5%E5%8F%A3"><span class="nav-text">Runnable 接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Thread-%E7%B1%BB"><span class="nav-text">Thread 类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Callable-%E6%8E%A5%E5%8F%A3"><span class="nav-text">Callable 接口</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%9B%9B%E7%A7%8D%E6%96%B9%E6%B3%95"><span class="nav-text">实现线程的四种方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%A7%E6%89%BFThred%E7%B1%BB"><span class="nav-text">继承Thred类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0Runnable%E6%8E%A5%E5%8F%A3"><span class="nav-text">实现Runnable接口</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%A4%E7%A7%8D%E4%BC%98%E9%9B%85%E7%9A%84%E6%96%B9%E5%BC%8F"><span class="nav-text">两种优雅的方式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8Callable%E5%92%8CFutureTask%E5%88%9B%E5%BB%BA%E7%BA%BF%E7%A8%8B"><span class="nav-text">使用Callable和FutureTask创建线程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E6%AD%A5%E9%AA%A4"><span class="nav-text">具体步骤</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RunnableFuture-%E6%8E%A5%E5%8F%A3"><span class="nav-text">RunnableFuture 接口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Future%E6%8E%A5%E5%8F%A3"><span class="nav-text">Future接口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#FutureTask-%E7%B1%BB"><span class="nav-text">FutureTask 类</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%88%9B%E5%BB%BA%E7%BA%BF%E7%A8%8B"><span class="nav-text">通过线程池创建线程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ExecutorService%E6%8E%A5%E5%8F%A3"><span class="nav-text">ExecutorService接口</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B"><span class="nav-text">示例</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-text">参考</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E5%AE%B9%E6%80%BB%E7%BB%93"><span class="nav-text">内容总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B"><span class="nav-text">进程和线程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E7%9A%84%E5%8E%9F%E7%90%86"><span class="nav-text">进程的原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%8E%9F%E7%90%86"><span class="nav-text">线程的原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-text">进程和线程的区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%9B%B8%E5%85%B3%E7%B1%BB%E5%92%8C%E6%8E%A5%E5%8F%A3"><span class="nav-text">线程的相关类和接口</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%8A%B6%E6%80%81"><span class="nav-text">线程的状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Runnable-%E6%8E%A5%E5%8F%A3"><span class="nav-text">Runnable 接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Thread-%E7%B1%BB"><span class="nav-text">Thread 类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Callable-%E6%8E%A5%E5%8F%A3"><span class="nav-text">Callable 接口</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%9B%9B%E7%A7%8D%E6%96%B9%E6%B3%95"><span class="nav-text">实现线程的四种方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%A7%E6%89%BFThred%E7%B1%BB"><span class="nav-text">继承Thred类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0Runnable%E6%8E%A5%E5%8F%A3"><span class="nav-text">实现Runnable接口</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%A4%E7%A7%8D%E4%BC%98%E9%9B%85%E7%9A%84%E6%96%B9%E5%BC%8F"><span class="nav-text">两种优雅的方式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8Callable%E5%92%8CFutureTask%E5%88%9B%E5%BB%BA%E7%BA%BF%E7%A8%8B"><span class="nav-text">使用Callable和FutureTask创建线程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E6%AD%A5%E9%AA%A4"><span class="nav-text">具体步骤</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RunnableFuture-%E6%8E%A5%E5%8F%A3"><span class="nav-text">RunnableFuture 接口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Future%E6%8E%A5%E5%8F%A3"><span class="nav-text">Future接口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#FutureTask-%E7%B1%BB"><span class="nav-text">FutureTask 类</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%88%9B%E5%BB%BA%E7%BA%BF%E7%A8%8B"><span class="nav-text">通过线程池创建线程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ExecutorService%E6%8E%A5%E5%8F%A3"><span class="nav-text">ExecutorService接口</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B"><span class="nav-text">示例</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-text">参考</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

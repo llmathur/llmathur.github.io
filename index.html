@@ -229,7 +229,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2023-05-28 09:22:28 / 修改时间：11:00:46" itemprop="dateCreated datePublished" datetime="2023-05-28T09:22:28+08:00">2023-05-28</time>
+              <time title="创建时间：2023-05-28 09:22:28 / 修改时间：11:14:31" itemprop="dateCreated datePublished" datetime="2023-05-28T09:22:28+08:00">2023-05-28</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -263,7 +263,7 @@
                 本文字数 :
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>4.1k</span>
+              <span>4.2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -283,7 +283,9 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="确定线程池的线程数目"><a href="#确定线程池的线程数目" class="headerlink" title="确定线程池的线程数目"></a>确定线程池的线程数目</h2>
+          <h2 id="内容总结"><a href="#内容总结" class="headerlink" title="内容总结"></a>内容总结</h2><ol>
+<li>如何确定线程池的数目</li>
+<li>ThreadLocal的源码分析，使用场景
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2023/05/28/Java-multithread/Java-multithread-4/#more" rel="contents">
@@ -343,7 +345,7 @@
                 修改于
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-05-28 09:26:59" itemprop="dateModified" datetime="2023-05-28T09:26:59+08:00">2023-05-28</time>
+                <time title="修改时间：2023-05-28 11:12:52" itemprop="dateModified" datetime="2023-05-28T11:12:52+08:00">2023-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -377,7 +379,7 @@
                 本文字数 :
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>8.5k</span>
+              <span>8.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -397,7 +399,13 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="线程池架构"><a href="#线程池架构" class="headerlink" title="线程池架构"></a>线程池架构</h2>
+          <h2 id="内容总结"><a href="#内容总结" class="headerlink" title="内容总结"></a>内容总结</h2><ol>
+<li>线程池的架构，相关的接口和类</li>
+<li>使用Executors 创建线程的方式</li>
+<li>线程池的标准创建方式：使用TheadPoolExecutor构造方法</li>
+<li>线程池的任务调度流程</li>
+<li>阻塞队列，拒绝策略</li>
+<li>关闭线程池，线程池的状态
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2023/05/27/Java-multithread/Java-multithread-3/#more" rel="contents">
@@ -457,7 +465,7 @@
                 修改于
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-05-27 11:36:48" itemprop="dateModified" datetime="2023-05-27T11:36:48+08:00">2023-05-27</time>
+                <time title="修改时间：2023-05-28 11:08:50" itemprop="dateModified" datetime="2023-05-28T11:08:50+08:00">2023-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -511,12 +519,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="线程的核心原理"><a href="#线程的核心原理" class="headerlink" title="线程的核心原理"></a>线程的核心原理</h2><p>JVM甚至将每个Java线程一对一地对应到操作系统的本地线程，彻底将线程调度委托给操作系统。</p>
-<h3 id="线程的调度与时间片"><a href="#线程的调度与时间片" class="headerlink" title="线程的调度与时间片"></a>线程的调度与时间片</h3><p>目前主流的线程调度方式：基于CPU时间片方式进行线程调度</p>
-<p>线程的调度模式：</p>
-<ul>
-<li>分时调度模型：系统平均分配CPU的时间片，所有线程轮流占用时间片</li>
-<li>抢占式调度：系统按优先级分配时间片，优先级高的先分配，如果所有线程的优先级相同，随机选择一个。
+          <h2 id="内容总结"><a href="#内容总结" class="headerlink" title="内容总结"></a>内容总结</h2><ol>
+<li>线程的核心原理：调度，优先级，生命周期等</li>
+<li>线程的基本操作：sleep方法，interrupt方法等</li>
+</ol>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2023/05/26/Java-multithread/Java-multithread-2/#more" rel="contents">
@@ -567,10 +573,17 @@
                 发布于
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2023-05-26 15:26:47 / 修改时间：21:12:00" itemprop="dateCreated datePublished" datetime="2023-05-26T15:26:47+08:00">2023-05-26</time>
+              <time title="创建时间：2023-05-26 15:26:47" itemprop="dateCreated datePublished" datetime="2023-05-26T15:26:47+08:00">2023-05-26</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                修改于
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-05-28 11:06:41" itemprop="dateModified" datetime="2023-05-28T11:06:41+08:00">2023-05-28</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -623,33 +636,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="进程和线程"><a href="#进程和线程" class="headerlink" title="进程和线程"></a>进程和线程</h2><h3 id="进程的原理"><a href="#进程的原理" class="headerlink" title="进程的原理"></a>进程的原理</h3><p>进程指程序的一次执行过程，具有动态性，有状态间的相互切换。<br>一般来说一个进程包括以下内容：</p>
-<ul>
-<li><p>程序段：进程的程序指令在内存中的位置，包含所有需要执行的指令集合</p>
-</li>
-<li><p>数据段：存放进程所需要的各种数据</p>
-</li>
-<li><p>PCB:包含程序的描述信息和和控制信息，是进程存在的唯一标识</p>
-</li>
-</ul>
-<p>其中PCB中包含以下信息：</p>
-<ul>
-<li>进程描述信息</li>
-<li>进程调度信息</li>
-<li>进程的资源信息</li>
-<li>进程上下文</li>
-</ul>
-<h3 id="线程的原理"><a href="#线程的原理" class="headerlink" title="线程的原理"></a>线程的原理</h3><p>线程指“进程代码段”的一次顺序执行过程。是CPU调度的基本单位，一个进程可以有多个线程。<br>各个线程之间共享进行的内存空间、系统资源。<br>一个线程有以下三个部分：</p>
-<ul>
-<li>线程描述信息</li>
-<li>程序计数器</li>
-<li>栈内存</li>
-</ul>
-<h3 id="进程和线程的区别"><a href="#进程和线程的区别" class="headerlink" title="进程和线程的区别"></a>进程和线程的区别</h3><ul>
-<li>进程包含线程</li>
-<li>分配资源：进程，执行单位：线程</li>
-<li>进程之间相互独立，线程之间不一定相互独立，共享资源：堆，方法区等</li>
-<li>切换速度不同，进程切换TLB,页表等都可能替换。
+          <h2 id="内容总结"><a href="#内容总结" class="headerlink" title="内容总结"></a>内容总结</h2><ol>
+<li>进程和线程</li>
+<li>线程的相关类和接口</li>
+<li>实现线程的四种方法</li>
+</ol>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2023/05/26/Java-multithread/Java-multithread-1/#more" rel="contents">

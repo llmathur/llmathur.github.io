@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"llmathur.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="确定线程池的线程数目">
+  <meta name="description" content="内容总结 如何确定线程池的数目 ThreadLocal的源码分析，使用场景">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java多线程学习（四）">
 <meta property="og:url" content="http://llmathur.github.io/2023/05/28/Java-multithread/Java-multithread-4/index.html">
 <meta property="og:site_name" content="唯见青山">
-<meta property="og:description" content="确定线程池的线程数目">
+<meta property="og:description" content="内容总结 如何确定线程池的数目 ThreadLocal的源码分析，使用场景">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-05-28T01:22:28.000Z">
-<meta property="article:modified_time" content="2023-05-28T03:00:46.162Z">
+<meta property="article:modified_time" content="2023-05-28T03:14:31.009Z">
 <meta property="article:author" content="llmathur">
 <meta property="article:tag" content="改变需要莫大的勇气">
 <meta name="twitter:card" content="summary">
@@ -231,7 +231,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2023-05-28 09:22:28 / 修改时间：11:00:46" itemprop="dateCreated datePublished" datetime="2023-05-28T09:22:28+08:00">2023-05-28</time>
+              <time title="创建时间：2023-05-28 09:22:28 / 修改时间：11:14:31" itemprop="dateCreated datePublished" datetime="2023-05-28T09:22:28+08:00">2023-05-28</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -273,7 +273,7 @@
                 本文字数 :
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>4.1k</span>
+              <span>4.2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -293,11 +293,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="确定线程池的线程数目"><a href="#确定线程池的线程数目" class="headerlink" title="确定线程池的线程数目"></a>确定线程池的线程数目</h2><span id="more"></span>
-<h3 id="按照任务类型分类"><a href="#按照任务类型分类" class="headerlink" title="按照任务类型分类"></a>按照任务类型分类</h3><h4 id="IO密集型"><a href="#IO密集型" class="headerlink" title="IO密集型"></a>IO密集型</h4><p>由于IO密集型任务的CPU使用率较低，导致线程空余时间很多，因此通常需要开CPU核心数两倍的线程。当IO线程空闲时，可以启用其他线程继续使用CPU，以提高CPU的使用率。</p>
+        <h2 id="内容总结"><a href="#内容总结" class="headerlink" title="内容总结"></a>内容总结</h2><ol>
+<li>如何确定线程池的数目</li>
+<li>ThreadLocal的源码分析，使用场景<span id="more"></span></li>
+</ol>
+<h2 id="确定线程池的线程数目"><a href="#确定线程池的线程数目" class="headerlink" title="确定线程池的线程数目"></a>确定线程池的线程数目</h2><h3 id="按照任务类型分类"><a href="#按照任务类型分类" class="headerlink" title="按照任务类型分类"></a>按照任务类型分类</h3><h4 id="IO密集型"><a href="#IO密集型" class="headerlink" title="IO密集型"></a>IO密集型</h4><p>由于IO密集型任务的CPU使用率较低，导致线程空余时间很多，因此通常需要开CPU核心数两倍的线程。当IO线程空闲时，可以启用其他线程继续使用CPU，以提高CPU的使用率。</p>
 <h4 id="CPU密集型"><a href="#CPU密集型" class="headerlink" title="CPU密集型"></a>CPU密集型</h4><p>由于IO密集型任务的CPU使用率较低，导致线程空余时间很多，因此通常需要开CPU核心数两倍的线程。当IO线程空闲时，可以启用其他线程继续使用CPU，以提高CPU的使用率。</p>
 <h4 id="混合型"><a href="#混合型" class="headerlink" title="混合型"></a>混合型</h4><p><code>最佳线程数 = ((线程等待时间+线程CPU时间) / 线程CPU时间) * CPU核数</code></p>
-<h2 id="ThreadLocal原理与实战"><a href="#ThreadLocal原理与实战" class="headerlink" title="ThreadLocal原理与实战"></a>ThreadLocal原理与实战</h2><p>在Java的多线程并发执行过程中，为了保证多个线程对变量的安全访问，可以将变量放到ThreadLocal类型的对象中，使变量在每个线程中都有独立值，不会出现一个线程读取变量时被另一个线程修改的现象。ThreadLocal类通常被翻译为“线程本地变量”类或者“线程局部变量”类。</p>
+<h2 id="ThreadLocal原理"><a href="#ThreadLocal原理" class="headerlink" title="ThreadLocal原理"></a>ThreadLocal原理</h2><p>在Java的多线程并发执行过程中，为了保证多个线程对变量的安全访问，可以将变量放到ThreadLocal类型的对象中，使变量在每个线程中都有独立值，不会出现一个线程读取变量时被另一个线程修改的现象。ThreadLocal类通常被翻译为“线程本地变量”类或者“线程局部变量”类。</p>
 <h3 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h3><p>通常使用以下三个方法</p>
 <table>
 <thead>
@@ -446,7 +449,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A1%AE%E5%AE%9A%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E7%BA%BF%E7%A8%8B%E6%95%B0%E7%9B%AE"><span class="nav-text">确定线程池的线程数目</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%89%E7%85%A7%E4%BB%BB%E5%8A%A1%E7%B1%BB%E5%9E%8B%E5%88%86%E7%B1%BB"><span class="nav-text">按照任务类型分类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#IO%E5%AF%86%E9%9B%86%E5%9E%8B"><span class="nav-text">IO密集型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CPU%E5%AF%86%E9%9B%86%E5%9E%8B"><span class="nav-text">CPU密集型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%B7%E5%90%88%E5%9E%8B"><span class="nav-text">混合型</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ThreadLocal%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E6%88%98"><span class="nav-text">ThreadLocal原理与实战</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="nav-text">基本使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-text">使用场景</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E9%9A%94%E7%A6%BB"><span class="nav-text">线程隔离</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B7%A8%E5%87%BD%E6%95%B0%E4%BC%A0%E9%80%92%E6%95%B0%E6%8D%AE"><span class="nav-text">跨函数传递数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ThreadLocal-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90"><span class="nav-text">ThreadLocal 源码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#set-T-value-%E6%96%B9%E6%B3%95"><span class="nav-text">set(T value)方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#get-%E6%96%B9%E6%B3%95"><span class="nav-text">get()方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#remove-%E6%96%B9%E6%B3%95"><span class="nav-text">remove 方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ThreadLocalMap-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90"><span class="nav-text">ThreadLocalMap 源码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ThreadLocalMap%E6%98%AFThreadLocal%E7%9A%84%E4%B8%80%E4%B8%AA%E9%9D%99%E6%80%81%E5%86%85%E9%83%A8%E7%B1%BB"><span class="nav-text">ThreadLocalMap是ThreadLocal的一个静态内部类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Set%E6%96%B9%E6%B3%95"><span class="nav-text">Set方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ThreadLocalMap%E7%9A%84key%E4%BD%BF%E7%94%A8%E4%BA%86%E5%BC%B1%E5%BC%95%E7%94%A8"><span class="nav-text">ThreadLocalMap的key使用了弱引用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%8E%9F%E5%88%99"><span class="nav-text">使用原则</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E5%AE%B9%E6%80%BB%E7%BB%93"><span class="nav-text">内容总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A1%AE%E5%AE%9A%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E7%BA%BF%E7%A8%8B%E6%95%B0%E7%9B%AE"><span class="nav-text">确定线程池的线程数目</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%89%E7%85%A7%E4%BB%BB%E5%8A%A1%E7%B1%BB%E5%9E%8B%E5%88%86%E7%B1%BB"><span class="nav-text">按照任务类型分类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#IO%E5%AF%86%E9%9B%86%E5%9E%8B"><span class="nav-text">IO密集型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CPU%E5%AF%86%E9%9B%86%E5%9E%8B"><span class="nav-text">CPU密集型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%B7%E5%90%88%E5%9E%8B"><span class="nav-text">混合型</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ThreadLocal%E5%8E%9F%E7%90%86"><span class="nav-text">ThreadLocal原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="nav-text">基本使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-text">使用场景</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E9%9A%94%E7%A6%BB"><span class="nav-text">线程隔离</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B7%A8%E5%87%BD%E6%95%B0%E4%BC%A0%E9%80%92%E6%95%B0%E6%8D%AE"><span class="nav-text">跨函数传递数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ThreadLocal-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90"><span class="nav-text">ThreadLocal 源码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#set-T-value-%E6%96%B9%E6%B3%95"><span class="nav-text">set(T value)方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#get-%E6%96%B9%E6%B3%95"><span class="nav-text">get()方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#remove-%E6%96%B9%E6%B3%95"><span class="nav-text">remove 方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ThreadLocalMap-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90"><span class="nav-text">ThreadLocalMap 源码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ThreadLocalMap%E6%98%AFThreadLocal%E7%9A%84%E4%B8%80%E4%B8%AA%E9%9D%99%E6%80%81%E5%86%85%E9%83%A8%E7%B1%BB"><span class="nav-text">ThreadLocalMap是ThreadLocal的一个静态内部类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Set%E6%96%B9%E6%B3%95"><span class="nav-text">Set方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ThreadLocalMap%E7%9A%84key%E4%BD%BF%E7%94%A8%E4%BA%86%E5%BC%B1%E5%BC%95%E7%94%A8"><span class="nav-text">ThreadLocalMap的key使用了弱引用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%8E%9F%E5%88%99"><span class="nav-text">使用原则</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
