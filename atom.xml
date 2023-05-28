@@ -6,7 +6,7 @@
   <link href="http://llmathur.github.io/atom.xml" rel="self"/>
   
   <link href="http://llmathur.github.io/"/>
-  <updated>2023-05-28T01:16:26.364Z</updated>
+  <updated>2023-05-28T03:00:46.162Z</updated>
   <id>http://llmathur.github.io/</id>
   
   <author>
@@ -17,11 +17,28 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Java多线程学习（四）</title>
+    <link href="http://llmathur.github.io/2023/05/28/Java-multithread/Java-multithread-4/"/>
+    <id>http://llmathur.github.io/2023/05/28/Java-multithread/Java-multithread-4/</id>
+    <published>2023-05-28T01:22:28.000Z</published>
+    <updated>2023-05-28T03:00:46.162Z</updated>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;确定线程池的线程数目&quot;&gt;&lt;a href=&quot;#确定线程池的线程数目&quot; class=&quot;headerlink&quot; title=&quot;确定线程池的线程数目&quot;&gt;&lt;/a&gt;确定线程池的线程数目&lt;/h2&gt;</summary>
+    
+    
+    
+    <category term="Java multithread" scheme="http://llmathur.github.io/categories/Java-multithread/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>Java多线程学习（三）</title>
-    <link href="http://llmathur.github.io/2023/05/27/Java-multithread/Java-multithread-2/"/>
-    <id>http://llmathur.github.io/2023/05/27/Java-multithread/Java-multithread-2/</id>
+    <link href="http://llmathur.github.io/2023/05/27/Java-multithread/Java-multithread-3/"/>
+    <id>http://llmathur.github.io/2023/05/27/Java-multithread/Java-multithread-3/</id>
     <published>2023-05-27T01:44:34.000Z</published>
-    <updated>2023-05-28T01:16:26.364Z</updated>
+    <updated>2023-05-28T01:26:59.939Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;线程池架构&quot;&gt;&lt;a href=&quot;#线程池架构&quot; class=&quot;headerlink&quot; title=&quot;线程池架构&quot;&gt;&lt;/a&gt;线程池架构&lt;/h2&gt;</summary>
@@ -35,8 +52,8 @@
   
   <entry>
     <title>Java多线程学习（二）</title>
-    <link href="http://llmathur.github.io/2023/05/26/Java-multithread/Java-multithread-1/"/>
-    <id>http://llmathur.github.io/2023/05/26/Java-multithread/Java-multithread-1/</id>
+    <link href="http://llmathur.github.io/2023/05/26/Java-multithread/Java-multithread-2/"/>
+    <id>http://llmathur.github.io/2023/05/26/Java-multithread/Java-multithread-2/</id>
     <published>2023-05-26T13:11:50.000Z</published>
     <updated>2023-05-27T03:36:48.735Z</updated>
     
@@ -57,8 +74,8 @@
   
   <entry>
     <title>Java多线程学习（一）</title>
-    <link href="http://llmathur.github.io/2023/05/26/Java-multithread/Java-multithread-0/"/>
-    <id>http://llmathur.github.io/2023/05/26/Java-multithread/Java-multithread-0/</id>
+    <link href="http://llmathur.github.io/2023/05/26/Java-multithread/Java-multithread-1/"/>
+    <id>http://llmathur.github.io/2023/05/26/Java-multithread/Java-multithread-1/</id>
     <published>2023-05-26T07:26:47.000Z</published>
     <updated>2023-05-26T13:12:00.948Z</updated>
     
