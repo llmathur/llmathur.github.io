@@ -197,10 +197,10 @@
   
   <entry>
     <title>redis概览</title>
-    <link href="http://llmathur.github.io/2023/05/18/redis/RedisLearning-0/"/>
-    <id>http://llmathur.github.io/2023/05/18/redis/RedisLearning-0/</id>
+    <link href="http://llmathur.github.io/2023/05/18/redis/RedisLearning-1/"/>
+    <id>http://llmathur.github.io/2023/05/18/redis/RedisLearning-1/</id>
     <published>2023-05-18T06:35:26.000Z</published>
-    <updated>2023-05-26T11:12:38.414Z</updated>
+    <updated>2023-05-28T11:54:04.190Z</updated>
     
     
     <summary type="html">&lt;p&gt;从整体上概览Redis的功能。&lt;/p&gt;</summary>
