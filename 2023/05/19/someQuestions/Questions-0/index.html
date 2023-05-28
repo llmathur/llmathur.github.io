@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"llmathur.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="记录一些想到的问题 1.什么是Java方法重写 要求遵循“两同两大一小”  “两同” 指方法名相同，形参列表相同 “两小” 指子类方法返回值类型应该比父类返回值类型更小，子类方法声明抛出的异常类应该比父类方法抛出的更小或者相等 “一大” 指子类方法的访问权限应该比父类方法的访问权限更大或者相等。">
+  <meta name="description" content="记录一些想到的问题 1.什么是Java方法重写要求遵循“两同两大一小”  “两同” 指方法名相同，形参列表相同 “两小” 指子类方法返回值类型应该比父类返回值类型更小，子类方法声明抛出的异常类应该比父类方法抛出的更小或者相等 “一大” 指子类方法的访问权限应该比父类方法的访问权限更大或者相等。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="一些问题">
 <meta property="og:url" content="http://llmathur.github.io/2023/05/19/someQuestions/Questions-0/index.html">
 <meta property="og:site_name" content="唯见青山">
-<meta property="og:description" content="记录一些想到的问题 1.什么是Java方法重写 要求遵循“两同两大一小”  “两同” 指方法名相同，形参列表相同 “两小” 指子类方法返回值类型应该比父类返回值类型更小，子类方法声明抛出的异常类应该比父类方法抛出的更小或者相等 “一大” 指子类方法的访问权限应该比父类方法的访问权限更大或者相等。">
+<meta property="og:description" content="记录一些想到的问题 1.什么是Java方法重写要求遵循“两同两大一小”  “两同” 指方法名相同，形参列表相同 “两小” 指子类方法返回值类型应该比父类返回值类型更小，子类方法声明抛出的异常类应该比父类方法抛出的更小或者相等 “一大” 指子类方法的访问权限应该比父类方法的访问权限更大或者相等。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-05-19T13:49:31.000Z">
 <meta property="article:modified_time" content="2023-05-26T10:57:41.460Z">
@@ -301,25 +301,16 @@
 
       
         <p>记录一些想到的问题</p>
-<h2 id="1-什么是Java方法重写">1.什么是Java方法重写</h2>
-<p>要求遵循“两同两大一小”</p>
+<h2 id="1-什么是Java方法重写"><a href="#1-什么是Java方法重写" class="headerlink" title="1.什么是Java方法重写"></a>1.什么是Java方法重写</h2><p>要求遵循“两同两大一小”</p>
 <ul>
 <li>“两同” 指方法名相同，形参列表相同</li>
 <li>“两小” 指子类方法返回值类型应该比父类返回值类型更小，子类方法声明抛出的异常类应该比父类方法抛出的更小或者相等</li>
-<li>“一大” 指子类方法的访问权限应该比父类方法的访问权限更大或者相等。</li>
+<li>“一大” 指子类方法的访问权限应该比父类方法的访问权限更大或者相等。<span id="more"></span>
+这是因为如果返回值类型更大，则可能会造成父类对象无法完全转换为子类对象，从而导致编译错误和运行时异常。<br>重写还有一条规则是访问控制符必须高于父类？那是因为为了多态的实现。有时候父类需要上转型引用子类的方法实现多态，这就导致子类方法的访问控制符必须高于父类，否则子类里写成了private，父类还怎么访问？</li>
 </ul>
-<span id="more"></span>
-<p>这是因为如果返回值类型更大，则可能会造成父类对象无法完全转换为子类对象，从而导致编译错误和运行时异常。<br>
-重写还有一条规则是访问控制符必须高于父类？那是因为为了多态的实现。有时候父类需要上转型引用子类的方法实现多态，这就导致子类方法的访问控制符必须高于父类，否则子类里写成了private，父类还怎么访问？</p>
-<h2 id="2-对象实例都在Java堆中吗？">2.对象实例都在Java堆中吗？</h2>
-<p>不一定，是几乎所有的实例都在堆中。<br>
-JIT编译除了具有缓存的功能外，还会对代码做各种优化，其中有逃逸分析功能。<br>
-如果逃逸分析发现一个对象不会逃逸出当前方法或线程，则可以将该对象存储在栈上而不是堆上。由于栈是局部的，存储在栈上的对象只能由当前方法或线程访问，这样就减少了对内存的分配和垃圾回收的工作量，从而提高了程序的性能。<br>
-可以通过 -XX:+DoEscapeAnalysis 指定是否进行逃逸分析。</p>
-<p>参考：<br>
-<a target="_blank" rel="noopener" href="http://www.hollischuang.com/archives/2398">http://www.hollischuang.com/archives/2398</a></p>
-<h2 id="3-接口和抽象类的共同点和区别">3.接口和抽象类的共同点和区别</h2>
-<p>共同点:</p>
+<h2 id="2-对象实例都在Java堆中吗？"><a href="#2-对象实例都在Java堆中吗？" class="headerlink" title="2.对象实例都在Java堆中吗？"></a>2.对象实例都在Java堆中吗？</h2><p>不一定，是几乎所有的实例都在堆中。<br>JIT编译除了具有缓存的功能外，还会对代码做各种优化，其中有逃逸分析功能。<br>如果逃逸分析发现一个对象不会逃逸出当前方法或线程，则可以将该对象存储在栈上而不是堆上。由于栈是局部的，存储在栈上的对象只能由当前方法或线程访问，这样就减少了对内存的分配和垃圾回收的工作量，从而提高了程序的性能。<br>可以通过 -XX:+DoEscapeAnalysis 指定是否进行逃逸分析。</p>
+<p>参考：<br><a target="_blank" rel="noopener" href="http://www.hollischuang.com/archives/2398">http://www.hollischuang.com/archives/2398</a></p>
+<h2 id="3-接口和抽象类的共同点和区别"><a href="#3-接口和抽象类的共同点和区别" class="headerlink" title="3.接口和抽象类的共同点和区别"></a>3.接口和抽象类的共同点和区别</h2><p>共同点:</p>
 <ul>
 <li>都不能被实例化</li>
 <li>都可以包含抽象方法</li>
@@ -331,33 +322,20 @@ JIT编译除了具有缓存的功能外，还会对代码做各种优化，其�
 <li>类只能继承一个类，但可以实现多个接口</li>
 <li>接口中的成员变量只能是<code>public static final</code>,抽象类的成员变量默认<code>defalut</code></li>
 </ul>
-<h2 id="4-解决哈希冲突的办法">4.解决哈希冲突的办法</h2>
-<ul>
-<li>
-<p>开放地址法<br>
-开放地址法是指当发生哈希冲突时，继续在哈希表中查找空闲的位置，直到找到一个空闲的位置为止。其中包括线性探测、二次探测等技术。</p>
+<h2 id="4-解决哈希冲突的办法"><a href="#4-解决哈希冲突的办法" class="headerlink" title="4.解决哈希冲突的办法"></a>4.解决哈希冲突的办法</h2><ul>
+<li><p>开放地址法<br>开放地址法是指当发生哈希冲突时，继续在哈希表中查找空闲的位置，直到找到一个空闲的位置为止。其中包括线性探测、二次探测等技术。</p>
 </li>
-<li>
-<p>链表法<br>
-链表法是指每个哈希值对应一个链表，如果发生哈希冲突，则将新的元素加入到对应位置的链表中。</p>
+<li><p>链表法<br>链表法是指每个哈希值对应一个链表，如果发生哈希冲突，则将新的元素加入到对应位置的链表中。</p>
 </li>
-<li>
-<p>再哈希法<br>
-再哈希法是指在第一次哈希之后，如果出现冲突，则再次进行哈希，直到找到合适的位置。</p>
+<li><p>再哈希法<br>再哈希法是指在第一次哈希之后，如果出现冲突，则再次进行哈希，直到找到合适的位置。</p>
 </li>
-<li>
-<p>建立公共溢出区<br>
-建立公共溢出区是指将所有冲突的元素都存储在同一个溢出区，并通过某种方式来确定元素在该区域中的位置。</p>
+<li><p>建立公共溢出区<br>建立公共溢出区是指将所有冲突的元素都存储在同一个溢出区，并通过某种方式来确定元素在该区域中的位置。</p>
 </li>
 </ul>
-<h2 id="5-String-StringBulider-，StringBuffer">5.String,StringBulider ，StringBuffer</h2>
-<p>先看后两者：<br>
-共同点：</p>
+<h2 id="5-String-StringBulider-，StringBuffer"><a href="#5-String-StringBulider-，StringBuffer" class="headerlink" title="5.String,StringBulider ，StringBuffer"></a>5.String,StringBulider ，StringBuffer</h2><p>先看后两者：<br>共同点：</p>
 <ul>
-<li>
-<p><code>StringBulider</code>和<code>StringBuffer</code>都继承了<code>AbstractStringBuilder</code></p>
-  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">AbstractStringBuilder</span> <span class="keyword">implements</span> <span class="title class_">Appendable</span>, CharSequence &#123;</span><br><span class="line"><span class="type">byte</span>[] value;</span><br></pre></td></tr></table></figure>
-</li>
+<li><p><code>StringBulider</code>和<code>StringBuffer</code>都继承了<code>AbstractStringBuilder</code></p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">AbstractStringBuilder</span> <span class="keyword">implements</span> <span class="title class_">Appendable</span>, CharSequence &#123;</span><br><span class="line"><span class="type">byte</span>[] value;</span><br></pre></td></tr></table></figure></li>
 </ul>
 <p>区别：</p>
 <ul>
@@ -368,38 +346,23 @@ JIT编译除了具有缓存的功能外，还会对代码做各种优化，其�
 <li>整个类被final修饰，确保不会被继承，防止被子类修改byte数组。</li>
 <li>byte数组的修饰符为<code>private final</code> ，同时没有提供修改的方法。</li>
 </ul>
-<h2 id="6-Java对象的创建过程">6.Java对象的创建过程</h2>
-<ol>
-<li>
-<p>类加载：<br>
-检查能否在常量池中定位到一个类的符号引用，并检查这个符号引用代表的类是否被加载、解析、初始化过、如果没有，必须先执行相应的类加载过程</p>
+<h2 id="6-Java对象的创建过程"><a href="#6-Java对象的创建过程" class="headerlink" title="6.Java对象的创建过程"></a>6.Java对象的创建过程</h2><ol>
+<li><p>类加载：<br> 检查能否在常量池中定位到一个类的符号引用，并检查这个符号引用代表的类是否被加载、解析、初始化过、如果没有，必须先执行相应的类加载过程</p>
 </li>
-<li>
-<p>在堆中分配内存：</p>
+<li><p>在堆中分配内存：</p>
 <ul>
-<li>划分可用空间：<br>
-指针碰撞：Serial,ParNew等带Compact过程的收集器时<br>
-空闲列表：CMS基于Mark-Sweep算法的收集器</li>
-<li>线程安全：<br>
-CAS + 失败重试的方法<br>
-TLAB: 每个线程预先分配一小块内存</li>
+<li>划分可用空间：<br>  指针碰撞：Serial,ParNew等带Compact过程的收集器时<br>  空闲列表：CMS基于Mark-Sweep算法的收集器</li>
+<li>线程安全：<br>  CAS + 失败重试的方法<br>  TLAB: 每个线程预先分配一小块内存</li>
 </ul>
 </li>
-<li>
-<p>将分配的内存初始化为0：</p>
+<li><p>将分配的内存初始化为0：</p>
 </li>
-<li>
-<p>设置对象头的必要设置：<br>
-GC年代，对象的Hash码等</p>
+<li><p>设置对象头的必要设置：<br> GC年代，对象的Hash码等</p>
 </li>
-<li>
-<p>执行init方法：<br>
-按程序员意愿初始化</p>
+<li><p>执行init方法：<br> 按程序员意愿初始化</p>
 </li>
 </ol>
-<h2 id="7-红黑树">7.红黑树</h2>
-<h2 id="性质">性质</h2>
-<ol>
+<h2 id="7-红黑树"><a href="#7-红黑树" class="headerlink" title="7.红黑树"></a>7.红黑树</h2><h2 id="性质"><a href="#性质" class="headerlink" title="性质"></a>性质</h2><ol>
 <li>结点是红色或黑色；</li>
 <li>根结点是黑色。</li>
 <li>叶子结点（也叫外部结点、NULL结点、失败结点）是黑色。</li>
@@ -407,32 +370,18 @@ GC年代，对象的Hash码等</p>
 <li>从任意结点到可达的叶子结点的每个路径包含相同数目的黑色节点。</li>
 </ol>
 <p>速记：左根右，根叶黑，不红红，黑路同。（源自王道）</p>
-<h2 id="插入操作">插入操作</h2>
-<ol>
+<h2 id="插入操作"><a href="#插入操作" class="headerlink" title="插入操作"></a>插入操作</h2><ol>
 <li>先查找，确定插入位置，原理同二叉查找树，</li>
-<li>新结点是根，则是黑色<br>
-新结点非根，则是红色</li>
-<li>若不满足要求，则进行调整<br>
-黑叔：旋转 + 染色<br>
-LL型：右单旋，父换爷，染色<br>
-RR型：左单旋，父换爷，染色<br>
-LR型： 左右双旋，儿换爷，染色<br>
-RL型：右，左双旋，儿换爷，染色<br>
-红叔：染色 + 变新<br>
-叔父爷染色，爷变为新结点</li>
+<li>新结点是根，则是黑色<br> 新结点非根，则是红色</li>
+<li>若不满足要求，则进行调整<br> 黑叔：旋转 + 染色<br> LL型：右单旋，父换爷，染色<br> RR型：左单旋，父换爷，染色<br> LR型： 左右双旋，儿换爷，染色<br> RL型：右，左双旋，儿换爷，染色<br> 红叔：染色 + 变新<br> 叔父爷染色，爷变为新结点</li>
 </ol>
-<h2 id="8-线程和进程的区别？">8.线程和进程的区别？</h2>
-<p>（1）进程在执行时拥有独立的内存单元，多个线程共享进程的内存，如代码段、数据段、扩展段；但每个线程拥有自己的栈段和寄存器组。</p>
-<p>（2）进程切换时需要刷新TLB并获取新的地址空间，然后切换硬件上下文和内核栈，线程切换时只需要切换硬件上下文和内核栈。<br>
-注意：TLB,MMU将虚拟地址转换成物理地址，虚拟地址和物理地址的映射存储在页表中，根据时间局部性和空间局部性，专门设置了TLB将经常使用的映射存储在TLB中。</p>
-<h2 id="9-死锁的解决办法">9. 死锁的解决办法</h2>
-<p>破坏四个必要条件：互斥、占有等待、不可抢占、循环等待</p>
+<h2 id="8-线程和进程的区别？"><a href="#8-线程和进程的区别？" class="headerlink" title="8.线程和进程的区别？"></a>8.线程和进程的区别？</h2><p>（1）进程在执行时拥有独立的内存单元，多个线程共享进程的内存，如代码段、数据段、扩展段；但每个线程拥有自己的栈段和寄存器组。</p>
+<p>（2）进程切换时需要刷新TLB并获取新的地址空间，然后切换硬件上下文和内核栈，线程切换时只需要切换硬件上下文和内核栈。<br>注意：TLB,MMU将虚拟地址转换成物理地址，虚拟地址和物理地址的映射存储在页表中，根据时间局部性和空间局部性，专门设置了TLB将经常使用的映射存储在TLB中。</p>
+<h2 id="9-死锁的解决办法"><a href="#9-死锁的解决办法" class="headerlink" title="9. 死锁的解决办法"></a>9. 死锁的解决办法</h2><p>破坏四个必要条件：互斥、占有等待、不可抢占、循环等待</p>
 <ul>
-<li>占有等待条件，死锁预防：<br>
-进程开始前，必须一次性获得所有资源，否则不许执行</li>
+<li>占有等待条件，死锁预防：<br>  进程开始前，必须一次性获得所有资源，否则不许执行</li>
 <li>不可抢占，</li>
-<li>循环等待：<br>
-将资源编号，只能申请序号更大的资源</li>
+<li>循环等待：<br>  将资源编号，只能申请序号更大的资源</li>
 </ul>
 <p>银行家算法，分配举证，最大需求矩阵，需求矩阵。</p>
 

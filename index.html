@@ -227,10 +227,17 @@
                 发布于
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2023-05-27 09:44:34 / 修改时间：20:33:37" itemprop="dateCreated datePublished" datetime="2023-05-27T09:44:34+08:00">2023-05-27</time>
+              <time title="创建时间：2023-05-27 09:44:34" itemprop="dateCreated datePublished" datetime="2023-05-27T09:44:34+08:00">2023-05-27</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                修改于
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-05-28 09:16:26" itemprop="dateModified" datetime="2023-05-28T09:16:26+08:00">2023-05-28</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -283,7 +290,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="线程池架构">线程池架构</h2>
+          <h2 id="线程池架构"><a href="#线程池架构" class="headerlink" title="线程池架构"></a>线程池架构</h2>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2023/05/27/Java-multithread/Java-multithread-2/#more" rel="contents">
@@ -397,15 +404,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="线程的核心原理">线程的核心原理</h2>
-<p>JVM甚至将每个Java线程一对一地对应到操作系统的本地线程，彻底将线程调度委托给操作系统。</p>
-<h3 id="线程的调度与时间片">线程的调度与时间片</h3>
-<p>目前主流的线程调度方式：基于CPU时间片方式进行线程调度</p>
+          <h2 id="线程的核心原理"><a href="#线程的核心原理" class="headerlink" title="线程的核心原理"></a>线程的核心原理</h2><p>JVM甚至将每个Java线程一对一地对应到操作系统的本地线程，彻底将线程调度委托给操作系统。</p>
+<h3 id="线程的调度与时间片"><a href="#线程的调度与时间片" class="headerlink" title="线程的调度与时间片"></a>线程的调度与时间片</h3><p>目前主流的线程调度方式：基于CPU时间片方式进行线程调度</p>
 <p>线程的调度模式：</p>
 <ul>
 <li>分时调度模型：系统平均分配CPU的时间片，所有线程轮流占用时间片</li>
-<li>抢占式调度：系统按优先级分配时间片，优先级高的先分配，如果所有线程的优先级相同，随机选择一个。</li>
-</ul>
+<li>抢占式调度：系统按优先级分配时间片，优先级高的先分配，如果所有线程的优先级相同，随机选择一个。
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2023/05/26/Java-multithread/Java-multithread-1/#more" rel="contents">
@@ -512,19 +516,13 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="进程和线程">进程和线程</h2>
-<h3 id="进程的原理">进程的原理</h3>
-<p>进程指程序的一次执行过程，具有动态性，有状态间的相互切换。<br>
-一般来说一个进程包括以下内容：</p>
+          <h2 id="进程和线程"><a href="#进程和线程" class="headerlink" title="进程和线程"></a>进程和线程</h2><h3 id="进程的原理"><a href="#进程的原理" class="headerlink" title="进程的原理"></a>进程的原理</h3><p>进程指程序的一次执行过程，具有动态性，有状态间的相互切换。<br>一般来说一个进程包括以下内容：</p>
 <ul>
-<li>
-<p>程序段：进程的程序指令在内存中的位置，包含所有需要执行的指令集合</p>
+<li><p>程序段：进程的程序指令在内存中的位置，包含所有需要执行的指令集合</p>
 </li>
-<li>
-<p>数据段：存放进程所需要的各种数据</p>
+<li><p>数据段：存放进程所需要的各种数据</p>
 </li>
-<li>
-<p>PCB:包含程序的描述信息和和控制信息，是进程存在的唯一标识</p>
+<li><p>PCB:包含程序的描述信息和和控制信息，是进程存在的唯一标识</p>
 </li>
 </ul>
 <p>其中PCB中包含以下信息：</p>
@@ -534,22 +532,17 @@
 <li>进程的资源信息</li>
 <li>进程上下文</li>
 </ul>
-<h3 id="线程的原理">线程的原理</h3>
-<p>线程指“进程代码段”的一次顺序执行过程。是CPU调度的基本单位，一个进程可以有多个线程。<br>
-各个线程之间共享进行的内存空间、系统资源。<br>
-一个线程有以下三个部分：</p>
+<h3 id="线程的原理"><a href="#线程的原理" class="headerlink" title="线程的原理"></a>线程的原理</h3><p>线程指“进程代码段”的一次顺序执行过程。是CPU调度的基本单位，一个进程可以有多个线程。<br>各个线程之间共享进行的内存空间、系统资源。<br>一个线程有以下三个部分：</p>
 <ul>
 <li>线程描述信息</li>
 <li>程序计数器</li>
 <li>栈内存</li>
 </ul>
-<h3 id="进程和线程的区别">进程和线程的区别</h3>
-<ul>
+<h3 id="进程和线程的区别"><a href="#进程和线程的区别" class="headerlink" title="进程和线程的区别"></a>进程和线程的区别</h3><ul>
 <li>进程包含线程</li>
 <li>分配资源：进程，执行单位：线程</li>
 <li>进程之间相互独立，线程之间不一定相互独立，共享资源：堆，方法区等</li>
-<li>切换速度不同，进程切换TLB,页表等都可能替换。</li>
-</ul>
+<li>切换速度不同，进程切换TLB,页表等都可能替换。
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2023/05/26/Java-multithread/Java-multithread-0/#more" rel="contents">
@@ -663,10 +656,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>JDK版本 :<br>
-openjdk 17.0.7 2023-04-18 LTS<br>
-OpenJDK Runtime Environment Corretto-17.0.7.7.1 (build 17.0.7+7-LTS)<br>
-OpenJDK 64-Bit Server VM Corretto-17.0.7.7.1 (build 17.0.7+7-LTS, mixed mode, sharing)</p>
+          <p>JDK版本 :<br>    openjdk 17.0.7 2023-04-18 LTS<br>    OpenJDK Runtime Environment Corretto-17.0.7.7.1 (build 17.0.7+7-LTS)<br>    OpenJDK 64-Bit Server VM Corretto-17.0.7.7.1 (build 17.0.7+7-LTS, mixed mode, sharing)</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2023/05/25/collections/HashMap-source-code/#more" rel="contents">
@@ -780,9 +770,7 @@ OpenJDK 64-Bit Server VM Corretto-17.0.7.7.1 (build 17.0.7+7-LTS, mixed mode, sh
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="题目来源">题目来源</h2>
-<p>如何判断 Java 工程师的基础知识是否扎实？ - 王争的回答 - 知乎<br>
-<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/48312588/answer/3034670442">https://www.zhihu.com/question/48312588/answer/3034670442</a></p>
+          <h2 id="题目来源"><a href="#题目来源" class="headerlink" title="题目来源"></a>题目来源</h2><p>如何判断 Java 工程师的基础知识是否扎实？ - 王争的回答 - 知乎<br><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/48312588/answer/3034670442">https://www.zhihu.com/question/48312588/answer/3034670442</a></p>
 
       
     </div>
@@ -869,7 +857,7 @@ OpenJDK 64-Bit Server VM Corretto-17.0.7.7.1 (build 17.0.7+7-LTS, mixed mode, sh
                 本文字数 :
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>3.7k</span>
+              <span>3.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -889,8 +877,7 @@ OpenJDK 64-Bit Server VM Corretto-17.0.7.7.1 (build 17.0.7+7-LTS, mixed mode, sh
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>程序设计中的工厂类是对对象构造、实例化、初始化的封装，<br>
-而工厂方法对工厂构造方法进行接口规范化，以允许子类工厂决定具体制造那类产品的实例。</p>
+          <p>程序设计中的工厂类是对对象构造、实例化、初始化的封装，<br>而工厂方法对工厂构造方法进行接口规范化，以允许子类工厂决定具体制造那类产品的实例。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2023/05/25/design%20pattern/Factory-Design-Pattern/#more" rel="contents">
@@ -1004,10 +991,7 @@ OpenJDK 64-Bit Server VM Corretto-17.0.7.7.1 (build 17.0.7+7-LTS, mixed mode, sh
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>JDK版本 :<br>
-openjdk 17.0.7 2023-04-18 LTS<br>
-OpenJDK Runtime Environment Corretto-17.0.7.7.1 (build 17.0.7+7-LTS)<br>
-OpenJDK 64-Bit Server VM Corretto-17.0.7.7.1 (build 17.0.7+7-LTS, mixed mode, sharing)</p>
+          <p>JDK版本 :<br>    openjdk 17.0.7 2023-04-18 LTS<br>    OpenJDK Runtime Environment Corretto-17.0.7.7.1 (build 17.0.7+7-LTS)<br>    OpenJDK 64-Bit Server VM Corretto-17.0.7.7.1 (build 17.0.7+7-LTS, mixed mode, sharing)</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2023/05/24/collections/ArrayList-source-code/#more" rel="contents">
@@ -1122,13 +1106,11 @@ OpenJDK 64-Bit Server VM Corretto-17.0.7.7.1 (build 17.0.7+7-LTS, mixed mode, sh
 
       
           <p>记录一些想到的问题</p>
-<h2 id="1-什么是Java方法重写">1.什么是Java方法重写</h2>
-<p>要求遵循“两同两大一小”</p>
+<h2 id="1-什么是Java方法重写"><a href="#1-什么是Java方法重写" class="headerlink" title="1.什么是Java方法重写"></a>1.什么是Java方法重写</h2><p>要求遵循“两同两大一小”</p>
 <ul>
 <li>“两同” 指方法名相同，形参列表相同</li>
 <li>“两小” 指子类方法返回值类型应该比父类返回值类型更小，子类方法声明抛出的异常类应该比父类方法抛出的更小或者相等</li>
-<li>“一大” 指子类方法的访问权限应该比父类方法的访问权限更大或者相等。</li>
-</ul>
+<li>“一大” 指子类方法的访问权限应该比父类方法的访问权限更大或者相等。
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2023/05/19/someQuestions/Questions-0/#more" rel="contents">
