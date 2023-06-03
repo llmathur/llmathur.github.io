@@ -6,7 +6,7 @@
   <link href="http://llmathur.github.io/atom.xml" rel="self"/>
   
   <link href="http://llmathur.github.io/"/>
-  <updated>2023-05-28T03:14:31.009Z</updated>
+  <updated>2023-06-03T08:58:12.116Z</updated>
   <id>http://llmathur.github.io/</id>
   
   <author>
@@ -17,11 +17,32 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>RequestContextHolder 详解（一）</title>
+    <link href="http://llmathur.github.io/2023/06/02/RequestContextHolder-Learning/"/>
+    <id>http://llmathur.github.io/2023/06/02/RequestContextHolder-Learning/</id>
+    <published>2023-06-02T12:54:56.000Z</published>
+    <updated>2023-06-03T08:58:12.116Z</updated>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;内容总结&quot;&gt;&lt;a href=&quot;#内容总结&quot; class=&quot;headerlink&quot; title=&quot;内容总结&quot;&gt;&lt;/a&gt;内容总结&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;如何使用&lt;code&gt;RequestContextHolder&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;如何存放&lt;code&gt;request，response&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;什么时候存放&lt;/li&gt;
+&lt;li&gt;为什么有两个&lt;code&gt;ThreadLocal&lt;/code&gt;容器</summary>
+    
+    
+    
+    <category term="Source Code" scheme="http://llmathur.github.io/categories/Source-Code/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>Java多线程学习（四）</title>
     <link href="http://llmathur.github.io/2023/05/28/Java-multithread/Java-multithread-4/"/>
     <id>http://llmathur.github.io/2023/05/28/Java-multithread/Java-multithread-4/</id>
     <published>2023-05-28T01:22:28.000Z</published>
-    <updated>2023-05-28T03:14:31.009Z</updated>
+    <updated>2023-06-03T08:57:47.002Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;内容总结&quot;&gt;&lt;a href=&quot;#内容总结&quot; class=&quot;headerlink&quot; title=&quot;内容总结&quot;&gt;&lt;/a&gt;内容总结&lt;/h2&gt;&lt;ol&gt;
@@ -40,7 +61,7 @@
     <link href="http://llmathur.github.io/2023/05/27/Java-multithread/Java-multithread-3/"/>
     <id>http://llmathur.github.io/2023/05/27/Java-multithread/Java-multithread-3/</id>
     <published>2023-05-27T01:44:34.000Z</published>
-    <updated>2023-05-28T03:12:52.617Z</updated>
+    <updated>2023-06-01T11:33:44.353Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;内容总结&quot;&gt;&lt;a href=&quot;#内容总结&quot; class=&quot;headerlink&quot; title=&quot;内容总结&quot;&gt;&lt;/a&gt;内容总结&lt;/h2&gt;&lt;ol&gt;
