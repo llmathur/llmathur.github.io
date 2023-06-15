@@ -203,6 +203,158 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://llmathur.github.io/2023/06/04/SpringSecurity-Learning-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/profile.png">
+      <meta itemprop="name" content="llmathur">
+      <meta itemprop="description" content="正是我">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="唯见青山">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/06/04/SpringSecurity-Learning-1/" class="post-title-link" itemprop="url">SpringSecurity 学习(一)</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+                发布于
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-06-04 15:51:12" itemprop="dateCreated datePublished" datetime="2023-06-04T15:51:12+08:00">2023-06-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                修改于
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-06-15 20:36:16" itemprop="dateModified" datetime="2023-06-15T20:36:16+08:00">2023-06-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+                分类于
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Spring-Security/" itemprop="url" rel="index"><span itemprop="name">Spring Security</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2023/06/04/SpringSecurity-Learning-1/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2023/06/04/SpringSecurity-Learning-1/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+                本文字数 :
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+                阅读时间 ≈ 
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="内容总结"><a href="#内容总结" class="headerlink" title="内容总结"></a>内容总结</h2><h2 id="使用默认配置"><a href="#使用默认配置" class="headerlink" title="使用默认配置"></a>使用默认配置</h2><ul>
+<li>导入依赖</li>
+</ul>
+<p>SpringBoot导入依赖</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-security&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<p>我的SpringBoot的版本为 <code>&lt;version&gt;3.1.0&lt;/version&gt;</code><br>SpringSecurity 的版本为 <code>&lt;spring-security.version&gt;6.1.0&lt;/spring-security.version&gt;</code></p>
+<ul>
+<li>点击启动，控制台输出自动生成的密码，如</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Using generated security password: ab189335-6fc0-4f1f-88ae-85d1962d3a91</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>访问配置的网址，输入用户名user，和以上密码即可</li>
+</ul>
+<h3 id="控制台输出"><a href="#控制台输出" class="headerlink" title="控制台输出"></a>控制台输出</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="number">2023</span>-<span class="number">06</span>-04T15:<span class="number">51</span>:<span class="number">36.151</span>+08:<span class="number">00</span>  INFO <span class="number">24324</span> --- [           main] o.s.s.web.DefaultSecurityFilterChain     :</span><br><span class="line"> Will secure any request with [</span><br><span class="line">    org.springframework.security.web.session.DisableEncodeUrlFilter@6dded900, </span><br><span class="line">    org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter<span class="meta">@d504137</span>, </span><br><span class="line">    org.springframework.security.web.context.SecurityContextHolderFilter@5f409872, </span><br><span class="line">    org.springframework.security.web.header.HeaderWriterFilter@2ff498b0, </span><br><span class="line">    org.springframework.security.web.csrf.CsrfFilter@78318ac2, </span><br><span class="line">    org.springframework.security.web.authentication.logout.LogoutFilter@<span class="number">75527e36</span>, </span><br><span class="line">    org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@1b47b7f5,</span><br><span class="line">    org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@98637a2, </span><br><span class="line">    org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@<span class="number">8432469</span>, </span><br><span class="line">    org.springframework.security.web.authentication.www.BasicAuthenticationFilter@6ef1c3f7, </span><br><span class="line">    org.springframework.security.web.savedrequest.RequestCacheAwareFilter@472c9f88, </span><br><span class="line">    org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7afbf2a0,</span><br><span class="line">    org.springframework.security.web.authentication.AnonymousAuthenticationFilter<span class="meta">@e4ca109</span>,</span><br><span class="line">    org.springframework.security.web.access.ExceptionTranslationFilter@108b121f,</span><br><span class="line">    org.springframework.security.web.access.intercept.AuthorizationFilter@7e050be1</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>可以从以上输出看到，Spring Security本质上是一个过滤器链。默认情况下所有的过滤器都存放在<code>DefaultSecurityFilterChain</code>中。</p>
+<h2 id="实现过滤器链的相关类和接口"><a href="#实现过滤器链的相关类和接口" class="headerlink" title="实现过滤器链的相关类和接口"></a>实现过滤器链的相关类和接口</h2><h3 id="DefaultSecurityFilterChain"><a href="#DefaultSecurityFilterChain" class="headerlink" title="DefaultSecurityFilterChain"></a><code>DefaultSecurityFilterChain</code></h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">DefaultSecurityFilterChain</span> <span class="keyword">implements</span> <span class="title class_">SecurityFilterChain</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> List&lt;Filter&gt; filters; <span class="comment">// 存放过滤器的容器</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">DefaultSecurityFilterChain</span><span class="params">(RequestMatcher requestMatcher, Filter... filters)</span> &#123; <span class="comment">//初始化过滤器链</span></span><br><span class="line">    <span class="built_in">this</span>(requestMatcher, Arrays.asList(filters));   </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">DefaultSecurityFilterChain</span><span class="params">(RequestMatcher requestMatcher, List&lt;Filter&gt; filters)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (filters.isEmpty()) &#123;</span><br><span class="line">        logger.info(LogMessage.format(<span class="string">&quot;Will not secure %s&quot;</span>, requestMatcher));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        logger.info(LogMessage.format(<span class="string">&quot;Will secure %s with %s&quot;</span>, requestMatcher, filters));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">this</span>.requestMatcher = requestMatcher;</span><br><span class="line">    <span class="built_in">this</span>.filters = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;(filters);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到 <code>DefaultSecurityFilterChain</code>实现了<code>SecurityFilterChain</code>接口，并且该接口只有两个方法</p>
+<h3 id="SecurityFilterChain"><a href="#SecurityFilterChain" class="headerlink" title="SecurityFilterChain"></a><code>SecurityFilterChain</code></h3><p>这个接口的介绍为：</p>
+<blockquote>
+<p>Defines a filter chain which is capable of being matched against an HttpServletRequest. in order to decide - whether it applies to that request<br>Used to configure a FilterChainProxy.</p>
+</blockquote>
+<p>大概意思就是说，该接口定义了一个能够匹配HttpServletRequest的过滤器链。<br>这个接口被用于配置<code>FilterChainProxy</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">SecurityFilterChain</span> &#123;</span><br><span class="line">    <span class="type">boolean</span> <span class="title function_">matches</span><span class="params">(HttpServletRequest request)</span>;    <span class="comment">//  根据request判断与匹配过滤器链匹配</span></span><br><span class="line">    List&lt;Filter&gt; <span class="title function_">getFilters</span><span class="params">()</span>;      <span class="comment">// 获取过滤器List</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>两个方法在<code>DefaultSecurityFilterChain</code>的实现如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> List&lt;Filter&gt; <span class="title function_">getFilters</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>.filters;    <span class="comment">// 直接返回过滤器的List</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">matches</span><span class="params">(HttpServletRequest request)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>.requestMatcher.matches(request);    <span class="comment">// 调用requestMatcher的match方法进行判断</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>requestMatcher</code> 的类型 <code>RequestMatcher</code>是一个接口</p>
+<h3 id="RequestMatcher"><a href="#RequestMatcher" class="headerlink" title="RequestMatcher"></a>RequestMatcher</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">RequestMatcher</span> &#123;</span><br><span class="line">    <span class="type">boolean</span> <span class="title function_">matches</span><span class="params">(HttpServletRequest request)</span>;</span><br><span class="line">    <span class="keyword">default</span> MatchResult <span class="title function_">matcher</span><span class="params">(HttpServletRequest request)</span> &#123;</span><br><span class="line">        <span class="type">boolean</span> <span class="variable">match</span> <span class="operator">=</span> matches(request);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">MatchResult</span>(match, Collections.emptyMap());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">MatchResult</span> &#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">boolean</span> match;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> Map&lt;String, String&gt; variables;</span><br><span class="line">        MatchResult(<span class="type">boolean</span> match, Map&lt;String, String&gt; variables) &#123;</span><br><span class="line">            <span class="built_in">this</span>.match = match;</span><br><span class="line">            <span class="built_in">this</span>.variables = variables;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="FilterChainProxy"><a href="#FilterChainProxy" class="headerlink" title="FilterChainProxy"></a>FilterChainProxy</h3><p>上面提到了<code>SecurityFilterChain</code>被用于配置<code>FilterChainProxy</code>, 那到它是干什么？先看它的介绍:</p>
+<blockquote>
+<p>Delegates Filter requests to a list of Spring-managed filter beans.<br>将请求委托给 Spring 管理的过滤器 Bean 列表。<br>也就是说该类管理着上文提到的过滤器链</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">FilterChainProxy</span> <span class="keyword">extends</span> <span class="title class_">GenericFilterBean</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> List&lt;SecurityFilterChain&gt; filterChains;</span><br><span class="line">    <span class="comment">// ....</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个类继承了<code>GenericFilterBean</code>,而<code>GenericFilterBean</code>实现了<code>Filter</code>接口。所以这个类也是一个过滤器。所以看一下这个类的<code>doFilter</code>方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">doFilter</span><span class="params">(ServletRequest request, ServletResponse response, FilterChain chain)</span> </span><br><span class="line">        <span class="keyword">throws</span> IOException, ServletException &#123;</span><br><span class="line">    <span class="comment">// ......</span></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        request.setAttribute(FILTER_APPLIED, Boolean.TRUE);</span><br><span class="line">        doFilterInternal(request, response, chain); <span class="comment">// 执行过滤功能</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// ......</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到这个方法执行过程中实际调用了<code>doFilterInternal</code>方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">doFilterInternal</span><span class="params">(ServletRequest request, ServletResponse response, FilterChain chain)</span></span><br><span class="line">        <span class="keyword">throws</span> IOException, ServletException &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// ...... </span></span><br><span class="line">    <span class="comment">// firewallRequest 是经过封装的request请求</span></span><br><span class="line">    List&lt;Filter&gt; filters = getFilters(firewallRequest);</span><br><span class="line">    <span class="keyword">if</span> (filters == <span class="literal">null</span> || filters.size() == <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="comment">// ......</span></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// decorate方法返回一个VirtualFilterChain，然后其执行doFilter方法</span></span><br><span class="line">    <span class="comment">// doFilter方法会调用所有的Filter进行过滤</span></span><br><span class="line">    <span class="built_in">this</span>.filterChainDecorator.decorate(reset, filters).doFilter(firewallRequest, firewallResponse);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://llmathur.github.io/2023/06/02/RequestContextHolder-Learning/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -354,7 +506,7 @@
                 修改于
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-06-03 16:57:47" itemprop="dateModified" datetime="2023-06-03T16:57:47+08:00">2023-06-03</time>
+                <time title="修改时间：2023-06-13 15:46:55" itemprop="dateModified" datetime="2023-06-13T15:46:55+08:00">2023-06-13</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -707,7 +859,7 @@
                 修改于
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-05-28 11:06:41" itemprop="dateModified" datetime="2023-05-28T11:06:41+08:00">2023-05-28</time>
+                <time title="修改时间：2023-06-15 21:57:56" itemprop="dateModified" datetime="2023-06-15T21:57:56+08:00">2023-06-15</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -741,7 +893,7 @@
                 本文字数 :
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>6k</span>
+              <span>5.3k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -763,8 +915,8 @@
       
           <h2 id="内容总结"><a href="#内容总结" class="headerlink" title="内容总结"></a>内容总结</h2><ol>
 <li>进程和线程</li>
-<li>线程的相关类和接口</li>
 <li>实现线程的四种方法</li>
+<li>线程的相关类和接口</li>
 </ol>
           <!--noindex-->
             <div class="post-button">
@@ -1237,125 +1389,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://llmathur.github.io/2023/05/19/someQuestions/Questions-0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/profile.png">
-      <meta itemprop="name" content="llmathur">
-      <meta itemprop="description" content="正是我">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="唯见青山">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/05/19/someQuestions/Questions-0/" class="post-title-link" itemprop="url">一些问题</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-                发布于
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-05-19 21:49:31" itemprop="dateCreated datePublished" datetime="2023-05-19T21:49:31+08:00">2023-05-19</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                修改于
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-05-26 18:57:41" itemprop="dateModified" datetime="2023-05-26T18:57:41+08:00">2023-05-26</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-                分类于
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/question/" itemprop="url" rel="index"><span itemprop="name">question</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2023/05/19/someQuestions/Questions-0/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2023/05/19/someQuestions/Questions-0/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-                本文字数 :
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>2.1k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-                阅读时间 ≈ 
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>记录一些想到的问题</p>
-<h2 id="1-什么是Java方法重写"><a href="#1-什么是Java方法重写" class="headerlink" title="1.什么是Java方法重写"></a>1.什么是Java方法重写</h2><p>要求遵循“两同两大一小”</p>
-<ul>
-<li>“两同” 指方法名相同，形参列表相同</li>
-<li>“两小” 指子类方法返回值类型应该比父类返回值类型更小，子类方法声明抛出的异常类应该比父类方法抛出的更小或者相等</li>
-<li>“一大” 指子类方法的访问权限应该比父类方法的访问权限更大或者相等。
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/05/19/someQuestions/Questions-0/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1427,14 +1460,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-count">19</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -1477,13 +1510,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">70k</span>
+    <span title="站点总字数">74k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">1:03</span>
+    <span title="站点阅读时长">1:07</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
   </div>
