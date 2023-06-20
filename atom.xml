@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>唯见青山</title>
+  <icon>http://llmathur.github.io/icon.png</icon>
+  <subtitle>熟能生巧，勤能补拙。</subtitle>
+  <link href="http://llmathur.github.io/atom.xml" rel="self"/>
+  
+  <link href="http://llmathur.github.io/"/>
+  <updated>2023-06-20T10:11:32.068Z</updated>
+  <id>http://llmathur.github.io/</id>
+  
+  <author>
+    <name>llmathur</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>index.md</title>
+    <link href="http://llmathur.github.io/2023/06/20/index/"/>
+    <id>http://llmathur.github.io/2023/06/20/index/</id>
+    <published>2023-06-20T10:10:45.000Z</published>
+    <updated>2023-06-20T10:11:32.068Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;测试&quot;&gt;&lt;a href=&quot;#测试&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+</feed>
