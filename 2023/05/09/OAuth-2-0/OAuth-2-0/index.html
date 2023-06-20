@@ -20,20 +20,20 @@
     var CONFIG = {"hostname":"llmathur.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="OAuth 的核心就是向第三方应用颁发令牌 四种授权方式  （授权码）authorization-code （隐藏式）implicit （密码式）password （客户端凭证）client credentials  注：任何一种方式，第三方应用都必须到系统备案，以获取客户端ID（client ID）和客户端密钥（client secret）">
+  <meta name="description" content="OAuth 的核心就是向第三方应用颁发令牌四种授权方式  （授权码）authorization-code （隐藏式）implicit （密码式）password （客户端凭证）client credentials  注：任何一种方式，第三方应用都必须到系统备案，以获取客户端ID（client ID）和客户端密钥（client secret）">
 <meta property="og:type" content="article">
 <meta property="og:title" content="OAuth 2.0">
 <meta property="og:url" content="http://llmathur.github.io/2023/05/09/OAuth-2-0/OAuth-2-0/index.html">
 <meta property="og:site_name" content="唯见青山">
-<meta property="og:description" content="OAuth 的核心就是向第三方应用颁发令牌 四种授权方式  （授权码）authorization-code （隐藏式）implicit （密码式）password （客户端凭证）client credentials  注：任何一种方式，第三方应用都必须到系统备案，以获取客户端ID（client ID）和客户端密钥（client secret）">
+<meta property="og:description" content="OAuth 的核心就是向第三方应用颁发令牌四种授权方式  （授权码）authorization-code （隐藏式）implicit （密码式）password （客户端凭证）client credentials  注：任何一种方式，第三方应用都必须到系统备案，以获取客户端ID（client ID）和客户端密钥（client secret）">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://llmathur.github.io/2023/05/09/pic/process.png">
+<meta property="og:image" content="http://llmathur.github.io/pic/process.png">
 <meta property="article:published_time" content="2023-05-09T11:01:43.000Z">
-<meta property="article:modified_time" content="2023-05-27T06:04:51.731Z">
+<meta property="article:modified_time" content="2023-06-20T09:50:18.641Z">
 <meta property="article:author" content="llmathur">
 <meta property="article:tag" content="改变需要莫大的勇气">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://llmathur.github.io/2023/05/09/pic/process.png">
+<meta name="twitter:image" content="http://llmathur.github.io/pic/process.png">
 
 <link rel="canonical" href="http://llmathur.github.io/2023/05/09/OAuth-2-0/OAuth-2-0/">
 
@@ -220,7 +220,7 @@
                 修改于
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-05-27 14:04:51" itemprop="dateModified" datetime="2023-05-27T14:04:51+08:00">2023-05-27</time>
+                <time title="修改时间：2023-06-20 17:50:18" itemprop="dateModified" datetime="2023-06-20T17:50:18+08:00">2023-06-20</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -282,8 +282,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>OAuth 的核心就是向第三方应用颁发令牌<br>
-四种授权方式</p>
+        <p>OAuth 的核心就是向第三方应用颁发令牌<br>四种授权方式</p>
 <ol>
 <li>（授权码）authorization-code</li>
 <li>（隐藏式）implicit</li>
@@ -292,55 +291,46 @@
 </ol>
 <p>注：任何一种方式，第三方应用都必须到系统备案，以获取客户端ID（client ID）和客户端密钥（client secret）</p>
 <span id="more"></span>
-<h2 id="第一种方式：授权码">第一种方式：授权码</h2>
-<p>最常用、最安全，适用于有后端的应用。<br>
-授权码通过前端发送，令牌存储在后端，而且所有与资源服务器的通信都在后端完成。</p>
+
+<h2 id="第一种方式：授权码"><a href="#第一种方式：授权码" class="headerlink" title="第一种方式：授权码"></a>第一种方式：授权码</h2><p>最常用、最安全，适用于有后端的应用。<br>授权码通过前端发送，令牌存储在后端，而且所有与资源服务器的通信都在后端完成。</p>
 <p>授权过程：</p>
-<p><img src="../../pic/process.png" alt="流程图" title="流程图"></p>
-<p>（1）请求授权码<br>
-A网站提供一个链接，用户点击后会跳转到B网站，授权用户数据给A网站使用<br>
-链接示意：</p>
+<p><img src="/../../pic/process.png" alt="流程图" title="流程图"></p>
+<p>（1）请求授权码<br>A网站提供一个链接，用户点击后会跳转到B网站，授权用户数据给A网站使用<br>链接示意：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">https:<span class="comment">//b.com/oauth/authorize?</span></span><br><span class="line">    response_type=code&amp;     <span class="comment">// 表示要求返回授权码</span></span><br><span class="line">    client_id=CLIENT_ID&amp;    <span class="comment">// 让B知道谁在请求</span></span><br><span class="line">    redirect_uri=CALLLBACK_URL&amp; <span class="comment">// B接受或者拒绝请求后的跳转网址</span></span><br><span class="line">    scope=read      <span class="comment">// 要求的授权范围</span></span><br></pre></td></tr></table></figure>
-<p>（2）返回授权码<br>
-用户跳转后，B网站要求用户登录， 然后询问是否给A网站授权。用户同意后，B网站返回<code>redirect_uri</code>参数指定的网址，同时携带一个授权码</p>
+
+<p>（2）返回授权码<br>用户跳转后，B网站要求用户登录， 然后询问是否给A网站授权。用户同意后，B网站返回<code>redirect_uri</code>参数指定的网址，同时携带一个授权码</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:<span class="comment">//a.com/callback?code=AUTHORIZATION_CODE  // code为授权码</span></span><br></pre></td></tr></table></figure>
-<p>（3）请求令牌<br>
-A网站拿到授权码后，可以在后端向B网站请求令牌</p>
+
+<p>（3）请求令牌<br>A网站拿到授权码后，可以在后端向B网站请求令牌</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">https:<span class="comment">//b.com/oauth/token?</span></span><br><span class="line"> client_id=CLIENT_ID&amp;   </span><br><span class="line"> client_secret=CLIENT_SECRET&amp;       <span class="comment">// client_id 和client_secret参数确定A的身份</span></span><br><span class="line"> grant_type=authorization_code&amp;     <span class="comment">// 参数值为authorization_code，表示采用的授权方式为授权码</span></span><br><span class="line"> code=AUTHORIZATION_CODE&amp;           <span class="comment">// 上一步拿到的授权码</span></span><br><span class="line"> redirect_uri=CALLBACK_URL          <span class="comment">// 令牌颁发后的回调网址</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>（4）返回令牌<br>
-B 网站收到请求以后，就会颁发令牌。具体做法是向redirect_uri指定的网址，发送一段 JSON 数据。</p>
+
+<p>（4）返回令牌<br>B 网站收到请求以后，就会颁发令牌。具体做法是向redirect_uri指定的网址，发送一段 JSON 数据。</p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="punctuation">&#123;</span>    </span><br><span class="line">  <span class="attr">&quot;access_token&quot;</span><span class="punctuation">:</span><span class="string">&quot;ACCESS_TOKEN&quot;</span><span class="punctuation">,</span>    <span class="comment">//令牌</span></span><br><span class="line">  <span class="attr">&quot;token_type&quot;</span><span class="punctuation">:</span><span class="string">&quot;bearer&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;expires_in&quot;</span><span class="punctuation">:</span><span class="number">2592000</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;refresh_token&quot;</span><span class="punctuation">:</span><span class="string">&quot;REFRESH_TOKEN&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;scope&quot;</span><span class="punctuation">:</span><span class="string">&quot;read&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;uid&quot;</span><span class="punctuation">:</span><span class="number">100101</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;info&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span>...<span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-<h2 id="第二种方式：隐藏式">第二种方式：隐藏式</h2>
-<ol>
+
+<h2 id="第二种方式：隐藏式"><a href="#第二种方式：隐藏式" class="headerlink" title="第二种方式：隐藏式"></a>第二种方式：隐藏式</h2><ol>
 <li>令牌的有效期必须非常短，通常就是会话期间（session）有效，浏览器关掉，令牌就失效了。</li>
 <li>纯前端应用，没有后端。</li>
-<li>直接向前端颁发令牌。无授权码中间步骤。<br>
-（1）第一步，A网站提供链接，用户点击链接跳转B网站，授权用户数据</li>
+<li>直接向前端颁发令牌。无授权码中间步骤。<br>（1）第一步，A网站提供链接，用户点击链接跳转B网站，授权用户数据</li>
 </ol>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">https:<span class="comment">//b.com/oauth/authorize?</span></span><br><span class="line">  response_type=token&amp;  <span class="comment">//要求直接返回令牌</span></span><br><span class="line">  client_id=CLIENT_ID&amp;</span><br><span class="line">  redirect_uri=CALLBACK_URL&amp;</span><br><span class="line">  scope=read</span><br></pre></td></tr></table></figure>
+
 <p>（2）第二步，B网站授权成功，跳转到A网站（通过<code>redirect_uri</code>）并以参数的形式返回令牌。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:<span class="comment">//a.com/callback#token=ACCESS_TOKEN</span></span><br></pre></td></tr></table></figure>
-<p>注意：令牌的位置是 URL 锚点（fragment），而不是查询字符串（querystring），这是因为 OAuth 2.0 允许跳转网址是 HTTP 协议，因此存在&quot;中间人攻击&quot;的风险，而浏览器跳转时，锚点不会发到服务器，就减少了泄漏令牌的风险。</p>
-<h2 id="第三种方式：密码式">第三种方式：密码式</h2>
-<p>用户把用户名和密码，直接告诉该应用。<br>
-该应用就使用你的密码，申请令牌。<br>
-（1）第一步，A网站要求用户提供用户名和密码，向B网站请求令牌</p>
+
+<p>注意：令牌的位置是 URL 锚点（fragment），而不是查询字符串（querystring），这是因为 OAuth 2.0 允许跳转网址是 HTTP 协议，因此存在”中间人攻击”的风险，而浏览器跳转时，锚点不会发到服务器，就减少了泄漏令牌的风险。</p>
+<h2 id="第三种方式：密码式"><a href="#第三种方式：密码式" class="headerlink" title="第三种方式：密码式"></a>第三种方式：密码式</h2><p>用户把用户名和密码，直接告诉该应用。<br>该应用就使用你的密码，申请令牌。<br>（1）第一步，A网站要求用户提供用户名和密码，向B网站请求令牌</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">https:<span class="comment">//oauth.b.com/token?</span></span><br><span class="line">  grant_type=password&amp;</span><br><span class="line">  username=USERNAME&amp;</span><br><span class="line">  password=PASSWORD&amp;</span><br><span class="line">  client_id=CLIENT_ID</span><br></pre></td></tr></table></figure>
-<p>（2） 第二步，B 网站验证身份通过后，直接给出令牌。<br>
-注意，这时不需要跳转，而是把令牌放在 JSON 数据里面，作为 HTTP 回应，A 因此拿到令牌。</p>
-<h2 id="第四种方式：凭证式（client-credentials）">第四种方式：凭证式（client credentials）</h2>
-<p>适用于没有前端的命令行应用，即在命令行下请求令牌。<br>
-这种方式给出的令牌，是针对第三方应用的，而不是针对用户的，即有可能多个用户共享同一个令牌。<br>
-（1）第一步，A 应用在命令行向 B 发出请求。</p>
+
+<p>（2） 第二步，B 网站验证身份通过后，直接给出令牌。<br>注意，这时不需要跳转，而是把令牌放在 JSON 数据里面，作为 HTTP 回应，A 因此拿到令牌。</p>
+<h2 id="第四种方式：凭证式（client-credentials）"><a href="#第四种方式：凭证式（client-credentials）" class="headerlink" title="第四种方式：凭证式（client credentials）"></a>第四种方式：凭证式（client credentials）</h2><p>适用于没有前端的命令行应用，即在命令行下请求令牌。<br>这种方式给出的令牌，是针对第三方应用的，而不是针对用户的，即有可能多个用户共享同一个令牌。<br>（1）第一步，A 应用在命令行向 B 发出请求。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">https:<span class="comment">//oauth.b.com/token?</span></span><br><span class="line">  grant_type=client_credentials&amp;</span><br><span class="line">  client_id=CLIENT_ID&amp;</span><br><span class="line">  client_secret=CLIENT_SECRET</span><br></pre></td></tr></table></figure>
+
 <p>第二步，B 网站验证通过以后，直接返回令牌。</p>
-<h2 id="更新令牌">更新令牌</h2>
-<p>令牌的有效期到了，OAuth 2.0 允许用户自动更新令牌<br>
-具体方法是，B 网站颁发令牌的时候，一次性颁发两个令牌，一个用于获取数据，另一个用于获取新的令牌（refresh token 字段）。令牌到期前，用户使用 refresh token 发一个请求，去更新令牌。</p>
+<h2 id="更新令牌"><a href="#更新令牌" class="headerlink" title="更新令牌"></a>更新令牌</h2><p>令牌的有效期到了，OAuth 2.0 允许用户自动更新令牌<br>具体方法是，B 网站颁发令牌的时候，一次性颁发两个令牌，一个用于获取数据，另一个用于获取新的令牌（refresh token 字段）。令牌到期前，用户使用 refresh token 发一个请求，去更新令牌。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">https:<span class="comment">//b.com/oauth/token?</span></span><br><span class="line">  grant_type=refresh_token&amp;</span><br><span class="line">  client_id=CLIENT_ID&amp;</span><br><span class="line">  client_secret=CLIENT_SECRET&amp;</span><br><span class="line">  refresh_token=REFRESH_TOKEN</span><br></pre></td></tr></table></figure>
+
 <p>B 网站验证通过以后，就会颁发新的令牌。</p>
-<h2 id="参考">参考</h2>
-<p><a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2019/04/oauth-grant-types.html">https://www.ruanyifeng.com/blog/2019/04/oauth-grant-types.html</a></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2019/04/oauth-grant-types.html">https://www.ruanyifeng.com/blog/2019/04/oauth-grant-types.html</a></p>
 
     </div>
 
@@ -373,7 +363,7 @@ B 网站收到请求以后，就会颁发令牌。具体做法是向redirect_uri
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2023/04/07/design%20pattern/ProtoTypeDesignPattern/" rel="prev" title="设计模式-原型">
+    <a href="/2023/04/07/Design%20Pattern/ProtoTypeDesignPattern/" rel="prev" title="设计模式-原型">
       <i class="fa fa-chevron-left"></i> 设计模式-原型
     </a></div>
       <div class="post-nav-item">
@@ -455,7 +445,7 @@ B 网站收到请求以后，就会颁发令牌。具体做法是向redirect_uri
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-count">19</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -464,11 +454,6 @@ B 网站收到请求以后，就会颁发令牌。具体做法是向redirect_uri
           
         <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">分类</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-            <a href="/tags/">
-        <span class="site-state-item-count">2</span>
-        <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
 </div>
@@ -504,13 +489,13 @@ B 网站收到请求以后，就会颁发令牌。具体做法是向redirect_uri
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">75k</span>
+    <span title="站点总字数">72k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">1:08</span>
+    <span title="站点阅读时长">1:06</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
   </div>
