@@ -16,15 +16,15 @@
   <meta name="author" content="llmathur">
   <meta name="keywords" content="改变需要莫大的勇气">
   
-    <meta name="description" content="内容总结 进程和线程的相关概念 实现线程的四种方法 线程的相关类和接口  进程和线程的概念进程进程指程序的一次执行过程，具有动态性，有状态间的相互切换一般来说一个进程包括以下内容：  程序段：进程的程序指令在内存中的位置，包含所有需要执行的指令集合  数据段：存放进程所需要的各种数据  PCB:包含程序的描述信息和和控制信息，是进程存在的唯一标识   其中PCB中包含以下信息：  进程描述信息 进">
+    <meta name="description" content="内容总结 进程和线程的相关概念 Java中实现线程的四种方法 Java中线程的相关类和接口  进程和线程的概念进程进程指程序的一次执行过程，具有动态性，有状态间的相互切换一般来说一个进程包括以下内容：  程序段：进程的程序指令在内存中的位置，包含所有需要执行的指令集合  数据段：存放进程所需要的各种数据  PCB:包含程序的描述信息和和控制信息，是进程存在的唯一标识   其中PCB中包含以下信息：">
 <meta property="og:type" content="article">
-<meta property="og:title" content="多线程学习（一）">
-<meta property="og:url" content="http://llmathur.github.io/2023/05/26/JavaThread/Java-multithread-1/index.html">
+<meta property="og:title" content="线程学习（一）">
+<meta property="og:url" content="http://llmathur.github.io/2023/05/26/Thread/thread-1/index.html">
 <meta property="og:site_name" content="唯见青山">
-<meta property="og:description" content="内容总结 进程和线程的相关概念 实现线程的四种方法 线程的相关类和接口  进程和线程的概念进程进程指程序的一次执行过程，具有动态性，有状态间的相互切换一般来说一个进程包括以下内容：  程序段：进程的程序指令在内存中的位置，包含所有需要执行的指令集合  数据段：存放进程所需要的各种数据  PCB:包含程序的描述信息和和控制信息，是进程存在的唯一标识   其中PCB中包含以下信息：  进程描述信息 进">
+<meta property="og:description" content="内容总结 进程和线程的相关概念 Java中实现线程的四种方法 Java中线程的相关类和接口  进程和线程的概念进程进程指程序的一次执行过程，具有动态性，有状态间的相互切换一般来说一个进程包括以下内容：  程序段：进程的程序指令在内存中的位置，包含所有需要执行的指令集合  数据段：存放进程所需要的各种数据  PCB:包含程序的描述信息和和控制信息，是进程存在的唯一标识   其中PCB中包含以下信息：">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-05-26T07:26:47.000Z">
-<meta property="article:modified_time" content="2023-06-22T10:35:54.667Z">
+<meta property="article:modified_time" content="2023-06-22T10:54:00.855Z">
 <meta property="article:author" content="llmathur">
 <meta property="article:tag" content="改变需要莫大的勇气">
 <meta name="twitter:card" content="summary_large_image">
@@ -33,7 +33,7 @@
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>多线程学习（一） - 唯见青山</title>
+  <title>线程学习（一） - 唯见青山</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -203,7 +203,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="多线程学习（一）"></span>
+            <span id="subtitle" data-typed-text="线程学习（一）"></span>
           
         </div>
 
@@ -266,7 +266,7 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">多线程学习（一）</h1>
+            <h1 style="display: none">线程学习（一）</h1>
             
               <p class="note note-info">
                 
@@ -281,8 +281,8 @@
                 
                 <h2 id="内容总结"><a href="#内容总结" class="headerlink" title="内容总结"></a>内容总结</h2><ol>
 <li>进程和线程的相关概念</li>
-<li>实现线程的四种方法</li>
-<li>线程的相关类和接口</li>
+<li><code>Java</code>中实现线程的四种方法</li>
+<li><code>Java</code>中线程的相关类和接口</li>
 </ol>
 <h2 id="进程和线程的概念"><a href="#进程和线程的概念" class="headerlink" title="进程和线程的概念"></a>进程和线程的概念</h2><h3 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h3><p>进程指程序的一次执行过程，具有动态性，有状态间的相互切换<br>一般来说一个进程包括以下内容：</p>
 <ul>
@@ -312,14 +312,16 @@
 <li>进程之间相互独立，线程之间不一定相互独立，共享资源：堆，方法区等</li>
 <li>切换速度不同，进程切换时TLB,页表等都可能替换</li>
 </ul>
-<h2 id="Java中实现线程的四种方法"><a href="#Java中实现线程的四种方法" class="headerlink" title="Java中实现线程的四种方法"></a>Java中实现线程的四种方法</h2><h3 id="继承Thread类"><a href="#继承Thread类" class="headerlink" title="继承Thread类"></a>继承<code>Thread</code>类</h3><h4 id="具体步骤"><a href="#具体步骤" class="headerlink" title="具体步骤"></a>具体步骤</h4><ol>
+<h2 id="Java中实现线程的四种方法"><a href="#Java中实现线程的四种方法" class="headerlink" title="Java中实现线程的四种方法"></a>Java中实现线程的四种方法</h2><h3 id="继承Thread类"><a href="#继承Thread类" class="headerlink" title="继承Thread类"></a>继承<code>Thread</code>类</h3><p>具体步骤</p>
+<ol>
 <li>自定义类并继承<code>Thread</code>类</li>
 <li>重写<code>run</code>方法</li>
 <li>调用<code>start</code>方法</li>
 </ol>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">MyThread</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Thread</span>&#123;<br>    <span class="hljs-keyword">public</span> String tName;<br><br>    MyThread(String tName)&#123;<br>        <span class="hljs-built_in">this</span>.tName = tName;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">run</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(tName + <span class="hljs-string">&quot; running&quot;</span>);<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">// 测试</span><br><span class="hljs-meta">@Test</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">testThread</span><span class="hljs-params">()</span>&#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">5</span>; i++) &#123;<br>        <span class="hljs-keyword">new</span> <span class="hljs-title class_">MyThread</span>(<span class="hljs-string">&quot;线程&quot;</span> + i).start();<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">// 测试结果</span><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">    线程0 running</span><br><span class="hljs-comment">    线程2 running</span><br><span class="hljs-comment">    线程1 running</span><br><span class="hljs-comment">    线程3 running</span><br><span class="hljs-comment">    线程4 running</span><br><span class="hljs-comment">*/</span><br></code></pre></td></tr></table></figure>
 
-<h3 id="实现Runnable接口"><a href="#实现Runnable接口" class="headerlink" title="实现Runnable接口"></a>实现<code>Runnable</code>接口</h3><h4 id="具体步骤-1"><a href="#具体步骤-1" class="headerlink" title="具体步骤"></a>具体步骤</h4><ol>
+<h3 id="实现Runnable接口"><a href="#实现Runnable接口" class="headerlink" title="实现Runnable接口"></a>实现<code>Runnable</code>接口</h3><p>具体步骤</p>
+<ol>
 <li>定义新类实现<code>Runnable</code>接口</li>
 <li>实现<code>Runnable</code>的<code>run</code>抽象方法</li>
 <li>通过<code>Thread</code>类创建线程对象,将<code>Runnable</code>实例作为实际参数传递给<code>Thread</code>类的构造器<br> 该构造器将<code>Runnable</code>实例赋值给自己的<code>target</code>变量</li>
@@ -335,8 +337,8 @@
 <li>匿名内部类</li>
 <li>Lambda表达式</li>
 </ol>
-<h3 id="使用Callable和FutureTask创建线程"><a href="#使用Callable和FutureTask创建线程" class="headerlink" title="使用Callable和FutureTask创建线程"></a>使用<code>Callable</code>和<code>FutureTask</code>创建线程</h3><p>前两种方式都不能获取异步执行的结果。因为<code>run</code>方法没有提供返回值</p>
-<h4 id="具体步骤-2"><a href="#具体步骤-2" class="headerlink" title="具体步骤"></a>具体步骤</h4><ol>
+<h3 id="使用Callable和FutureTask创建线程"><a href="#使用Callable和FutureTask创建线程" class="headerlink" title="使用Callable和FutureTask创建线程"></a>使用<code>Callable</code>和<code>FutureTask</code>创建线程</h3><p>具体步骤</p>
+<ol>
 <li>编写一个<code>callable</code>的实现类,重写<code>call</code>方法</li>
 <li>利用实现类的对象实例化一个<code>FutureTask</code>对象</li>
 <li>使用<code>FutureTask</code>对象实例化一个<code>Thread</code>对象</li>
@@ -399,7 +401,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/multithread/" class="category-chain-item">multithread</a>
+  <a href="/categories/thread/" class="category-chain-item">thread</a>
   
   
 
@@ -419,8 +421,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>多线程学习（一）</div>
-      <div>http://llmathur.github.io/2023/05/26/JavaThread/Java-multithread-1/</div>
+      <div>线程学习（一）</div>
+      <div>http://llmathur.github.io/2023/05/26/Thread/thread-1/</div>
     </div>
     <div class="license-meta">
       
