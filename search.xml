@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Java多线程学习（一）</title>
+    <title>多线程学习（一）</title>
     <url>/2023/05/26/JavaThread/Java-multithread-1/</url>
     <content><![CDATA[<h2 id="内容总结"><a href="#内容总结" class="headerlink" title="内容总结"></a>内容总结</h2><ol>
 <li>进程和线程的相关概念</li>
@@ -107,7 +107,7 @@
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>Java高并发核心编程 卷 2</p>
 ]]></content>
       <categories>
-        <category>Java multithread</category>
+        <category>multithread</category>
       </categories>
   </entry>
 </search>
